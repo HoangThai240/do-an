@@ -1,0 +1,267 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Trang chủ | Nghiên Cứu AI
+{% endblock %}
+
+{% block content %}
+
+<section class="bg-gradient-to-br from-blue-50 via-white to-purple-50 min-h-screen">
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
+<div class="text-center max-w-3xl mx-auto mb-16">
+
+    <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full text-sm font-semibold mb-6">
+        <i data-lucide="sparkles" class="w-4 h-4"></i>
+        Hệ thống nghiên cứu khoa học tích hợp AI
+    </div>
+
+    <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 tracking-tight mb-6">
+        Quản lý nghiên cứu khoa học
+
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            thông minh hơn với AI
+        </span>
+    </h1>
+
+    <p class="text-lg text-slate-600 leading-relaxed mb-8">
+        Hỗ trợ tìm kiếm ngữ nghĩa, phát hiện đề tài
+        trùng lặp và gợi ý giảng viên hướng dẫn phù hợp.
+    </p>
+
+    <!-- NÚT CHỨC NĂNG -->
+    <div class="flex flex-col sm:flex-row justify-center gap-4 flex-wrap">
+
+        <!-- KHÁM PHÁ ĐỀ TÀI -->
+        <a
+            href="{{ url_for('danh_sach_de_tai') }}"
+            class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary text-white rounded-xl font-semibold shadow-btn hover:opacity-90 transition-all"
+        >
+            <i data-lucide="book-open" class="w-5 h-5"></i>
+            Khám phá đề tài
+        </a>
+
+        <!-- AI TÌM KIẾM -->
+        <a
+            href="{{ url_for('ai_tim_kiem') }}"
+            class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-xl font-semibold text-slate-700 hover:border-primary hover:text-primary transition-all"
+        >
+            <i data-lucide="search" class="w-5 h-5"></i>
+            AI tìm kiếm
+        </a>
+
+        <!-- CỔNG SINH VIÊN -->
+        {% if current_user.is_authenticated and current_user.role.name == 'SINHVIEN' %}
+
+        <a
+            href="{{ url_for('sinh_vien') }}"
+            class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-semibold shadow-btn hover:bg-indigo-700 transition-all"
+        >
+            <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+            Cổng sinh viên
+        </a>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<!-- THỐNG KÊ -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+
+    <!-- TỔNG ĐỀ TÀI -->
+    <div class="bg-white p-6 rounded-2xl shadow-card border border-slate-100">
+
+        <div class="w-12 h-12 rounded-xl bg-blue-100 text-primary flex items-center justify-center mb-4">
+            <i data-lucide="folder-kanban" class="w-6 h-6"></i>
+        </div>
+
+        <p class="text-slate-500 text-sm">
+            Tổng đề tài
+        </p>
+
+        <p class="text-3xl font-bold text-slate-900 mt-1">
+
+            {% if current_user.is_authenticated %}
+                {{ de_tai|length if de_tai else 0 }}
+            {% else %}
+                —
+            {% endif %}
+
+        </p>
+
+    </div>
+
+
+    <!-- AI SEARCH -->
+    <div class="bg-white p-6 rounded-2xl shadow-card border border-slate-100">
+
+        <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-4">
+            <i data-lucide="brain" class="w-6 h-6"></i>
+        </div>
+
+        <p class="text-slate-500 text-sm">
+            Công nghệ
+        </p>
+
+        <p class="text-xl font-bold text-slate-900 mt-1">
+            AI Semantic Search
+        </p>
+
+    </div>
+
+
+    <!-- TRÙNG LẶP -->
+    <div class="bg-white p-6 rounded-2xl shadow-card border border-slate-100">
+
+        <div class="w-12 h-12 rounded-xl bg-cyan-100 text-cyan-600 flex items-center justify-center mb-4">
+            <i data-lucide="scan-search" class="w-6 h-6"></i>
+        </div>
+
+        <p class="text-slate-500 text-sm">
+            Tính năng AI
+        </p>
+
+        <p class="text-xl font-bold text-slate-900 mt-1">
+            Phát hiện trùng lặp
+        </p>
+
+    </div>
+
+
+    <!-- GIẢNG VIÊN -->
+    <div class="bg-white p-6 rounded-2xl shadow-card border border-slate-100">
+
+        <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mb-4">
+            <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+        </div>
+
+        <p class="text-slate-500 text-sm">
+            Hỗ trợ
+        </p>
+
+        <p class="text-xl font-bold text-slate-900 mt-1">
+            Gợi ý giảng viên
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- DANH SÁCH ĐỀ TÀI -->
+<div>
+
+    <div class="flex items-center justify-between mb-8">
+
+        <div>
+
+            <h2 class="text-2xl font-bold text-slate-900">
+                Đề tài mới nhất
+            </h2>
+
+            <p class="text-slate-500 mt-1">
+                Danh sách các đề tài nghiên cứu trong hệ thống.
+            </p>
+
+        </div>
+
+        <a
+            href="{{ url_for('danh_sach_de_tai') }}"
+            class="text-primary font-semibold hover:underline"
+        >
+            Xem tất cả →
+        </a>
+
+    </div>
+
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        {% if de_tai %}
+
+            {% for dt in de_tai %}
+
+            <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-card hover:-translate-y-1 hover:shadow-soft transition-all">
+
+                <div class="flex items-start justify-between gap-4">
+
+                    <div class="w-11 h-11 shrink-0 rounded-xl bg-blue-50 text-primary flex items-center justify-center">
+
+                        <i data-lucide="flask-conical" class="w-5 h-5"></i>
+
+                    </div>
+
+                    <span class="px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">
+
+                        {{ dt.trangThai.value if dt.trangThai else 'Chưa xác định' }}
+
+                    </span>
+
+                </div>
+
+
+                <h3 class="text-lg font-bold text-slate-900 mt-5 mb-3">
+                    {{ dt.tenDeTai }}
+                </h3>
+
+
+                <p class="text-sm text-slate-500 leading-relaxed line-clamp-3">
+
+                    {{ dt.moTa if dt.moTa else 'Chưa có mô tả cho đề tài này.' }}
+
+                </p>
+
+
+                <div class="flex items-center justify-between mt-6 pt-5 border-t border-slate-100">
+
+                    <span class="text-sm text-slate-500">
+
+                        {{ dt.linh_vuc.tenLinhVuc if dt.linh_vuc else 'Chưa phân loại' }}
+
+                    </span>
+
+
+                    <a
+                        href="{{ url_for('chi_tiet_de_tai', de_tai_id=dt.id) }}"
+                        class="text-primary font-semibold text-sm hover:underline"
+                    >
+                        Chi tiết →
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <div class="col-span-full text-center py-16 bg-white rounded-2xl border border-dashed border-slate-200">
+
+                <i
+                    data-lucide="folder-open"
+                    class="w-12 h-12 mx-auto text-slate-300 mb-4"
+                ></i>
+
+                <p class="text-slate-500">
+                    Chưa có đề tài nghiên cứu nào.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</div>
+
+</section>
+
+{% endblock %}

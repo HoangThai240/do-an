@@ -1,0 +1,1072 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Gợi ý giảng viên | Nghiên Cứu AI
+{% endblock %}
+
+{% block content %}
+
+<section class="min-h-screen bg-slate-50">
+
+    <!-- HEADER -->
+    <div class="bg-gradient-to-r from-primary to-secondary py-10 px-4">
+
+        <div class="max-w-7xl mx-auto">
+
+            <a
+                href="{{ url_for('admin_dashboard') }}"
+                class="inline-flex items-center gap-2 text-white text-sm font-semibold mb-5 hover:underline"
+            >
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                Quay lại Dashboard
+            </a>
+
+            <p class="text-blue-100 font-medium mb-2">
+                Hệ thống hỗ trợ AI
+            </p>
+
+            <h1 class="text-3xl md:text-4xl font-extrabold text-white">
+                Gợi ý giảng viên hướng dẫn
+            </h1>
+
+            <p class="text-blue-100 mt-3 max-w-3xl">
+                Danh sách giảng viên được hệ thống tính toán và sắp xếp
+                theo mức độ phù hợp với đề tài nghiên cứu.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- CONTENT -->
+    <div class="max-w-7xl mx-auto px-4 py-10">
+
+
+        <!-- THÔNG TIN ĐỀ TÀI -->
+        <div class="bg-white rounded-3xl border border-slate-100 shadow-soft p-7 mb-8">
+
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-5">
+
+                <div class="flex-1">
+
+                    <div class="flex items-center gap-2 mb-3">
+
+                        <div
+                            class="
+                                w-10
+                                h-10
+                                rounded-xl
+                                bg-blue-100
+                                text-blue-600
+                                flex
+                                items-center
+                                justify-center
+                            "
+                        >
+
+                            <i data-lucide="file-text" class="w-5 h-5"></i>
+
+                        </div>
+
+                        <span class="text-sm font-semibold text-slate-500">
+                            Đề tài đang xét
+                        </span>
+
+                    </div>
+
+
+                    <h2 class="text-2xl font-extrabold text-slate-900">
+                        {{ de_tai.tenDeTai }}
+                    </h2>
+
+
+                    {% if de_tai.linh_vuc %}
+
+                        <p class="mt-3 text-slate-600">
+
+                            <span class="font-semibold">
+                                Lĩnh vực:
+                            </span>
+
+                            {{ de_tai.linh_vuc.tenLinhVuc }}
+
+                        </p>
+
+                    {% endif %}
+
+
+                    {% if de_tai.tuKhoa %}
+
+                        <div class="flex flex-wrap gap-2 mt-4">
+
+                            <span class="text-sm font-semibold text-slate-600">
+                                Từ khóa:
+                            </span>
+
+                            {% for tu_khoa in de_tai.tuKhoa.split(',') %}
+
+                                <span
+                                    class="
+                                        px-3
+                                        py-1
+                                        rounded-full
+                                        bg-slate-100
+                                        text-slate-600
+                                        text-sm
+                                    "
+                                >
+                                    {{ tu_khoa.strip() }}
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- AI BADGE -->
+                <div
+                    class="
+                        inline-flex
+                        items-center
+                        gap-2
+                        px-4
+                        py-2
+                        rounded-xl
+                        bg-purple-50
+                        text-purple-700
+                        font-bold
+                        text-sm
+                    "
+                >
+
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+
+                    AI hỗ trợ gợi ý
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TIÊU ĐỀ DANH SÁCH -->
+        <div
+            class="
+                flex
+                flex-col
+                md:flex-row
+                md:items-end
+                md:justify-between
+                gap-3
+                mb-5
+            "
+        >
+
+            <div>
+
+                <h2 class="text-2xl font-extrabold text-slate-900">
+                    Danh sách giảng viên phù hợp
+                </h2>
+
+                <p class="text-slate-500 mt-1">
+                    Giảng viên được sắp xếp theo điểm phù hợp giảm dần.
+                </p>
+
+            </div>
+
+
+            <div class="text-sm text-slate-500">
+
+                Tổng số:
+
+                <span class="font-bold text-slate-800">
+                    {{ ket_qua|length }}
+                </span>
+
+                giảng viên
+
+            </div>
+
+        </div>
+
+
+        <!-- DANH SÁCH GIẢNG VIÊN -->
+
+        {% if ket_qua %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                {% for item in ket_qua %}
+
+                    {% set giang_vien = item.giangVien %}
+                    {% set thong_tin = item.giangVienInfo %}
+                    {% set diem = item.diemPhuHop %}
+
+
+                    <div
+                        class="
+                            bg-white
+                            rounded-3xl
+                            border
+                            border-slate-100
+                            shadow-soft
+                            p-6
+                            hover:-translate-y-1
+                            transition-all
+                        "
+                    >
+
+                        <!-- TOP -->
+                        <div
+                            class="
+                                flex
+                                items-start
+                                justify-between
+                                gap-4
+                                mb-5
+                            "
+                        >
+
+                            <div class="flex items-center gap-4">
+
+                                <!-- AVATAR -->
+                                <div
+                                    class="
+                                        w-14
+                                        h-14
+                                        rounded-2xl
+                                        bg-blue-100
+                                        text-blue-600
+                                        flex
+                                        items-center
+                                        justify-center
+                                        flex-shrink-0
+                                        overflow-hidden
+                                    "
+                                >
+
+                                    {% if giang_vien.avatar %}
+
+                                        <img
+                                            src="{{ giang_vien.avatar }}"
+                                            alt="{{ giang_vien.hoTen }}"
+                                            class="w-full h-full object-cover"
+                                        >
+
+                                    {% else %}
+
+                                        <i
+                                            data-lucide="user"
+                                            class="w-7 h-7"
+                                        ></i>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <div>
+
+                                    <h3 class="text-lg font-extrabold text-slate-900">
+                                        {{ giang_vien.hoTen }}
+                                    </h3>
+
+
+                                    {% if thong_tin.hocVi %}
+
+                                        <p class="text-sm text-primary font-semibold mt-1">
+                                            {{ thong_tin.hocVi }}
+                                        </p>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- ĐIỂM -->
+                            <div class="flex-shrink-0 text-center">
+
+                                <div
+                                    class="
+                                        w-16
+                                        h-16
+                                        rounded-2xl
+                                        bg-purple-50
+                                        text-purple-700
+                                        flex
+                                        flex-col
+                                        items-center
+                                        justify-center
+                                    "
+                                >
+
+                                    <span class="text-xl font-extrabold">
+                                        {{ diem }}
+                                    </span>
+
+                                    <span class="text-xs font-medium">
+                                        điểm
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- THÔNG TIN -->
+                        <div class="space-y-4 border-t border-slate-100 pt-5">
+
+
+                            <!-- EMAIL -->
+                            {% if giang_vien.email %}
+
+                                <div class="flex items-start gap-3">
+
+                                    <div
+                                        class="
+                                            w-9
+                                            h-9
+                                            rounded-lg
+                                            bg-slate-100
+                                            text-slate-600
+                                            flex
+                                            items-center
+                                            justify-center
+                                            flex-shrink-0
+                                        "
+                                    >
+
+                                        <i
+                                            data-lucide="mail"
+                                            class="w-4 h-4"
+                                        ></i>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <p class="text-xs text-slate-400 font-medium">
+                                            Email
+                                        </p>
+
+                                        <p class="text-sm text-slate-700 font-medium break-all">
+                                            {{ giang_vien.email }}
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- CHUYÊN MÔN -->
+                            {% if thong_tin.chuyenMon %}
+
+                                <div class="flex items-start gap-3">
+
+                                    <div
+                                        class="
+                                            w-9
+                                            h-9
+                                            rounded-lg
+                                            bg-blue-50
+                                            text-blue-600
+                                            flex
+                                            items-center
+                                            justify-center
+                                            flex-shrink-0
+                                        "
+                                    >
+
+                                        <i
+                                            data-lucide="briefcase"
+                                            class="w-4 h-4"
+                                        ></i>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <p class="text-xs text-slate-400 font-medium">
+                                            Chuyên môn
+                                        </p>
+
+                                        <p class="text-sm text-slate-700 font-medium">
+                                            {{ thong_tin.chuyenMon }}
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- LĨNH VỰC NGHIÊN CỨU -->
+                            {% if thong_tin.linhVucNghienCuu %}
+
+                                <div class="flex items-start gap-3">
+
+                                    <div
+                                        class="
+                                            w-9
+                                            h-9
+                                            rounded-lg
+                                            bg-green-50
+                                            text-green-600
+                                            flex
+                                            items-center
+                                            justify-center
+                                            flex-shrink-0
+                                        "
+                                    >
+
+                                        <i
+                                            data-lucide="flask-conical"
+                                            class="w-4 h-4"
+                                        ></i>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <p class="text-xs text-slate-400 font-medium">
+                                            Lĩnh vực nghiên cứu
+                                        </p>
+
+                                        <p class="text-sm text-slate-700 font-medium">
+                                            {{ thong_tin.linhVucNghienCuu }}
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- SỐ ĐỀ TÀI ĐANG HƯỚNG DẪN -->
+                            <div class="flex items-start gap-3">
+
+                                <div
+                                    class="
+                                        w-9
+                                        h-9
+                                        rounded-lg
+                                        bg-yellow-50
+                                        text-yellow-600
+                                        flex
+                                        items-center
+                                        justify-center
+                                        flex-shrink-0
+                                    "
+                                >
+
+                                    <i
+                                        data-lucide="book-open"
+                                        class="w-4 h-4"
+                                    ></i>
+
+                                </div>
+
+
+                                <div class="flex-1">
+
+                                    <p class="text-xs text-slate-400 font-medium">
+                                        Số đề tài đang hướng dẫn
+                                    </p>
+
+                                    <p class="text-sm text-slate-700 font-semibold">
+
+                                        {{ item.soLuongDangHuongDan }}
+
+                                        {% if item.soLuongHuongDanToiDa %}
+
+                                            /
+                                            {{ item.soLuongHuongDanToiDa }}
+
+                                        {% endif %}
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- KHẢ NĂNG NHẬN THÊM -->
+                            <div class="flex items-start gap-3">
+
+                                <div
+                                    class="
+                                        w-9
+                                        h-9
+                                        rounded-lg
+                                        flex
+                                        items-center
+                                        justify-center
+                                        flex-shrink-0
+                                        {% if item.conKhaNangHuongDan %}
+                                            bg-green-50 text-green-600
+                                        {% else %}
+                                            bg-red-50 text-red-600
+                                        {% endif %}
+                                    "
+                                >
+
+                                    <i
+                                        data-lucide="{% if item.conKhaNangHuongDan %}check-circle{% else %}x-circle{% endif %}"
+                                        class="w-4 h-4"
+                                    ></i>
+
+                                </div>
+
+
+                                <div>
+
+                                    <p class="text-xs text-slate-400 font-medium">
+                                        Khả năng nhận đề tài
+                                    </p>
+
+
+                                    {% if item.conKhaNangHuongDan %}
+
+                                        <p class="text-sm text-green-600 font-semibold">
+                                            Có thể nhận thêm
+                                        </p>
+
+                                    {% else %}
+
+                                        <p class="text-sm text-red-600 font-semibold">
+                                            Đã đạt giới hạn hướng dẫn
+                                        </p>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- LÝ DO GỢI Ý -->
+                            {% if item.lyDo %}
+
+                                <div
+                                    class="
+                                        bg-purple-50
+                                        border
+                                        border-purple-100
+                                        rounded-2xl
+                                        p-4
+                                    "
+                                >
+
+                                    <div class="flex items-start gap-3">
+
+                                        <i
+                                            data-lucide="sparkles"
+                                            class="
+                                                w-5
+                                                h-5
+                                                text-purple-600
+                                                flex-shrink-0
+                                                mt-0.5
+                                            "
+                                        ></i>
+
+
+                                        <div class="flex-1">
+
+                                            <p class="text-sm font-bold text-purple-800">
+                                                Lý do hệ thống gợi ý
+                                            </p>
+
+
+                                            <ul class="mt-2 space-y-1">
+
+                                                {% for ly_do in item.lyDo %}
+
+                                                    <li
+                                                        class="
+                                                            text-sm
+                                                            text-purple-700
+                                                            flex
+                                                            items-start
+                                                            gap-2
+                                                        "
+                                                    >
+
+                                                        <span class="mt-1">
+                                                            •
+                                                        </span>
+
+                                                        <span>
+                                                            {{ ly_do }}
+                                                        </span>
+
+                                                    </li>
+
+                                                {% endfor %}
+
+                                            </ul>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- CHI TIẾT ĐIỂM -->
+                            <details class="group">
+
+                                <summary
+                                    class="
+                                        cursor-pointer
+                                        list-none
+                                        flex
+                                        items-center
+                                        justify-between
+                                        px-4
+                                        py-3
+                                        rounded-xl
+                                        bg-slate-50
+                                        hover:bg-slate-100
+                                        transition
+                                    "
+                                >
+
+                                    <span
+                                        class="
+                                            text-sm
+                                            font-bold
+                                            text-slate-700
+                                        "
+                                    >
+                                        Chi tiết điểm phù hợp
+                                    </span>
+
+                                    <i
+                                        data-lucide="chevron-down"
+                                        class="
+                                            w-4
+                                            h-4
+                                            text-slate-500
+                                            group-open:rotate-180
+                                            transition
+                                        "
+                                    ></i>
+
+                                </summary>
+
+
+                                <div class="mt-3 space-y-2 px-4">
+
+                                    <div class="flex justify-between text-sm">
+
+                                        <span class="text-slate-500">
+                                            Lĩnh vực
+                                        </span>
+
+                                        <span class="font-semibold text-slate-700">
+                                            {{ item.diemLinhVuc }} điểm
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="flex justify-between text-sm">
+
+                                        <span class="text-slate-500">
+                                            Chuyên môn / hướng nghiên cứu
+                                        </span>
+
+                                        <span class="font-semibold text-slate-700">
+                                            {{ item.diemChuyenMon }} điểm
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="flex justify-between text-sm">
+
+                                        <span class="text-slate-500">
+                                            Kinh nghiệm
+                                        </span>
+
+                                        <span class="font-semibold text-slate-700">
+                                            {{ item.diemKinhNghiem }} điểm
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="flex justify-between text-sm">
+
+                                        <span class="text-slate-500">
+                                            Tải hướng dẫn
+                                        </span>
+
+                                        <span class="font-semibold text-slate-700">
+                                            {{ item.diemTaiHuongDan }} điểm
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="border-t border-slate-200 pt-2 mt-2">
+
+                                        <div class="flex justify-between">
+
+                                            <span class="font-bold text-slate-700">
+                                                Tổng điểm
+                                            </span>
+
+                                            <span class="font-extrabold text-purple-700">
+                                                {{ item.diemPhuHop }} / 100
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </details>
+
+
+                        </div>
+
+
+                        <!-- FOOTER -->
+                        <div
+                            class="
+                                mt-6
+                                pt-5
+                                border-t
+                                border-slate-100
+                            "
+                        >
+
+                            <div
+                                class="
+                                    flex
+                                    flex-col
+                                    sm:flex-row
+                                    items-start
+                                    sm:items-center
+                                    justify-between
+                                    gap-4
+                                "
+                            >
+
+                                <!-- TRẠNG THÁI -->
+                                <div>
+
+                                    {% if item.conKhaNangHuongDan %}
+
+                                        <div
+                                            class="
+                                                inline-flex
+                                                items-center
+                                                gap-2
+                                                px-3
+                                                py-2
+                                                rounded-xl
+                                                bg-green-50
+                                                text-green-600
+                                                text-sm
+                                                font-semibold
+                                            "
+                                        >
+
+                                            <span
+                                                class="
+                                                    w-2
+                                                    h-2
+                                                    rounded-full
+                                                    bg-green-500
+                                                "
+                                            ></span>
+
+                                            Có thể nhận đề tài
+
+                                        </div>
+
+                                    {% else %}
+
+                                        <div
+                                            class="
+                                                inline-flex
+                                                items-center
+                                                gap-2
+                                                px-3
+                                                py-2
+                                                rounded-xl
+                                                bg-red-50
+                                                text-red-600
+                                                text-sm
+                                                font-semibold
+                                            "
+                                        >
+
+                                            <span
+                                                class="
+                                                    w-2
+                                                    h-2
+                                                    rounded-full
+                                                    bg-red-500
+                                                "
+                                            ></span>
+
+                                            Đã đủ số lượng hướng dẫn
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <!-- NÚT CHỌN GIẢNG VIÊN -->
+                                {% if item.conKhaNangHuongDan %}
+
+                                    <form
+                                        method="POST"
+                                        action="{{ url_for(
+                                            'admin_chon_giang_vien',
+                                            de_tai_id=de_tai.id
+                                        ) }}"
+                                        onsubmit="return confirm(
+                                            'Bạn có chắc chắn muốn chọn {{ giang_vien.hoTen }} làm giảng viên hướng dẫn cho đề tài này?'
+                                        );"
+                                    >
+
+                                        <input
+                                            type="hidden"
+                                            name="giang_vien_id"
+                                            value="{{ giang_vien.id }}"
+                                        >
+
+
+                                        <button
+                                            type="submit"
+                                            class="
+                                                inline-flex
+                                                items-center
+                                                justify-center
+                                                gap-2
+                                                px-5
+                                                py-3
+                                                rounded-xl
+                                                bg-primary
+                                                text-white
+                                                font-bold
+                                                text-sm
+                                                hover:opacity-90
+                                                hover:shadow-lg
+                                                transition-all
+                                            "
+                                        >
+
+                                            <i
+                                                data-lucide="user-check"
+                                                class="w-4 h-4"
+                                            ></i>
+
+                                            Chọn giảng viên
+
+                                        </button>
+
+                                    </form>
+
+                                {% else %}
+
+                                    <button
+                                        type="button"
+                                        disabled
+                                        class="
+                                            inline-flex
+                                            items-center
+                                            justify-center
+                                            gap-2
+                                            px-5
+                                            py-3
+                                            rounded-xl
+                                            bg-slate-200
+                                            text-slate-400
+                                            font-bold
+                                            text-sm
+                                            cursor-not-allowed
+                                        "
+                                    >
+
+                                        <i
+                                            data-lucide="user-x"
+                                            class="w-4 h-4"
+                                        ></i>
+
+                                        Không thể chọn
+
+                                    </button>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <!-- KHÔNG CÓ KẾT QUẢ -->
+            <div
+                class="
+                    bg-white
+                    rounded-3xl
+                    border
+                    border-slate-100
+                    shadow-soft
+                    py-20
+                    px-6
+                    text-center
+                "
+            >
+
+                <div
+                    class="
+                        w-20
+                        h-20
+                        mx-auto
+                        mb-5
+                        rounded-3xl
+                        bg-slate-100
+                        text-slate-400
+                        flex
+                        items-center
+                        justify-center
+                    "
+                >
+
+                    <i
+                        data-lucide="user-x"
+                        class="w-10 h-10"
+                    ></i>
+
+                </div>
+
+
+                <h3 class="text-xl font-bold text-slate-800">
+                    Chưa có giảng viên phù hợp
+                </h3>
+
+
+                <p class="text-slate-500 mt-2 max-w-lg mx-auto">
+                    Hiện tại hệ thống chưa tìm thấy giảng viên phù hợp
+                    với đề tài này.
+                </p>
+
+
+                <a
+                    href="{{ url_for('admin_dashboard') }}"
+                    class="
+                        inline-flex
+                        items-center
+                        gap-2
+                        mt-6
+                        px-5
+                        py-3
+                        rounded-xl
+                        bg-primary
+                        text-white
+                        font-bold
+                        hover:opacity-90
+                        transition
+                    "
+                >
+
+                    <i
+                        data-lucide="arrow-left"
+                        class="w-4 h-4"
+                    ></i>
+
+                    Quay lại Dashboard
+
+                </a>
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- GHI CHÚ -->
+        <div
+            class="
+                mt-8
+                bg-blue-50
+                border
+                border-blue-100
+                rounded-2xl
+                p-5
+            "
+        >
+
+            <div class="flex items-start gap-3">
+
+                <i
+                    data-lucide="info"
+                    class="
+                        w-5
+                        h-5
+                        text-blue-600
+                        flex-shrink-0
+                        mt-0.5
+                    "
+                ></i>
+
+
+                <div>
+
+                    <p class="text-sm font-bold text-blue-800">
+                        Lưu ý
+                    </p>
+
+
+                    <p class="text-sm text-blue-700 mt-1">
+                        Kết quả gợi ý chỉ mang tính chất hỗ trợ.
+                        Quản trị viên là người quyết định giảng viên
+                        hướng dẫn chính thức cho đề tài.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

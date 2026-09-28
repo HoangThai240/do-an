@@ -1,0 +1,904 @@
+{% extends "layout/base.html" %}
+
+
+{% block title %}
+
+{{ de_tai.tenDeTai }} | Nghiên Cứu AI
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<section
+    class="
+        min-h-screen
+        bg-slate-50
+        py-12
+    "
+>
+
+    <div
+        class="
+            max-w-5xl
+            mx-auto
+            px-4
+            sm:px-6
+            lg:px-8
+        "
+    >
+
+
+        <!-- QUAY LẠI -->
+
+        <a
+            href="/de-tai"
+            class="
+                inline-flex
+                items-center
+                gap-2
+                text-slate-500
+                hover:text-primary
+                text-sm
+                font-medium
+                mb-8
+                transition-colors
+            "
+        >
+
+            <i
+                data-lucide="arrow-left"
+                class="w-4 h-4"
+            ></i>
+
+            Quay lại danh sách đề tài
+
+        </a>
+
+
+        <!-- MAIN CARD -->
+
+        <div
+            class="
+                bg-white
+                rounded-3xl
+                border
+                border-slate-100
+                shadow-soft
+                overflow-hidden
+            "
+        >
+
+
+            <!-- HEADER -->
+
+            <div
+                class="
+                    p-7
+                    md:p-10
+                    border-b
+                    border-slate-100
+                    bg-gradient-to-br
+                    from-blue-50
+                    via-white
+                    to-purple-50
+                "
+            >
+
+                <div
+                    class="
+                        flex
+                        flex-col
+                        md:flex-row
+                        justify-between
+                        gap-6
+                    "
+                >
+
+
+                    <div>
+
+
+                        <div
+                            class="
+                                w-14
+                                h-14
+                                rounded-2xl
+                                bg-gradient-to-br
+                                from-primary
+                                to-secondary
+                                text-white
+                                flex
+                                items-center
+                                justify-center
+                                mb-6
+                            "
+                        >
+
+                            <i
+                                data-lucide="flask-conical"
+                                class="w-7 h-7"
+                            ></i>
+
+                        </div>
+
+
+                        <h1
+                            class="
+                                text-2xl
+                                md:text-4xl
+                                font-extrabold
+                                text-slate-900
+                                leading-tight
+                            "
+                        >
+
+                            {{ de_tai.tenDeTai }}
+
+                        </h1>
+
+
+                    </div>
+
+
+                    <!-- TRẠNG THÁI -->
+
+                    <div>
+
+                        <span
+                            class="
+                                inline-flex
+                                px-4
+                                py-2
+                                rounded-full
+                                bg-yellow-100
+                                text-yellow-700
+                                text-sm
+                                font-bold
+                            "
+                        >
+
+                            {{ de_tai.trangThai.value }}
+
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- CONTENT -->
+
+            <div
+                class="
+                    p-7
+                    md:p-10
+                "
+            >
+
+
+                <!-- THÔNG TIN -->
+
+                <div
+                    class="
+                        grid
+                        grid-cols-1
+                        md:grid-cols-2
+                        gap-6
+                        mb-10
+                    "
+                >
+
+
+                    <!-- LĨNH VỰC -->
+
+                    <div
+                        class="
+                            bg-slate-50
+                            rounded-2xl
+                            p-5
+                        "
+                    >
+
+                        <div
+                            class="
+                                flex
+                                items-center
+                                gap-3
+                            "
+                        >
+
+                            <div
+                                class="
+                                    w-10
+                                    h-10
+                                    rounded-xl
+                                    bg-blue-100
+                                    text-primary
+                                    flex
+                                    items-center
+                                    justify-center
+                                "
+                            >
+
+                                <i
+                                    data-lucide="folder"
+                                    class="w-5 h-5"
+                                ></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <p
+                                    class="
+                                        text-xs
+                                        text-slate-400
+                                        mb-1
+                                    "
+                                >
+
+                                    Lĩnh vực nghiên cứu
+
+                                </p>
+
+
+                                <p
+                                    class="
+                                        font-bold
+                                        text-slate-800
+                                    "
+                                >
+
+                                    {% if de_tai.linh_vuc %}
+
+                                        {{ de_tai.linh_vuc.tenLinhVuc }}
+
+                                    {% else %}
+
+                                        Chưa phân loại
+
+                                    {% endif %}
+
+                                </p>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SINH VIÊN -->
+
+                    <div
+                        class="
+                            bg-slate-50
+                            rounded-2xl
+                            p-5
+                        "
+                    >
+
+                        <div
+                            class="
+                                flex
+                                items-center
+                                gap-3
+                            "
+                        >
+
+                            <div
+                                class="
+                                    w-10
+                                    h-10
+                                    rounded-xl
+                                    bg-purple-100
+                                    text-purple-600
+                                    flex
+                                    items-center
+                                    justify-center
+                                "
+                            >
+
+                                <i
+                                    data-lucide="user"
+                                    class="w-5 h-5"
+                                ></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <p
+                                    class="
+                                        text-xs
+                                        text-slate-400
+                                        mb-1
+                                    "
+                                >
+
+                                    Người thực hiện
+
+                                </p>
+
+
+                                <p
+                                    class="
+                                        font-bold
+                                        text-slate-800
+                                    "
+                                >
+
+                                    {% if de_tai.sinh_vien %}
+
+                                        {{ de_tai.sinh_vien.hoTen }}
+
+                                    {% else %}
+
+                                        Chưa cập nhật
+
+                                    {% endif %}
+
+                                </p>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- GIẢNG VIÊN -->
+
+                    <div
+                        class="
+                            bg-slate-50
+                            rounded-2xl
+                            p-5
+                        "
+                    >
+
+                        <div
+                            class="
+                                flex
+                                items-center
+                                gap-3
+                            "
+                        >
+
+                            <div
+                                class="
+                                    w-10
+                                    h-10
+                                    rounded-xl
+                                    bg-green-100
+                                    text-green-600
+                                    flex
+                                    items-center
+                                    justify-center
+                                "
+                            >
+
+                                <i
+                                    data-lucide="graduation-cap"
+                                    class="w-5 h-5"
+                                ></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <p
+                                    class="
+                                        text-xs
+                                        text-slate-400
+                                        mb-1
+                                    "
+                                >
+
+                                    Giảng viên hướng dẫn
+
+                                </p>
+
+
+                                <p
+                                    class="
+                                        font-bold
+                                        text-slate-800
+                                    "
+                                >
+
+                                    {% if de_tai.giang_vien %}
+
+                                        {{ de_tai.giang_vien.hoTen }}
+
+                                    {% else %}
+
+                                        Chưa có giảng viên hướng dẫn
+
+                                    {% endif %}
+
+                                </p>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- NGÀY TẠO -->
+
+                    <div
+                        class="
+                            bg-slate-50
+                            rounded-2xl
+                            p-5
+                        "
+                    >
+
+                        <div
+                            class="
+                                flex
+                                items-center
+                                gap-3
+                            "
+                        >
+
+                            <div
+                                class="
+                                    w-10
+                                    h-10
+                                    rounded-xl
+                                    bg-orange-100
+                                    text-orange-600
+                                    flex
+                                    items-center
+                                    justify-center
+                                "
+                            >
+
+                                <i
+                                    data-lucide="calendar"
+                                    class="w-5 h-5"
+                                ></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <p
+                                    class="
+                                        text-xs
+                                        text-slate-400
+                                        mb-1
+                                    "
+                                >
+
+                                    Ngày tạo
+
+                                </p>
+
+
+                                <p
+                                    class="
+                                        font-bold
+                                        text-slate-800
+                                    "
+                                >
+
+                                    {% if de_tai.ngayTao %}
+
+                                        {{ de_tai.ngayTao.strftime('%d/%m/%Y') }}
+
+                                    {% else %}
+
+                                        Chưa cập nhật
+
+                                    {% endif %}
+
+                                </p>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- MÔ TẢ -->
+
+                <div>
+
+
+                    <div
+                        class="
+                            flex
+                            items-center
+                            gap-3
+                            mb-5
+                        "
+                    >
+
+                        <div
+                            class="
+                                w-10
+                                h-10
+                                rounded-xl
+                                bg-cyan-100
+                                text-cyan-600
+                                flex
+                                items-center
+                                justify-center
+                            "
+                        >
+
+                            <i
+                                data-lucide="file-text"
+                                class="w-5 h-5"
+                            ></i>
+
+                        </div>
+
+
+                        <h2
+                            class="
+                                text-xl
+                                font-bold
+                                text-slate-900
+                            "
+                        >
+
+                            Mô tả đề tài
+
+                        </h2>
+
+
+                    </div>
+
+
+                    <div
+                        class="
+                            bg-slate-50
+                            rounded-2xl
+                            p-6
+                            text-slate-600
+                            leading-relaxed
+                            whitespace-pre-line
+                        "
+                    >
+
+                        {% if de_tai.moTa %}
+
+                            {{ de_tai.moTa }}
+
+                        {% else %}
+
+                            Chưa cập nhật mô tả đề tài.
+
+                        {% endif %}
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- MỤC TIÊU -->
+
+                <div
+                    class="
+                        mt-10
+                    "
+                >
+
+
+                    <div
+                        class="
+                            flex
+                            items-center
+                            gap-3
+                            mb-5
+                        "
+                    >
+
+                        <div
+                            class="
+                                w-10
+                                h-10
+                                rounded-xl
+                                bg-green-100
+                                text-green-600
+                                flex
+                                items-center
+                                justify-center
+                            "
+                        >
+
+                            <i
+                                data-lucide="target"
+                                class="w-5 h-5"
+                            ></i>
+
+                        </div>
+
+
+                        <h2
+                            class="
+                                text-xl
+                                font-bold
+                                text-slate-900
+                            "
+                        >
+
+                            Mục tiêu đề tài
+
+                        </h2>
+
+
+                    </div>
+
+
+                    <div
+                        class="
+                            bg-green-50
+                            rounded-2xl
+                            p-6
+                            text-slate-600
+                            leading-relaxed
+                            whitespace-pre-line
+                        "
+                    >
+
+                        {% if de_tai.mucTieu %}
+
+                            {{ de_tai.mucTieu }}
+
+                        {% else %}
+
+                            Chưa cập nhật mục tiêu đề tài.
+
+                        {% endif %}
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- TỪ KHÓA -->
+
+                <div
+                    class="
+                        mt-10
+                    "
+                >
+
+
+                    <div
+                        class="
+                            flex
+                            items-center
+                            gap-3
+                            mb-5
+                        "
+                    >
+
+                        <div
+                            class="
+                                w-10
+                                h-10
+                                rounded-xl
+                                bg-purple-100
+                                text-purple-600
+                                flex
+                                items-center
+                                justify-center
+                            "
+                        >
+
+                            <i
+                                data-lucide="tags"
+                                class="w-5 h-5"
+                            ></i>
+
+                        </div>
+
+
+                        <h2
+                            class="
+                                text-xl
+                                font-bold
+                                text-slate-900
+                            "
+                        >
+
+                            Từ khóa
+
+                        </h2>
+
+
+                    </div>
+
+
+                    <div
+                        class="
+                            flex
+                            flex-wrap
+                            gap-2
+                        "
+                    >
+
+                        {% if de_tai.tuKhoa %}
+
+                            {% for tu_khoa in de_tai.tuKhoa.split(',') %}
+
+                                <span
+                                    class="
+                                        px-4
+                                        py-2
+                                        rounded-full
+                                        bg-purple-50
+                                        text-purple-600
+                                        text-sm
+                                        font-semibold
+                                    "
+                                >
+
+                                    {{ tu_khoa.strip() }}
+
+                                </span>
+
+                            {% endfor %}
+
+
+                        {% else %}
+
+                            <p
+                                class="
+                                    text-slate-400
+                                "
+                            >
+
+                                Chưa có từ khóa.
+
+                            </p>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- ACTION -->
+
+                <div
+                    class="
+                        mt-10
+                        pt-6
+                        border-t
+                        border-slate-100
+                        flex
+                        flex-col
+                        sm:flex-row
+                        gap-3
+                        justify-between
+                    "
+                >
+
+
+                    <a
+                        href="/de-tai"
+                        class="
+                            inline-flex
+                            items-center
+                            justify-center
+                            gap-2
+                            px-6
+                            py-3
+                            rounded-xl
+                            border
+                            border-slate-200
+                            text-slate-600
+                            font-semibold
+                            hover:bg-slate-50
+                            transition-all
+                        "
+                    >
+
+                        <i
+                            data-lucide="arrow-left"
+                            class="w-5 h-5"
+                        ></i>
+
+                        Quay lại
+
+
+                    </a>
+
+
+                    <a
+                        href="/ai/trung-lap?de_tai_id={{ de_tai.id }}"
+                        class="
+                            inline-flex
+                            items-center
+                            justify-center
+                            gap-2
+                            px-6
+                            py-3
+                            rounded-xl
+                            bg-gradient-to-r
+                            from-primary
+                            to-secondary
+                            text-white
+                            font-bold
+                            shadow-btn
+                            hover:opacity-90
+                            transition-all
+                        "
+                    >
+
+                        <i
+                            data-lucide="scan-search"
+                            class="w-5 h-5"
+                        ></i>
+
+                        Kiểm tra trùng lặp
+
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+    if (typeof lucide !== 'undefined') {
+
+        lucide.createIcons();
+
+    }
+
+</script>
+
+{% endblock %}

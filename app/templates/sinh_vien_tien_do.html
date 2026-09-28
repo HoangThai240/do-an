@@ -1,0 +1,757 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Tiến độ đề tài
+{% endblock %}
+
+{% block content %}
+
+<div class="min-h-screen bg-slate-50">
+
+    <div class="max-w-6xl mx-auto px-4 py-8">
+
+        <!-- ==================================================
+             HEADER
+             ================================================== -->
+
+        <div class="mb-8">
+
+            <a
+                href="{{ url_for('chi_tiet_de_tai', de_tai_id=de_tai.id) }}"
+                class="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 hover:underline"
+            >
+                ← Quay lại đề tài
+            </a>
+
+            <h1 class="text-3xl font-bold text-slate-800 mt-4">
+                Theo dõi tiến độ đề tài
+            </h1>
+
+            <p class="text-slate-500 mt-2">
+                {{ de_tai.tenDeTai }}
+            </p>
+
+        </div>
+
+
+        <!-- ==================================================
+             THÔNG TIN ĐỀ TÀI
+             ================================================== -->
+
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-8">
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+                <div>
+
+                    <p class="text-xs font-semibold text-slate-400 uppercase">
+                        Đề tài
+                    </p>
+
+                    <p class="font-semibold text-slate-800 mt-1">
+                        {{ de_tai.tenDeTai }}
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <p class="text-xs font-semibold text-slate-400 uppercase">
+                        Giảng viên hướng dẫn
+                    </p>
+
+                    <p class="font-semibold text-slate-800 mt-1">
+                        {{ de_tai.giangVien.hoTen if de_tai.giangVien else 'Chưa phân công' }}
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <p class="text-xs font-semibold text-slate-400 uppercase">
+                        Số lần cập nhật
+                    </p>
+
+                    <p class="font-semibold text-blue-600 mt-1">
+                        {{ danh_sach_tien_do|length }} lần
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             FORM THÊM TIẾN ĐỘ
+             ================================================== -->
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
+
+            <div class="flex items-center gap-3 mb-6">
+
+                <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
+
+                    <i
+                        data-lucide="plus"
+                        class="w-5 h-5 text-blue-600"
+                    ></i>
+
+                </div>
+
+                <div>
+
+                    <h2 class="text-xl font-bold text-slate-800">
+                        Cập nhật tiến độ
+                    </h2>
+
+                    <p class="text-sm text-slate-500">
+                        Nhập thông tin công việc bạn đã thực hiện.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ url_for(
+                    'sinh_vien_them_tien_do',
+                    de_tai_id=de_tai.id
+                ) }}"
+            >
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+
+                    <!-- TIÊU ĐỀ -->
+
+                    <div class="md:col-span-2">
+
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">
+                            Giai đoạn / tiêu đề
+                        </label>
+
+                        <input
+                            type="text"
+                            name="tieu_de"
+                            required
+                            placeholder="Ví dụ: Phân tích yêu cầu hệ thống"
+                            class="
+                                w-full
+                                px-4
+                                py-3
+                                rounded-xl
+                                border
+                                border-slate-300
+                                focus:ring-2
+                                focus:ring-blue-500
+                                focus:outline-none
+                                focus:border-blue-500
+                            "
+                        >
+
+                    </div>
+
+
+                    <!-- NỘI DUNG -->
+
+                    <div class="md:col-span-2">
+
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">
+                            Nội dung thực hiện
+                        </label>
+
+                        <textarea
+                            name="noi_dung"
+                            rows="5"
+                            placeholder="Nhập chi tiết những công việc bạn đã thực hiện..."
+                            class="
+                                w-full
+                                px-4
+                                py-3
+                                rounded-xl
+                                border
+                                border-slate-300
+                                focus:ring-2
+                                focus:ring-blue-500
+                                focus:outline-none
+                                focus:border-blue-500
+                                resize-y
+                            "
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- PHẦN TRĂM -->
+
+                    <div>
+
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">
+                            Mức độ hoàn thành
+                        </label>
+
+                        <div class="relative">
+
+                            <input
+                                type="number"
+                                name="phan_tram"
+                                min="0"
+                                max="100"
+                                value="0"
+                                required
+                                class="
+                                    w-full
+                                    px-4
+                                    py-3
+                                    pr-12
+                                    rounded-xl
+                                    border
+                                    border-slate-300
+                                    focus:ring-2
+                                    focus:ring-blue-500
+                                    focus:outline-none
+                                    focus:border-blue-500
+                                "
+                            >
+
+                            <span class="
+                                absolute
+                                right-4
+                                top-1/2
+                                -translate-y-1/2
+                                text-slate-400
+                                font-semibold
+                            ">
+                                %
+                            </span>
+
+                        </div>
+
+                        <p class="text-xs text-slate-400 mt-1">
+                            Nhập từ 0 đến 100.
+                        </p>
+
+                    </div>
+
+
+                    <!-- TRẠNG THÁI -->
+
+                    <div>
+
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">
+                            Trạng thái
+                        </label>
+
+                        <select
+                            name="trang_thai"
+                            required
+                            class="
+                                w-full
+                                px-4
+                                py-3
+                                rounded-xl
+                                border
+                                border-slate-300
+                                focus:ring-2
+                                focus:ring-blue-500
+                                focus:outline-none
+                                focus:border-blue-500
+                                bg-white
+                            "
+                        >
+
+                            <option value="CHUA_BAT_DAU">
+                                Chưa bắt đầu
+                            </option>
+
+                            <option value="DANG_THUC_HIEN" selected>
+                                Đang thực hiện
+                            </option>
+
+                            <option value="HOAN_THANH_MOT_PHAN">
+                                Hoàn thành một phần
+                            </option>
+
+                            <option value="HOAN_THANH">
+                                Hoàn thành
+                            </option>
+
+                            <option value="DA_NGHIEM_THU">
+                                Đã nghiệm thu
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <div class="flex justify-end mt-6">
+
+                    <button
+                        type="submit"
+                        class="
+                            inline-flex
+                            items-center
+                            gap-2
+                            px-6
+                            py-3
+                            bg-blue-600
+                            hover:bg-blue-700
+                            text-white
+                            font-semibold
+                            rounded-xl
+                            transition
+                            shadow-sm
+                        "
+                    >
+
+                        <i
+                            data-lucide="save"
+                            class="w-5 h-5"
+                        ></i>
+
+                        Lưu cập nhật tiến độ
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- ==================================================
+             LỊCH SỬ
+             ================================================== -->
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+
+            <div class="flex items-center justify-between mb-6">
+
+                <div>
+
+                    <h2 class="text-xl font-bold text-slate-800">
+                        Lịch sử tiến độ
+                    </h2>
+
+                    <p class="text-sm text-slate-500 mt-1">
+                        Các mốc tiến độ bạn đã cập nhật.
+                    </p>
+
+                </div>
+
+                <span class="
+                    px-3
+                    py-1
+                    bg-blue-50
+                    text-blue-600
+                    rounded-full
+                    text-sm
+                    font-semibold
+                ">
+                    {{ danh_sach_tien_do|length }} cập nhật
+                </span>
+
+            </div>
+
+
+            {% if danh_sach_tien_do %}
+
+                <div class="space-y-5">
+
+                    {% for tien_do in danh_sach_tien_do %}
+
+                        {% set phan_tram = tien_do.phanTram or 0 %}
+
+                        {% if phan_tram < 0 %}
+                            {% set phan_tram = 0 %}
+                        {% endif %}
+
+                        {% if phan_tram > 100 %}
+                            {% set phan_tram = 100 %}
+                        {% endif %}
+
+
+                        <div class="
+                            border
+                            border-slate-200
+                            rounded-xl
+                            p-5
+                            hover:border-blue-200
+                            transition
+                        ">
+
+                            <!-- HEADER -->
+
+                            <div class="
+                                flex
+                                flex-col
+                                md:flex-row
+                                md:items-start
+                                md:justify-between
+                                gap-4
+                            ">
+
+                                <div>
+
+                                    <h3 class="
+                                        font-bold
+                                        text-lg
+                                        text-slate-800
+                                    ">
+                                        {{ tien_do.tieuDe }}
+                                    </h3>
+
+                                    {% if tien_do.ngayCapNhat %}
+
+                                        <p class="text-xs text-slate-400 mt-1">
+
+                                            Cập nhật:
+                                            {{ tien_do.ngayCapNhat.strftime('%d/%m/%Y %H:%M') }}
+
+                                        </p>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <!-- TRẠNG THÁI -->
+
+                                {% if tien_do.trangThai %}
+
+                                    {% set trang_thai = tien_do.trangThai.value
+                                        if tien_do.trangThai.value
+                                        else tien_do.trangThai %}
+
+
+                                    <span class="
+                                        inline-flex
+                                        items-center
+                                        gap-2
+                                        px-3
+                                        py-1.5
+                                        rounded-full
+                                        text-sm
+                                        font-semibold
+
+                                        {% if trang_thai == 'HOAN_THANH' %}
+                                            bg-green-100 text-green-700
+
+                                        {% elif trang_thai == 'DANG_THUC_HIEN' %}
+                                            bg-blue-100 text-blue-700
+
+                                        {% elif trang_thai == 'HOAN_THANH_MOT_PHAN' %}
+                                            bg-yellow-100 text-yellow-700
+
+                                        {% elif trang_thai == 'DA_NGHIEM_THU' %}
+                                            bg-purple-100 text-purple-700
+
+                                        {% else %}
+                                            bg-slate-100 text-slate-600
+                                        {% endif %}
+                                    ">
+
+                                        {% if trang_thai == 'CHUA_BAT_DAU' %}
+                                            Chưa bắt đầu
+
+                                        {% elif trang_thai == 'DANG_THUC_HIEN' %}
+                                            Đang thực hiện
+
+                                        {% elif trang_thai == 'HOAN_THANH_MOT_PHAN' %}
+                                            Hoàn thành một phần
+
+                                        {% elif trang_thai == 'HOAN_THANH' %}
+                                            Hoàn thành
+
+                                        {% elif trang_thai == 'DA_NGHIEM_THU' %}
+                                            Đã nghiệm thu
+
+                                        {% else %}
+                                            {{ trang_thai }}
+                                        {% endif %}
+
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- PROGRESS -->
+
+                            <div class="mt-5">
+
+                                <div class="
+                                    flex
+                                    justify-between
+                                    text-sm
+                                    mb-2
+                                ">
+
+                                    <span class="
+                                        font-medium
+                                        text-slate-600
+                                    ">
+                                        Tiến độ
+                                    </span>
+
+                                    <span class="
+                                        font-bold
+                                        text-blue-600
+                                    ">
+                                        {{ phan_tram }}%
+                                    </span>
+
+                                </div>
+
+
+                                <div class="
+                                    w-full
+                                    h-3
+                                    bg-slate-100
+                                    rounded-full
+                                    overflow-hidden
+                                ">
+
+                                    <div
+                                        class="
+                                            h-full
+                                            bg-gradient-to-r
+                                            from-blue-500
+                                            to-indigo-600
+                                            rounded-full
+                                        "
+                                        style="width:{{ phan_tram }}%;"
+                                    ></div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- NỘI DUNG -->
+
+                            <div class="mt-5">
+
+                                <p class="
+                                    text-sm
+                                    font-semibold
+                                    text-slate-700
+                                    mb-2
+                                ">
+                                    Nội dung thực hiện
+                                </p>
+
+
+                                {% if tien_do.noiDung %}
+
+                                    <div class="
+                                        bg-slate-50
+                                        rounded-xl
+                                        p-4
+                                        text-sm
+                                        text-slate-600
+                                        whitespace-pre-line
+                                    ">
+                                        {{ tien_do.noiDung }}
+                                    </div>
+
+                                {% else %}
+
+                                    <div class="
+                                        bg-slate-50
+                                        rounded-xl
+                                        p-4
+                                        text-sm
+                                        text-slate-400
+                                        italic
+                                    ">
+                                        Chưa nhập nội dung.
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- NHẬN XÉT GIẢNG VIÊN -->
+
+                            <div class="mt-5">
+
+                                {% if tien_do.nhanXetGiangVien %}
+
+                                    <div class="
+                                        p-4
+                                        bg-indigo-50
+                                        border
+                                        border-indigo-100
+                                        rounded-xl
+                                    ">
+
+                                        <div class="
+                                            flex
+                                            items-center
+                                            gap-2
+                                            mb-2
+                                        ">
+
+                                            <i
+                                                data-lucide="message-square-text"
+                                                class="w-4 h-4 text-indigo-600"
+                                            ></i>
+
+                                            <p class="
+                                                text-sm
+                                                font-semibold
+                                                text-indigo-700
+                                            ">
+                                                Nhận xét của giảng viên
+                                            </p>
+
+                                        </div>
+
+                                        <p class="
+                                            text-sm
+                                            text-slate-700
+                                            whitespace-pre-line
+                                        ">
+                                            {{ tien_do.nhanXetGiangVien }}
+                                        </p>
+
+                                    </div>
+
+                                {% else %}
+
+                                    <div class="
+                                        p-4
+                                        bg-slate-50
+                                        border
+                                        border-dashed
+                                        border-slate-200
+                                        rounded-xl
+                                    ">
+
+                                        <p class="
+                                            text-sm
+                                            text-slate-400
+                                            italic
+                                        ">
+                                            Giảng viên chưa có nhận xét cho mốc tiến độ này.
+                                        </p>
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+            {% else %}
+
+                <!-- CHƯA CÓ -->
+
+                <div class="
+                    text-center
+                    py-12
+                    border
+                    border-dashed
+                    border-slate-200
+                    rounded-xl
+                ">
+
+                    <div class="
+                        w-16
+                        h-16
+                        mx-auto
+                        rounded-2xl
+                        bg-blue-50
+                        flex
+                        items-center
+                        justify-center
+                        mb-5
+                    ">
+
+                        <i
+                            data-lucide="chart-no-axes-combined"
+                            class="w-8 h-8 text-blue-500"
+                        ></i>
+
+                    </div>
+
+
+                    <h3 class="
+                        text-lg
+                        font-bold
+                        text-slate-700
+                    ">
+                        Chưa có cập nhật tiến độ
+                    </h3>
+
+
+                    <p class="
+                        text-sm
+                        text-slate-400
+                        mt-2
+                    ">
+                        Hãy nhập thông tin ở phần
+                        <strong>Cập nhật tiến độ</strong>
+                        phía trên.
+                    </p>
+
+
+                    <p class="
+                        text-xs
+                        text-slate-400
+                        mt-2
+                    ">
+                        Sau khi lưu, tiến độ sẽ được hiển thị tại đây
+                        và giảng viên có thể xem.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    if (typeof lucide !== "undefined") {
+        lucide.createIcons();
+    }
+
+});
+
+</script>
+
+{% endblock %}

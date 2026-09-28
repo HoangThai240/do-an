@@ -1,0 +1,1067 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+AI tìm kiếm | Nghiên Cứu AI
+{% endblock %}
+
+{% block content %}
+
+<section class="
+    min-h-screen
+    bg-gradient-to-br
+    from-blue-50
+    via-white
+    to-purple-50
+    py-12
+">
+
+    <div class="max-w-6xl mx-auto px-6">
+
+        <!-- ================================================== -->
+        <!-- HEADER -->
+        <!-- ================================================== -->
+
+        <div class="text-center mb-10">
+
+            <div class="
+                inline-flex
+                items-center
+                justify-center
+                w-16
+                h-16
+                rounded-2xl
+                bg-gradient-to-br
+                from-primary
+                to-secondary
+                text-white
+                shadow-btn
+                mb-5
+            ">
+
+                <i
+                    data-lucide="sparkles"
+                    class="w-8 h-8"
+                ></i>
+
+            </div>
+
+
+            <h1 class="
+                text-4xl
+                md:text-5xl
+                font-extrabold
+                text-slate-900
+                mb-4
+            ">
+
+                AI tìm kiếm đề tài
+
+            </h1>
+
+
+            <p class="
+                text-lg
+                text-slate-500
+                max-w-2xl
+                mx-auto
+            ">
+
+                Tìm kiếm đề tài nghiên cứu bằng ngôn ngữ tự nhiên.
+                AI sẽ phân tích ý nghĩa câu hỏi và tìm những đề tài
+                có nội dung phù hợp.
+
+            </p>
+
+        </div>
+
+
+        <!-- ================================================== -->
+        <!-- SEARCH BOX -->
+        <!-- ================================================== -->
+
+        <div class="
+            bg-white
+            rounded-3xl
+            shadow-soft
+            border
+            border-slate-100
+            p-6
+            md:p-8
+            mb-10
+        ">
+
+            <form
+                id="aiSearchForm"
+                method="POST"
+                action="{{ url_for('ai_tim_kiem') }}"
+            >
+
+                <label class="
+                    block
+                    text-sm
+                    font-semibold
+                    text-slate-700
+                    mb-3
+                ">
+
+                    Bạn muốn tìm đề tài gì?
+
+                </label>
+
+
+                <div class="
+                    flex
+                    flex-col
+                    md:flex-row
+                    gap-4
+                ">
+
+
+                    <!-- ================= Ô TÌM KIẾM ================= -->
+
+                    <div class="
+                        relative
+                        flex-1
+                    ">
+
+                        <i
+                            data-lucide="search"
+                            class="
+                                absolute
+                                left-4
+                                top-1/2
+                                -translate-y-1/2
+                                w-5
+                                h-5
+                                text-slate-400
+                            "
+                        ></i>
+
+
+                        <input
+                            id="aiSearchInput"
+                            type="text"
+                            name="query"
+                            value="{{ query }}"
+                            placeholder="Ví dụ: đề tài ứng dụng trí tuệ nhân tạo trong giáo dục..."
+                            autocomplete="off"
+                            class="
+                                w-full
+                                pl-12
+                                pr-5
+                                py-4
+                                rounded-2xl
+                                border
+                                border-slate-200
+                                text-slate-800
+                                outline-none
+                                focus:border-primary
+                                focus:ring-4
+                                focus:ring-blue-100
+                                transition
+                            "
+                        >
+
+                    </div>
+
+
+                    <!-- ================= NÚT TÌM KIẾM ================= -->
+
+                    <button
+                        id="aiSearchButton"
+                        type="submit"
+                        class="
+                            px-8
+                            py-4
+                            rounded-2xl
+                            bg-gradient-to-r
+                            from-primary
+                            to-secondary
+                            text-white
+                            font-bold
+                            shadow-btn
+                            hover:opacity-90
+                            hover:-translate-y-0.5
+                            transition
+                            flex
+                            items-center
+                            justify-center
+                            gap-2
+                        "
+                    >
+
+                        <i
+                            data-lucide="sparkles"
+                            class="w-5 h-5"
+                        ></i>
+
+                        AI tìm kiếm
+
+                    </button>
+
+                </div>
+
+
+                <!-- ================================================== -->
+                <!-- GỢI Ý -->
+                <!-- ================================================== -->
+
+                <div class="
+                    flex
+                    flex-wrap
+                    items-center
+                    gap-2
+                    mt-4
+                    text-sm
+                ">
+
+                    <span class="text-slate-500">
+                        Gợi ý:
+                    </span>
+
+
+                    <!-- GỢI Ý 1 -->
+
+                    <button
+                        type="button"
+                        class="
+                            suggestion-btn
+                            px-3
+                            py-1.5
+                            bg-blue-50
+                            text-blue-600
+                            rounded-full
+                            hover:bg-blue-100
+                            hover:-translate-y-0.5
+                            transition-all
+                            cursor-pointer
+                            font-medium
+                        "
+                        data-query="AI trong giáo dục"
+                    >
+
+                        AI trong giáo dục
+
+                    </button>
+
+
+                    <!-- GỢI Ý 2 -->
+
+                    <button
+                        type="button"
+                        class="
+                            suggestion-btn
+                            px-3
+                            py-1.5
+                            bg-purple-50
+                            text-purple-600
+                            rounded-full
+                            hover:bg-purple-100
+                            hover:-translate-y-0.5
+                            transition-all
+                            cursor-pointer
+                            font-medium
+                        "
+                        data-query="chatbot hỗ trợ sinh viên"
+                    >
+
+                        chatbot hỗ trợ sinh viên
+
+                    </button>
+
+
+                    <!-- GỢI Ý 3 -->
+
+                    <button
+                        type="button"
+                        class="
+                            suggestion-btn
+                            px-3
+                            py-1.5
+                            bg-indigo-50
+                            text-indigo-600
+                            rounded-full
+                            hover:bg-indigo-100
+                            hover:-translate-y-0.5
+                            transition-all
+                            cursor-pointer
+                            font-medium
+                        "
+                        data-query="phát hiện đạo văn"
+                    >
+
+                        phát hiện đạo văn
+
+                    </button>
+
+
+                    <!-- GỢI Ý 4 -->
+
+                    <button
+                        type="button"
+                        class="
+                            suggestion-btn
+                            px-3
+                            py-1.5
+                            bg-cyan-50
+                            text-cyan-600
+                            rounded-full
+                            hover:bg-cyan-100
+                            hover:-translate-y-0.5
+                            transition-all
+                            cursor-pointer
+                            font-medium
+                        "
+                        data-query="ứng dụng trí tuệ nhân tạo trong y tế"
+                    >
+
+                        AI trong y tế
+
+                    </button>
+
+
+                    <!-- GỢI Ý 5 -->
+
+                    <button
+                        type="button"
+                        class="
+                            suggestion-btn
+                            px-3
+                            py-1.5
+                            bg-violet-50
+                            text-violet-600
+                            rounded-full
+                            hover:bg-violet-100
+                            hover:-translate-y-0.5
+                            transition-all
+                            cursor-pointer
+                            font-medium
+                        "
+                        data-query="hệ thống quản lý sinh viên"
+                    >
+
+                        quản lý sinh viên
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- ================================================== -->
+        <!-- KẾT QUẢ -->
+        <!-- ================================================== -->
+
+        {% if da_tim_kiem %}
+
+            <div class="mb-6">
+
+                <!-- ================= TIÊU ĐỀ ================= -->
+
+                <div class="
+                    flex
+                    flex-col
+                    md:flex-row
+                    md:items-center
+                    md:justify-between
+                    gap-4
+                    mb-5
+                ">
+
+                    <div>
+
+                        <h2 class="
+                            text-2xl
+                            font-bold
+                            text-slate-900
+                        ">
+
+                            Kết quả tìm kiếm
+
+                        </h2>
+
+
+                        <p class="
+                            text-slate-500
+                            mt-1
+                        ">
+
+                            Kết quả phù hợp với:
+
+                            <span class="
+                                font-semibold
+                                text-primary
+                            ">
+
+                                "{{ query }}"
+
+                            </span>
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- SỐ LƯỢNG -->
+
+                    <div class="
+                        px-4
+                        py-2
+                        bg-blue-50
+                        text-primary
+                        rounded-xl
+                        font-semibold
+                        whitespace-nowrap
+                    ">
+
+                        {{ ket_qua|length }} kết quả
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================================== -->
+                <!-- CÓ KẾT QUẢ -->
+                <!-- ================================================== -->
+
+                {% if ket_qua %}
+
+                    <div class="
+                        grid
+                        grid-cols-1
+                        md:grid-cols-2
+                        lg:grid-cols-3
+                        gap-6
+                    ">
+
+                        {% for de_tai in ket_qua %}
+
+                            <div class="
+                                bg-white
+                                rounded-3xl
+                                border
+                                border-slate-100
+                                shadow-soft
+                                p-6
+                                hover:-translate-y-1
+                                hover:shadow-card
+                                transition-all
+                            ">
+
+                                <!-- ICON -->
+
+                                <div class="
+                                    w-12
+                                    h-12
+                                    rounded-xl
+                                    bg-blue-50
+                                    text-primary
+                                    flex
+                                    items-center
+                                    justify-center
+                                    mb-5
+                                ">
+
+                                    <i
+                                        data-lucide="flask-conical"
+                                        class="w-6 h-6"
+                                    ></i>
+
+                                </div>
+
+
+                                <!-- TIÊU ĐỀ -->
+
+                                <h3 class="
+                                    text-xl
+                                    font-bold
+                                    text-slate-900
+                                    mb-3
+                                    line-clamp-3
+                                ">
+
+                                    {{ de_tai.tenDeTai }}
+
+                                </h3>
+
+
+                                <!-- MÔ TẢ -->
+
+                                {% if de_tai.moTa %}
+
+                                    <p class="
+                                        text-slate-500
+                                        text-sm
+                                        leading-6
+                                        mb-5
+                                        line-clamp-3
+                                    ">
+
+                                        {{ de_tai.moTa }}
+
+                                    </p>
+
+                                {% else %}
+
+                                    <p class="
+                                        text-slate-400
+                                        text-sm
+                                        italic
+                                        mb-5
+                                    ">
+
+                                        Chưa có mô tả cho đề tài.
+
+                                    </p>
+
+                                {% endif %}
+
+
+                                <!-- THÔNG TIN -->
+
+                                <div class="
+                                    flex
+                                    items-center
+                                    justify-between
+                                    pt-4
+                                    border-t
+                                    border-slate-100
+                                ">
+
+                                    <span class="
+                                        text-sm
+                                        text-slate-500
+                                    ">
+
+                                        <i
+                                            data-lucide="calendar"
+                                            class="
+                                                w-4
+                                                h-4
+                                                inline
+                                                mr-1
+                                            "
+                                        ></i>
+
+                                        {{ de_tai.ngayTao.strftime('%d/%m/%Y') if de_tai.ngayTao else '' }}
+
+                                    </span>
+
+
+                                    <a
+                                        href="{{ url_for(
+                                            'chi_tiet_de_tai',
+                                            de_tai_id=de_tai.id
+                                        ) }}"
+                                        class="
+                                            text-primary
+                                            font-semibold
+                                            text-sm
+                                            hover:underline
+                                            flex
+                                            items-center
+                                            gap-1
+                                        "
+                                    >
+
+                                        Xem chi tiết
+
+                                        <i
+                                            data-lucide="arrow-right"
+                                            class="w-4 h-4"
+                                        ></i>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                {% else %}
+
+                    <!-- ================================================== -->
+                    <!-- KHÔNG CÓ KẾT QUẢ -->
+                    <!-- ================================================== -->
+
+                    <div class="
+                        bg-white
+                        rounded-3xl
+                        border
+                        border-slate-100
+                        shadow-soft
+                        p-12
+                        text-center
+                    ">
+
+                        <div class="
+                            w-16
+                            h-16
+                            mx-auto
+                            rounded-2xl
+                            bg-slate-100
+                            text-slate-400
+                            flex
+                            items-center
+                            justify-center
+                            mb-5
+                        ">
+
+                            <i
+                                data-lucide="search-x"
+                                class="w-8 h-8"
+                            ></i>
+
+                        </div>
+
+
+                        <h3 class="
+                            text-xl
+                            font-bold
+                            text-slate-800
+                            mb-2
+                        ">
+
+                            Không tìm thấy đề tài phù hợp
+
+                        </h3>
+
+
+                        <p class="
+                            text-slate-500
+                            mb-6
+                        ">
+
+                            Hãy thử mô tả nội dung cần tìm theo cách khác.
+
+                        </p>
+
+
+                        <!-- NÚT THỬ LẠI -->
+
+                        <button
+                            type="button"
+                            onclick="document.getElementById('aiSearchInput').focus()"
+                            class="
+                                inline-flex
+                                items-center
+                                gap-2
+                                px-5
+                                py-3
+                                rounded-xl
+                                bg-blue-50
+                                text-primary
+                                font-semibold
+                                hover:bg-blue-100
+                                transition
+                            "
+                        >
+
+                            <i
+                                data-lucide="search"
+                                class="w-4 h-4"
+                            ></i>
+
+                            Thử tìm kiếm khác
+
+                        </button>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+        {% else %}
+
+            <!-- ================================================== -->
+            <!-- HƯỚNG DẪN -->
+            <!-- ================================================== -->
+
+            <div class="
+                grid
+                grid-cols-1
+                md:grid-cols-3
+                gap-6
+            ">
+
+
+                <!-- ================= BƯỚC 1 ================= -->
+
+                <div class="
+                    bg-white
+                    rounded-3xl
+                    border
+                    border-slate-100
+                    shadow-soft
+                    p-6
+                ">
+
+                    <div class="
+                        w-12
+                        h-12
+                        rounded-xl
+                        bg-blue-50
+                        text-primary
+                        flex
+                        items-center
+                        justify-center
+                        mb-4
+                    ">
+
+                        <i
+                            data-lucide="message-square-text"
+                            class="w-6 h-6"
+                        ></i>
+
+                    </div>
+
+
+                    <h3 class="
+                        font-bold
+                        text-lg
+                        text-slate-900
+                        mb-2
+                    ">
+
+                        1. Mô tả nhu cầu
+
+                    </h3>
+
+
+                    <p class="
+                        text-slate-500
+                        text-sm
+                        leading-6
+                    ">
+
+                        Nhập nội dung hoặc ý tưởng bạn đang muốn
+                        tìm kiếm.
+
+                    </p>
+
+                </div>
+
+
+                <!-- ================= BƯỚC 2 ================= -->
+
+                <div class="
+                    bg-white
+                    rounded-3xl
+                    border
+                    border-slate-100
+                    shadow-soft
+                    p-6
+                ">
+
+                    <div class="
+                        w-12
+                        h-12
+                        rounded-xl
+                        bg-purple-50
+                        text-purple-600
+                        flex
+                        items-center
+                        justify-center
+                        mb-4
+                    ">
+
+                        <i
+                            data-lucide="brain"
+                            class="w-6 h-6"
+                        ></i>
+
+                    </div>
+
+
+                    <h3 class="
+                        font-bold
+                        text-lg
+                        text-slate-900
+                        mb-2
+                    ">
+
+                        2. AI phân tích
+
+                    </h3>
+
+
+                    <p class="
+                        text-slate-500
+                        text-sm
+                        leading-6
+                    ">
+
+                        Hệ thống phân tích ý nghĩa của nội dung
+                        thay vì chỉ tìm từ khóa.
+
+                    </p>
+
+                </div>
+
+
+                <!-- ================= BƯỚC 3 ================= -->
+
+                <div class="
+                    bg-white
+                    rounded-3xl
+                    border
+                    border-slate-100
+                    shadow-soft
+                    p-6
+                ">
+
+                    <div class="
+                        w-12
+                        h-12
+                        rounded-xl
+                        bg-indigo-50
+                        text-indigo-600
+                        flex
+                        items-center
+                        justify-center
+                        mb-4
+                    ">
+
+                        <i
+                            data-lucide="list-checks"
+                            class="w-6 h-6"
+                        ></i>
+
+                    </div>
+
+
+                    <h3 class="
+                        font-bold
+                        text-lg
+                        text-slate-900
+                        mb-2
+                    ">
+
+                        3. Xem đề tài phù hợp
+
+                    </h3>
+
+
+                    <p class="
+                        text-slate-500
+                        text-sm
+                        leading-6
+                    ">
+
+                        Xem danh sách các đề tài có nội dung
+                        gần với yêu cầu tìm kiếm.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<!-- ================================================== -->
+<!-- JAVASCRIPT -->
+<!-- ================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        /* ==============================================
+           LUCIDE ICON
+        ============================================== */
+
+        if (
+            typeof lucide !== "undefined"
+        ) {
+
+            lucide.createIcons();
+
+        }
+
+
+        /* ==============================================
+           LẤY CÁC ELEMENT
+        ============================================== */
+
+        const form =
+            document.getElementById(
+                "aiSearchForm"
+            );
+
+        const input =
+            document.getElementById(
+                "aiSearchInput"
+            );
+
+        const button =
+            document.getElementById(
+                "aiSearchButton"
+            );
+
+
+        /* ==============================================
+           XỬ LÝ CÁC NÚT GỢI Ý
+        ============================================== */
+
+        const suggestionButtons =
+            document.querySelectorAll(
+                ".suggestion-btn"
+            );
+
+
+        suggestionButtons.forEach(
+            function (suggestion) {
+
+                suggestion.addEventListener(
+                    "click",
+                    function () {
+
+                        /* Lấy nội dung gợi ý */
+
+                        const query =
+                            this.dataset.query;
+
+
+                        /* Ghi vào ô tìm kiếm */
+
+                        input.value = query;
+
+
+                        /* Focus vào ô */
+
+                        input.focus();
+
+
+                        /* Đổi trạng thái nút */
+
+                        if (button) {
+
+                            button.disabled = true;
+
+                            button.innerHTML = `
+                                <i
+                                    data-lucide="loader-2"
+                                    class="w-5 h-5 animate-spin"
+                                ></i>
+
+                                Đang tìm kiếm...
+                            `;
+
+                            if (
+                                typeof lucide !== "undefined"
+                            ) {
+
+                                lucide.createIcons();
+
+                            }
+
+                        }
+
+
+                        /* ==========================================
+                           TỰ ĐỘNG SUBMIT FORM
+                           ========================================== */
+
+                        form.submit();
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* ==============================================
+           ENTER ĐỂ TÌM KIẾM
+        ============================================== */
+
+        input.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    event.preventDefault();
+
+                    form.submit();
+
+                }
+
+            }
+        );
+
+
+        /* ==============================================
+           KHI BẤM NÚT AI TÌM KIẾM
+        ============================================== */
+
+        form.addEventListener(
+            "submit",
+            function () {
+
+                const query =
+                    input.value.trim();
+
+
+                if (!query) {
+
+                    input.focus();
+
+                    return;
+
+                }
+
+
+                if (button) {
+
+                    button.disabled = true;
+
+                    button.innerHTML = `
+                        <i
+                            data-lucide="loader-2"
+                            class="w-5 h-5 animate-spin"
+                        ></i>
+
+                        Đang tìm kiếm...
+                    `;
+
+
+                    if (
+                        typeof lucide !== "undefined"
+                    ) {
+
+                        lucide.createIcons();
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+{% endblock %}

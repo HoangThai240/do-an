@@ -1,0 +1,1208 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Quản lý người dùng | Nghiên Cứu AI
+{% endblock %}
+
+
+{% block content %}
+
+<section
+    class="
+        min-h-screen
+        bg-slate-50
+        py-10
+        px-4
+    "
+>
+
+    <div
+        class="
+            max-w-7xl
+            mx-auto
+        "
+    >
+
+
+        <!-- HEADER -->
+
+        <div
+            class="
+                flex
+                flex-col
+                md:flex-row
+                md:items-center
+                md:justify-between
+                gap-5
+                mb-8
+            "
+        >
+
+            <div>
+
+                <div
+                    class="
+                        flex
+                        items-center
+                        gap-3
+                        mb-2
+                    "
+                >
+
+                    <div
+                        class="
+                            w-12
+                            h-12
+                            rounded-xl
+                            bg-gradient-to-br
+                            from-primary
+                            to-secondary
+                            flex
+                            items-center
+                            justify-center
+                            text-white
+                            shadow-lg
+                        "
+                    >
+
+                        <i
+                            data-lucide="users"
+                            class="w-6 h-6"
+                        ></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h1
+                            class="
+                                text-2xl
+                                md:text-3xl
+                                font-extrabold
+                                text-slate-900
+                            "
+                        >
+
+                            Quản lý người dùng
+
+                        </h1>
+
+
+                        <p
+                            class="
+                                text-slate-500
+                                mt-1
+                            "
+                        >
+
+                            Quản lý tài khoản sinh viên, giảng viên và quản trị viên.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BACK ADMIN -->
+
+            <a
+                href="{{ url_for('admin_dashboard') }}"
+                class="
+                    inline-flex
+                    items-center
+                    justify-center
+                    gap-2
+                    px-5
+                    py-3
+                    rounded-xl
+                    bg-white
+                    border
+                    border-slate-200
+                    text-slate-700
+                    font-semibold
+                    hover:bg-slate-100
+                    transition
+                "
+            >
+
+                <i
+                    data-lucide="arrow-left"
+                    class="w-5 h-5"
+                ></i>
+
+                Quay lại Dashboard
+
+            </a>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div
+            class="
+                grid
+                grid-cols-1
+                sm:grid-cols-2
+                lg:grid-cols-4
+                gap-5
+                mb-8
+            "
+        >
+
+
+            <!-- TOTAL -->
+
+            <div
+                class="
+                    bg-white
+                    rounded-2xl
+                    p-5
+                    border
+                    border-slate-100
+                    shadow-sm
+                "
+            >
+
+                <div
+                    class="
+                        flex
+                        items-center
+                        justify-between
+                    "
+                >
+
+                    <div>
+
+                        <p
+                            class="
+                                text-sm
+                                text-slate-500
+                            "
+                        >
+
+                            Tổng người dùng
+
+                        </p>
+
+
+                        <h3
+                            class="
+                                text-3xl
+                                font-extrabold
+                                text-slate-900
+                                mt-2
+                            "
+                        >
+
+                            {{ danh_sach_user|length }}
+
+                        </h3>
+
+                    </div>
+
+
+                    <div
+                        class="
+                            w-12
+                            h-12
+                            rounded-xl
+                            bg-blue-50
+                            text-blue-600
+                            flex
+                            items-center
+                            justify-center
+                        "
+                    >
+
+                        <i
+                            data-lucide="users"
+                            class="w-6 h-6"
+                        ></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STUDENT -->
+
+            <div
+                class="
+                    bg-white
+                    rounded-2xl
+                    p-5
+                    border
+                    border-slate-100
+                    shadow-sm
+                "
+            >
+
+                <div
+                    class="
+                        flex
+                        items-center
+                        justify-between
+                    "
+                >
+
+                    <div>
+
+                        <p
+                            class="
+                                text-sm
+                                text-slate-500
+                            "
+                        >
+
+                            Sinh viên
+
+                        </p>
+
+
+                        <h3
+                            class="
+                                text-3xl
+                                font-extrabold
+                                text-slate-900
+                                mt-2
+                            "
+                        >
+
+                            {{ danh_sach_user
+                                | selectattr(
+                                    "role.name",
+                                    "equalto",
+                                    "SINHVIEN"
+                                )
+                                | list
+                                | length
+                            }}
+
+                        </h3>
+
+                    </div>
+
+
+                    <div
+                        class="
+                            w-12
+                            h-12
+                            rounded-xl
+                            bg-green-50
+                            text-green-600
+                            flex
+                            items-center
+                            justify-center
+                        "
+                    >
+
+                        <i
+                            data-lucide="graduation-cap"
+                            class="w-6 h-6"
+                        ></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TEACHER -->
+
+            <div
+                class="
+                    bg-white
+                    rounded-2xl
+                    p-5
+                    border
+                    border-slate-100
+                    shadow-sm
+                "
+            >
+
+                <div
+                    class="
+                        flex
+                        items-center
+                        justify-between
+                    "
+                >
+
+                    <div>
+
+                        <p
+                            class="
+                                text-sm
+                                text-slate-500
+                            "
+                        >
+
+                            Giảng viên
+
+                        </p>
+
+
+                        <h3
+                            class="
+                                text-3xl
+                                font-extrabold
+                                text-slate-900
+                                mt-2
+                            "
+                        >
+
+                            {{ danh_sach_user
+                                | selectattr(
+                                    "role.name",
+                                    "equalto",
+                                    "GIANGVIEN"
+                                )
+                                | list
+                                | length
+                            }}
+
+                        </h3>
+
+                    </div>
+
+
+                    <div
+                        class="
+                            w-12
+                            h-12
+                            rounded-xl
+                            bg-purple-50
+                            text-purple-600
+                            flex
+                            items-center
+                            justify-center
+                        "
+                    >
+
+                        <i
+                            data-lucide="book-open"
+                            class="w-6 h-6"
+                        ></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIVE -->
+
+            <div
+                class="
+                    bg-white
+                    rounded-2xl
+                    p-5
+                    border
+                    border-slate-100
+                    shadow-sm
+                "
+            >
+
+                <div
+                    class="
+                        flex
+                        items-center
+                        justify-between
+                    "
+                >
+
+                    <div>
+
+                        <p
+                            class="
+                                text-sm
+                                text-slate-500
+                            "
+                        >
+
+                            Đang hoạt động
+
+                        </p>
+
+
+                        <h3
+                            class="
+                                text-3xl
+                                font-extrabold
+                                text-slate-900
+                                mt-2
+                            "
+                        >
+
+                            {{ danh_sach_user
+                                | selectattr(
+                                    "active"
+                                )
+                                | list
+                                | length
+                            }}
+
+                        </h3>
+
+                    </div>
+
+
+                    <div
+                        class="
+                            w-12
+                            h-12
+                            rounded-xl
+                            bg-orange-50
+                            text-orange-600
+                            flex
+                            items-center
+                            justify-center
+                        "
+                    >
+
+                        <i
+                            data-lucide="circle-check"
+                            class="w-6 h-6"
+                        ></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- USER TABLE -->
+
+        <div
+            class="
+                bg-white
+                rounded-2xl
+                border
+                border-slate-100
+                shadow-sm
+                overflow-hidden
+            "
+        >
+
+
+            <!-- TABLE HEADER -->
+
+            <div
+                class="
+                    p-6
+                    border-b
+                    border-slate-100
+                    flex
+                    flex-col
+                    md:flex-row
+                    md:items-center
+                    md:justify-between
+                    gap-4
+                "
+            >
+
+                <div>
+
+                    <h2
+                        class="
+                            text-xl
+                            font-bold
+                            text-slate-900
+                        "
+                    >
+
+                        Danh sách người dùng
+
+                    </h2>
+
+
+                    <p
+                        class="
+                            text-sm
+                            text-slate-500
+                            mt-1
+                        "
+                    >
+
+                        Danh sách toàn bộ tài khoản trong hệ thống.
+
+                    </p>
+
+                </div>
+
+
+                <!-- SEARCH -->
+
+                <div
+                    class="
+                        relative
+                        w-full
+                        md:w-80
+                    "
+                >
+
+                    <i
+                        data-lucide="search"
+                        class="
+                            absolute
+                            left-4
+                            top-1/2
+                            -translate-y-1/2
+                            w-5
+                            h-5
+                            text-slate-400
+                        "
+                    ></i>
+
+
+                    <input
+                        type="text"
+                        id="searchUser"
+                        placeholder="Tìm kiếm người dùng..."
+                        class="
+                            w-full
+                            pl-12
+                            pr-4
+                            py-3
+                            rounded-xl
+                            border
+                            border-slate-200
+                            outline-none
+                            focus:border-primary
+                            focus:ring-4
+                            focus:ring-blue-100
+                        "
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- TABLE -->
+
+            <div class="overflow-x-auto">
+
+                <table
+                    class="
+                        w-full
+                        text-left
+                    "
+                >
+
+                    <thead
+                        class="
+                            bg-slate-50
+                            border-b
+                            border-slate-100
+                        "
+                    >
+
+                        <tr>
+
+                            <th
+                                class="
+                                    px-6
+                                    py-4
+                                    text-sm
+                                    font-bold
+                                    text-slate-600
+                                "
+                            >
+
+                                Người dùng
+
+                            </th>
+
+
+                            <th
+                                class="
+                                    px-6
+                                    py-4
+                                    text-sm
+                                    font-bold
+                                    text-slate-600
+                                "
+                            >
+
+                                Email
+
+                            </th>
+
+
+                            <th
+                                class="
+                                    px-6
+                                    py-4
+                                    text-sm
+                                    font-bold
+                                    text-slate-600
+                                "
+                            >
+
+                                Vai trò
+
+                            </th>
+
+
+                            <th
+                                class="
+                                    px-6
+                                    py-4
+                                    text-sm
+                                    font-bold
+                                    text-slate-600
+                                "
+                            >
+
+                                Trạng thái
+
+                            </th>
+
+
+                            <th
+                                class="
+                                    px-6
+                                    py-4
+                                    text-sm
+                                    font-bold
+                                    text-slate-600
+                                    text-center
+                                "
+                            >
+
+                                Thao tác
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody
+                        id="userTable"
+                        class="divide-y divide-slate-100"
+                    >
+
+                        {% for user in danh_sach_user %}
+
+                        <tr
+                            class="
+                                hover:bg-slate-50
+                                transition
+                            "
+                        >
+
+
+                            <!-- USER -->
+
+                            <td
+                                class="
+                                    px-6
+                                    py-5
+                                "
+                            >
+
+                                <div
+                                    class="
+                                        flex
+                                        items-center
+                                        gap-4
+                                    "
+                                >
+
+                                    <div
+                                        class="
+                                            w-11
+                                            h-11
+                                            rounded-full
+                                            bg-gradient-to-br
+                                            from-primary
+                                            to-secondary
+                                            text-white
+                                            flex
+                                            items-center
+                                            justify-center
+                                            font-bold
+                                        "
+                                    >
+
+                                        {{ user.hoTen[0]|upper }}
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <p
+                                            class="
+                                                font-bold
+                                                text-slate-800
+                                            "
+                                        >
+
+                                            {{ user.hoTen }}
+
+                                        </p>
+
+
+                                        <p
+                                            class="
+                                                text-sm
+                                                text-slate-500
+                                            "
+                                        >
+
+                                            @{{ user.username }}
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- EMAIL -->
+
+                            <td
+                                class="
+                                    px-6
+                                    py-5
+                                    text-slate-600
+                                "
+                            >
+
+                                {{ user.email or "Chưa cập nhật" }}
+
+                            </td>
+
+
+                            <!-- ROLE -->
+
+                            <td
+                                class="
+                                    px-6
+                                    py-5
+                                "
+                            >
+
+                                {% if user.role.name == "ADMIN" %}
+
+                                    <span
+                                        class="
+                                            inline-flex
+                                            px-3
+                                            py-1.5
+                                            rounded-full
+                                            text-xs
+                                            font-bold
+                                            bg-red-50
+                                            text-red-600
+                                        "
+                                    >
+
+                                        Admin
+
+                                    </span>
+
+                                {% elif user.role.name == "GIANGVIEN" %}
+
+                                    <span
+                                        class="
+                                            inline-flex
+                                            px-3
+                                            py-1.5
+                                            rounded-full
+                                            text-xs
+                                            font-bold
+                                            bg-purple-50
+                                            text-purple-600
+                                        "
+                                    >
+
+                                        Giảng viên
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span
+                                        class="
+                                            inline-flex
+                                            px-3
+                                            py-1.5
+                                            rounded-full
+                                            text-xs
+                                            font-bold
+                                            bg-blue-50
+                                            text-blue-600
+                                        "
+                                    >
+
+                                        Sinh viên
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td
+                                class="
+                                    px-6
+                                    py-5
+                                "
+                            >
+
+                                {% if user.active %}
+
+                                    <span
+                                        class="
+                                            inline-flex
+                                            items-center
+                                            gap-2
+                                            px-3
+                                            py-1.5
+                                            rounded-full
+                                            text-xs
+                                            font-bold
+                                            bg-green-50
+                                            text-green-600
+                                        "
+                                    >
+
+                                        <span
+                                            class="
+                                                w-2
+                                                h-2
+                                                rounded-full
+                                                bg-green-500
+                                            "
+                                        ></span>
+
+                                        Hoạt động
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span
+                                        class="
+                                            inline-flex
+                                            items-center
+                                            gap-2
+                                            px-3
+                                            py-1.5
+                                            rounded-full
+                                            text-xs
+                                            font-bold
+                                            bg-red-50
+                                            text-red-600
+                                        "
+                                    >
+
+                                        <span
+                                            class="
+                                                w-2
+                                                h-2
+                                                rounded-full
+                                                bg-red-500
+                                            "
+                                        ></span>
+
+                                        Đã khóa
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- ACTION -->
+
+                            <td
+                                class="
+                                    px-6
+                                    py-5
+                                "
+                            >
+
+                                <div
+                                    class="
+                                        flex
+                                        justify-center
+                                    "
+                                >
+
+                                    {% if user.id == current_user.id %}
+
+                                        <span
+                                            class="
+                                                px-4
+                                                py-2
+                                                rounded-xl
+                                                bg-slate-100
+                                                text-slate-400
+                                                text-sm
+                                                font-semibold
+                                            "
+                                        >
+
+                                            Tài khoản của bạn
+
+                                        </span>
+
+                                    {% elif user.active %}
+
+                                        <form
+                                            method="POST"
+                                            action="{{ url_for(
+                                                'admin_khoa_user',
+                                                user_id=user.id
+                                            ) }}"
+                                        >
+
+                                            <button
+                                                type="submit"
+                                                onclick="
+                                                    return confirm(
+                                                        'Bạn có chắc muốn khóa tài khoản này?'
+                                                    )
+                                                "
+                                                class="
+                                                    inline-flex
+                                                    items-center
+                                                    gap-2
+                                                    px-4
+                                                    py-2
+                                                    rounded-xl
+                                                    bg-red-50
+                                                    text-red-600
+                                                    text-sm
+                                                    font-bold
+                                                    hover:bg-red-100
+                                                    transition
+                                                "
+                                            >
+
+                                                <i
+                                                    data-lucide="lock"
+                                                    class="w-4 h-4"
+                                                ></i>
+
+                                                Khóa
+
+                                            </button>
+
+                                        </form>
+
+                                    {% else %}
+
+                                        <form
+                                            method="POST"
+                                            action="{{ url_for(
+                                                'admin_mo_khoa_user',
+                                                user_id=user.id
+                                            ) }}"
+                                        >
+
+                                            <button
+                                                type="submit"
+                                                onclick="
+                                                    return confirm(
+                                                        'Bạn có muốn mở khóa tài khoản này?'
+                                                    )
+                                                "
+                                                class="
+                                                    inline-flex
+                                                    items-center
+                                                    gap-2
+                                                    px-4
+                                                    py-2
+                                                    rounded-xl
+                                                    bg-green-50
+                                                    text-green-600
+                                                    text-sm
+                                                    font-bold
+                                                    hover:bg-green-100
+                                                    transition
+                                                "
+                                            >
+
+                                                <i
+                                                    data-lucide="unlock"
+                                                    class="w-4 h-4"
+                                                ></i>
+
+                                                Mở khóa
+
+                                            </button>
+
+                                        </form>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td
+                                colspan="5"
+                                class="
+                                    px-6
+                                    py-16
+                                    text-center
+                                "
+                            >
+
+                                <div
+                                    class="
+                                        flex
+                                        flex-col
+                                        items-center
+                                    "
+                                >
+
+                                    <div
+                                        class="
+                                            w-16
+                                            h-16
+                                            rounded-full
+                                            bg-slate-100
+                                            flex
+                                            items-center
+                                            justify-center
+                                            mb-4
+                                        "
+                                    >
+
+                                        <i
+                                            data-lucide="users"
+                                            class="
+                                                w-8
+                                                h-8
+                                                text-slate-400
+                                            "
+                                        ></i>
+
+                                    </div>
+
+
+                                    <p
+                                        class="
+                                            font-bold
+                                            text-slate-700
+                                        "
+                                    >
+
+                                        Chưa có người dùng
+
+                                    </p>
+
+
+                                    <p
+                                        class="
+                                            text-sm
+                                            text-slate-400
+                                            mt-1
+                                        "
+                                    >
+
+                                        Hiện chưa có tài khoản nào trong hệ thống.
+
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SEARCH SCRIPT -->
+
+<script>
+
+    document
+        .getElementById(
+            "searchUser"
+        )
+        .addEventListener(
+            "keyup",
+            function()
+            {
+
+                const keyword =
+                    this.value
+                        .toLowerCase();
+
+                const rows =
+                    document.querySelectorAll(
+                        "#userTable tr"
+                    );
+
+                rows.forEach(
+                    function(row)
+                    {
+
+                        const text =
+                            row.innerText
+                                .toLowerCase();
+
+                        row.style.display =
+                            text.includes(
+                                keyword
+                            )
+                                ? ""
+                                : "none";
+
+                    }
+                );
+
+            }
+        );
+
+</script>
+
+{% endblock %}

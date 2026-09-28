@@ -1,0 +1,2456 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}
+            Hệ thống quản lý nghiên cứu khoa học
+        {% endblock %}
+    </title>
+
+
+    <!-- ================================================== -->
+    <!-- TAILWIND CSS -->
+    <!-- ================================================== -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <!-- ================================================== -->
+    <!-- TAILWIND CONFIG -->
+    <!-- ================================================== -->
+
+    <script>
+
+        tailwind.config = {
+
+            theme: {
+
+                extend: {
+
+                    colors: {
+
+                        primary: '#2563eb',
+
+                        primaryHover: '#1d4ed8',
+
+                        secondary: '#7c3aed',
+
+                        accent: '#06b6d4',
+
+                        lightBg: '#f8fafc',
+
+                        darkBg: '#0f172a'
+
+                    },
+
+
+                    boxShadow: {
+
+                        btn:
+                            '0 10px 25px -8px rgba(37, 99, 235, 0.45)',
+
+                        soft:
+                            '0 15px 35px -12px rgba(15, 23, 42, 0.15)',
+
+                        card:
+                            '0 10px 30px -15px rgba(15, 23, 42, 0.18)'
+
+                    },
+
+
+                    borderRadius: {
+
+                        xl2: '1.25rem',
+
+                        xl3: '1.75rem'
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    </script>
+
+
+    <!-- ================================================== -->
+    <!-- LUCIDE ICON -->
+    <!-- ================================================== -->
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+
+    <!-- ================================================== -->
+    <!-- GOOGLE FONT -->
+    <!-- ================================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- ================================================== -->
+    <!-- STYLE -->
+    <!-- ================================================== -->
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            font-family:
+                'Inter',
+                'Segoe UI',
+                sans-serif;
+
+            background:
+                #f8fafc;
+
+            color:
+                #1e293b;
+
+        }
+
+
+        /* ================= FADE IN ================= */
+
+        .fade-in {
+
+            animation:
+                fadeIn
+                .4s
+                ease-out;
+
+        }
+
+
+        @keyframes fadeIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(8px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        /* ================= SCROLLBAR ================= */
+
+        ::-webkit-scrollbar {
+
+            width: 8px;
+
+            height: 8px;
+
+        }
+
+
+        ::-webkit-scrollbar-track {
+
+            background:
+                #f1f5f9;
+
+        }
+
+
+        ::-webkit-scrollbar-thumb {
+
+            background:
+                #94a3b8;
+
+            border-radius:
+                999px;
+
+        }
+
+
+        ::-webkit-scrollbar-thumb:hover {
+
+            background:
+                #64748b;
+
+        }
+
+
+        /* ================= SELECTION ================= */
+
+        ::selection {
+
+            background:
+                #dbeafe;
+
+            color:
+                #1e3a8a;
+
+        }
+
+
+        /* ================= MOBILE MENU ================= */
+
+        .mobile-menu {
+
+            transition:
+                all .25s ease;
+
+        }
+
+
+        .mobile-menu.hidden-menu {
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transform:
+                translateY(-10px);
+
+        }
+
+
+        .mobile-menu.show-menu {
+
+            opacity: 1;
+
+            pointer-events: auto;
+
+            transform:
+                translateY(0);
+
+        }
+
+    </style>
+
+
+    {% block extra_head %}
+    {% endblock %}
+
+</head>
+
+
+<body class="bg-slate-50 text-slate-800">
+
+
+<!-- ================================================== -->
+<!-- HEADER -->
+<!-- ================================================== -->
+
+{% block header %}
+
+<header
+    class="
+        fixed
+        top-0
+        inset-x-0
+        z-50
+        bg-white/95
+        backdrop-blur-xl
+        border-b
+        border-slate-200/70
+        shadow-sm
+    "
+>
+
+    <div
+        class="
+            max-w-7xl
+            mx-auto
+            px-4
+            sm:px-6
+            lg:px-8
+            h-20
+            flex
+            items-center
+            justify-between
+            gap-4
+        "
+    >
+
+
+        <!-- ================================================== -->
+        <!-- LOGO -->
+        <!-- ================================================== -->
+
+        <a
+            href="{{ url_for('index') }}"
+            class="
+                flex
+                items-center
+                gap-3
+                shrink-0
+                group
+            "
+        >
+
+            <div
+                class="
+                    w-11
+                    h-11
+                    rounded-2xl
+                    bg-gradient-to-br
+                    from-primary
+                    to-secondary
+                    flex
+                    items-center
+                    justify-center
+                    shadow-btn
+                    group-hover:scale-105
+                    transition-transform
+                "
+            >
+
+                <i
+                    data-lucide="atom"
+                    class="
+                        w-6
+                        h-6
+                        text-white
+                    "
+                ></i>
+
+            </div>
+
+
+            <div class="hidden sm:block">
+
+                <div
+                    class="
+                        text-slate-900
+                        text-lg
+                        font-extrabold
+                        tracking-tight
+                    "
+                >
+
+                    Nghiên Cứu
+
+                    <span class="text-primary">
+                        AI
+                    </span>
+
+                </div>
+
+
+                <p
+                    class="
+                        text-[10px]
+                        text-slate-400
+                        font-semibold
+                        tracking-[0.12em]
+                    "
+                >
+
+                    RESEARCH MANAGEMENT SYSTEM
+
+                </p>
+
+            </div>
+
+        </a>
+
+
+        <!-- ================================================== -->
+        <!-- DESKTOP NAVIGATION -->
+        <!-- ================================================== -->
+
+        <nav
+            class="
+                hidden
+                lg:flex
+                items-center
+                gap-5
+                text-sm
+                font-semibold
+                text-slate-600
+            "
+        >
+
+
+            <!-- ================================================== -->
+            <!-- TRANG CHỦ -->
+            <!-- ================================================== -->
+
+            <a
+                href="{{ url_for('index') }}"
+                class="
+                    flex
+                    items-center
+                    gap-1.5
+                    hover:text-primary
+                    transition-colors
+                    whitespace-nowrap
+                "
+            >
+
+                <i
+                    data-lucide="home"
+                    class="w-4 h-4"
+                ></i>
+
+                Trang chủ
+
+            </a>
+
+
+            <!-- ================================================== -->
+            <!-- ĐỀ TÀI -->
+            <!-- ================================================== -->
+
+            <a
+                href="{{ url_for('danh_sach_de_tai') }}"
+                class="
+                    flex
+                    items-center
+                    gap-1.5
+                    hover:text-primary
+                    transition-colors
+                    whitespace-nowrap
+                "
+            >
+
+                <i
+                    data-lucide="book-open"
+                    class="w-4 h-4"
+                ></i>
+
+                Đề tài
+
+            </a>
+
+
+            <!-- ================================================== -->
+            <!-- AI -->
+            <!-- ================================================== -->
+
+            <div class="relative group">
+
+                <button
+                    type="button"
+                    class="
+                        flex
+                        items-center
+                        gap-1.5
+                        hover:text-primary
+                        transition-colors
+                        whitespace-nowrap
+                    "
+                >
+
+                    <i
+                        data-lucide="sparkles"
+                        class="w-4 h-4"
+                    ></i>
+
+                    AI
+
+                    <i
+                        data-lucide="chevron-down"
+                        class="w-3.5 h-3.5"
+                    ></i>
+
+                </button>
+
+
+                <div
+                    class="
+                        absolute
+                        top-full
+                        left-0
+                        mt-3
+                        w-60
+                        bg-white
+                        border
+                        border-slate-200
+                        rounded-2xl
+                        shadow-soft
+                        p-2
+                        opacity-0
+                        invisible
+                        translate-y-2
+                        group-hover:opacity-100
+                        group-hover:visible
+                        group-hover:translate-y-0
+                        transition-all
+                    "
+                >
+
+                    <a
+                        href="{{ url_for('ai_tim_kiem') }}"
+                        class="
+                            flex
+                            items-center
+                            gap-3
+                            px-4
+                            py-3
+                            rounded-xl
+                            hover:bg-blue-50
+                            hover:text-primary
+                            transition
+                        "
+                    >
+
+                        <span
+                            class="
+                                w-9
+                                h-9
+                                rounded-lg
+                                bg-blue-100
+                                flex
+                                items-center
+                                justify-center
+                            "
+                        >
+
+                            <i
+                                data-lucide="search"
+                                class="
+                                    w-4
+                                    h-4
+                                    text-blue-600
+                                "
+                            ></i>
+
+                        </span>
+
+                        <span>
+
+                            <span class="block font-semibold">
+                                AI tìm kiếm
+                            </span>
+
+                            <span
+                                class="
+                                    block
+                                    text-xs
+                                    text-slate-400
+                                    mt-0.5
+                                "
+                            >
+                                Tìm kiếm ngữ nghĩa
+                            </span>
+
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="{{ url_for('ai_trung_lap') }}"
+                        class="
+                            flex
+                            items-center
+                            gap-3
+                            px-4
+                            py-3
+                            rounded-xl
+                            hover:bg-purple-50
+                            hover:text-purple-600
+                            transition
+                        "
+                    >
+
+                        <span
+                            class="
+                                w-9
+                                h-9
+                                rounded-lg
+                                bg-purple-100
+                                flex
+                                items-center
+                                justify-center
+                            "
+                        >
+
+                            <i
+                                data-lucide="scan-search"
+                                class="
+                                    w-4
+                                    h-4
+                                    text-purple-600
+                                "
+                            ></i>
+
+                        </span>
+
+                        <span>
+
+                            <span class="block font-semibold">
+                                Kiểm tra trùng lặp
+                            </span>
+
+                            <span
+                                class="
+                                    block
+                                    text-xs
+                                    text-slate-400
+                                    mt-0.5
+                                "
+                            >
+                                Phân tích nội dung
+                            </span>
+
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================== -->
+            <!-- GIẢNG VIÊN -->
+            <!-- ================================================== -->
+
+            <a
+                href="{{ url_for('danh_sach_giang_vien') }}"
+                class="
+                    flex
+                    items-center
+                    gap-1.5
+                    hover:text-primary
+                    transition-colors
+                    whitespace-nowrap
+                "
+            >
+
+                <i
+                    data-lucide="graduation-cap"
+                    class="w-4 h-4"
+                ></i>
+
+                Giảng viên
+
+            </a>
+
+
+            <!-- ================================================== -->
+            <!-- MENU RIÊNG THEO ROLE -->
+            <!-- ================================================== -->
+
+            {% if current_user.is_authenticated %}
+
+
+                <!-- ================================================== -->
+                <!-- SINH VIÊN -->
+                <!-- ================================================== -->
+
+                {% if current_user.role and current_user.role.name == 'SINHVIEN' %}
+
+                    <a
+                        href="{{ url_for('them_de_tai') }}"
+                        class="
+                            inline-flex
+                            items-center
+                            gap-1.5
+                            px-3.5
+                            py-2
+                            rounded-xl
+                            bg-blue-50
+                            text-primary
+                            hover:bg-blue-100
+                            transition
+                            whitespace-nowrap
+                        "
+                    >
+
+                        <i
+                            data-lucide="plus"
+                            class="w-4 h-4"
+                        ></i>
+
+                        Thêm đề tài
+
+                    </a>
+
+                {% endif %}
+
+
+                <!-- ================================================== -->
+                <!-- GIẢNG VIÊN -->
+                <!-- ================================================== -->
+
+                {% if current_user.role and current_user.role.name == 'GIANGVIEN' %}
+
+                    <!-- DASHBOARD -->
+
+                    <a
+                        href="{{ url_for('giang_vien_dashboard') }}"
+                        class="
+                            inline-flex
+                            items-center
+                            gap-1.5
+                            px-3.5
+                            py-2
+                            rounded-xl
+                            bg-blue-50
+                            text-primary
+                            hover:bg-blue-100
+                            hover:shadow-sm
+                            transition-all
+                            whitespace-nowrap
+                        "
+                    >
+
+                        <i
+                            data-lucide="layout-dashboard"
+                            class="w-4 h-4"
+                        ></i>
+
+                        Dashboard
+
+                    </a>
+
+
+                    <!-- ĐỀ TÀI HƯỚNG DẪN -->
+
+                    <a
+                        href="{{ url_for('giang_vien_dashboard') }}"
+                        class="
+                            inline-flex
+                            items-center
+                            gap-1.5
+                            px-3.5
+                            py-2
+                            rounded-xl
+                            bg-purple-50
+                            text-purple-600
+                            hover:bg-purple-100
+                            hover:shadow-sm
+                            transition-all
+                            whitespace-nowrap
+                        "
+                    >
+
+                        <i
+                            data-lucide="book-marked"
+                            class="w-4 h-4"
+                        ></i>
+
+                        Đề tài hướng dẫn
+
+                    </a>
+
+                {% endif %}
+
+
+                <!-- ================================================== -->
+                <!-- ADMIN -->
+                <!-- ================================================== -->
+
+                {% if current_user.role and current_user.role.name == 'ADMIN' %}
+
+                    <a
+                        href="{{ url_for('admin_dashboard') }}"
+                        class="
+                            inline-flex
+                            items-center
+                            gap-1.5
+                            px-3.5
+                            py-2
+                            rounded-xl
+                            bg-blue-50
+                            text-primary
+                            hover:bg-blue-100
+                            transition
+                            whitespace-nowrap
+                        "
+                    >
+
+                        <i
+                            data-lucide="layout-dashboard"
+                            class="w-4 h-4"
+                        ></i>
+
+                        Dashboard
+
+                    </a>
+
+                {% endif %}
+
+
+            {% endif %}
+
+        </nav>
+
+
+        <!-- ================================================== -->
+        <!-- USER AREA -->
+        <!-- ================================================== -->
+
+        <div
+            class="
+                flex
+                items-center
+                gap-2
+                shrink-0
+            "
+        >
+
+
+            {% if current_user.is_authenticated %}
+
+
+                <!-- ================================================== -->
+                <!-- USER -->
+                <!-- ================================================== -->
+
+                <div
+                    class="
+                        hidden
+                        md:flex
+                        items-center
+                        gap-3
+                        mr-1
+                    "
+                >
+
+                    <div
+                        class="
+                            w-10
+                            h-10
+                            rounded-full
+                            bg-gradient-to-br
+                            from-blue-500
+                            to-purple-600
+                            flex
+                            items-center
+                            justify-center
+                            text-white
+                            font-bold
+                            text-sm
+                            shadow-sm
+                        "
+                    >
+
+                        {{ current_user.hoTen[0] if current_user.hoTen else 'U' }}
+
+                    </div>
+
+
+                    <div class="hidden xl:block">
+
+                        <p
+                            class="
+                                text-sm
+                                font-bold
+                                text-slate-700
+                                max-w-[150px]
+                                truncate
+                            "
+                        >
+
+                            {{ current_user.hoTen or 'Người dùng' }}
+
+                        </p>
+
+
+                        <p
+                            class="
+                                text-xs
+                                text-slate-400
+                                font-medium
+                            "
+                        >
+
+                            {% if current_user.role %}
+
+                                {% if current_user.role.name == 'ADMIN' %}
+
+                                    Quản trị viên
+
+                                {% elif current_user.role.name == 'GIANGVIEN' %}
+
+                                    Giảng viên
+
+                                {% elif current_user.role.name == 'SINHVIEN' %}
+
+                                    Sinh viên
+
+                                {% else %}
+
+                                    Người dùng
+
+                                {% endif %}
+
+                            {% else %}
+
+                                Người dùng
+
+                            {% endif %}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================================== -->
+                <!-- LOGOUT -->
+                <!-- ================================================== -->
+
+                <a
+                    href="{{ url_for('logout_process') }}"
+                    class="
+                        hidden
+                        sm:inline-flex
+                        items-center
+                        gap-2
+                        px-4
+                        py-2.5
+                        rounded-xl
+                        border
+                        border-slate-200
+                        bg-white
+                        text-slate-600
+                        hover:border-red-300
+                        hover:bg-red-50
+                        hover:text-red-600
+                        transition-all
+                        text-sm
+                        font-semibold
+                    "
+                >
+
+                    <i
+                        data-lucide="log-out"
+                        class="w-4 h-4"
+                    ></i>
+
+                    Đăng xuất
+
+                </a>
+
+
+            {% else %}
+
+
+                <!-- ================================================== -->
+                <!-- LOGIN -->
+                <!-- ================================================== -->
+
+                <a
+                    href="{{ url_for('login_process') }}"
+                    class="
+                        hidden
+                        sm:inline-flex
+                        items-center
+                        gap-2
+                        px-4
+                        py-2.5
+                        rounded-xl
+                        text-slate-600
+                        hover:bg-slate-100
+                        hover:text-primary
+                        transition
+                        text-sm
+                        font-semibold
+                    "
+                >
+
+                    <i
+                        data-lucide="log-in"
+                        class="w-4 h-4"
+                    ></i>
+
+                    Đăng nhập
+
+                </a>
+
+
+                <!-- ================================================== -->
+                <!-- REGISTER -->
+                <!-- ================================================== -->
+
+                <a
+                    href="{{ url_for('register') }}"
+                    class="
+                        hidden
+                        sm:inline-flex
+                        items-center
+                        gap-2
+                        px-5
+                        py-2.5
+                        bg-gradient-to-r
+                        from-primary
+                        to-secondary
+                        hover:opacity-90
+                        text-white
+                        rounded-xl
+                        text-sm
+                        font-semibold
+                        shadow-btn
+                        transition-all
+                    "
+                >
+
+                    <i
+                        data-lucide="user-plus"
+                        class="w-4 h-4"
+                    ></i>
+
+                    Đăng ký
+
+                </a>
+
+
+            {% endif %}
+
+
+            <!-- ================================================== -->
+            <!-- MOBILE BUTTON -->
+            <!-- ================================================== -->
+
+            <button
+                id="mobileMenuButton"
+                type="button"
+                class="
+                    lg:hidden
+                    w-10
+                    h-10
+                    rounded-xl
+                    border
+                    border-slate-200
+                    bg-white
+                    flex
+                    items-center
+                    justify-center
+                    text-slate-600
+                    hover:bg-slate-100
+                    transition
+                "
+                aria-label="Mở menu"
+            >
+
+                <i
+                    id="mobileMenuIcon"
+                    data-lucide="menu"
+                    class="w-5 h-5"
+                ></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================== -->
+    <!-- MOBILE MENU -->
+    <!-- ================================================== -->
+
+    <div
+        id="mobileMenu"
+        class="
+            lg:hidden
+            absolute
+            top-full
+            inset-x-0
+            bg-white
+            border-b
+            border-slate-200
+            shadow-soft
+            hidden-menu
+            mobile-menu
+        "
+    >
+
+        <div
+            class="
+                max-w-7xl
+                mx-auto
+                px-4
+                sm:px-6
+                py-5
+            "
+        >
+
+            <div class="space-y-1">
+
+
+                <!-- ================================================== -->
+                <!-- TRANG CHỦ -->
+                <!-- ================================================== -->
+
+                <a
+                    href="{{ url_for('index') }}"
+                    class="
+                        flex
+                        items-center
+                        gap-3
+                        px-4
+                        py-3
+                        rounded-xl
+                        text-slate-700
+                        hover:bg-blue-50
+                        hover:text-primary
+                        font-semibold
+                    "
+                >
+
+                    <i
+                        data-lucide="home"
+                        class="w-5 h-5"
+                    ></i>
+
+                    Trang chủ
+
+                </a>
+
+
+                <!-- ================================================== -->
+                <!-- ĐỀ TÀI -->
+                <!-- ================================================== -->
+
+                <a
+                    href="{{ url_for('danh_sach_de_tai') }}"
+                    class="
+                        flex
+                        items-center
+                        gap-3
+                        px-4
+                        py-3
+                        rounded-xl
+                        text-slate-700
+                        hover:bg-blue-50
+                        hover:text-primary
+                        font-semibold
+                    "
+                >
+
+                    <i
+                        data-lucide="book-open"
+                        class="w-5 h-5"
+                    ></i>
+
+                    Đề tài nghiên cứu
+
+                </a>
+
+
+                <!-- ================================================== -->
+                <!-- AI TÌM KIẾM -->
+                <!-- ================================================== -->
+
+                <a
+                    href="{{ url_for('ai_tim_kiem') }}"
+                    class="
+                        flex
+                        items-center
+                        gap-3
+                        px-4
+                        py-3
+                        rounded-xl
+                        text-slate-700
+                        hover:bg-blue-50
+                        hover:text-primary
+                        font-semibold
+                    "
+                >
+
+                    <i
+                        data-lucide="sparkles"
+                        class="w-5 h-5"
+                    ></i>
+
+                    AI tìm kiếm
+
+                </a>
+
+
+                <!-- ================================================== -->
+                <!-- AI TRÙNG LẶP -->
+                <!-- ================================================== -->
+
+                <a
+                    href="{{ url_for('ai_trung_lap') }}"
+                    class="
+                        flex
+                        items-center
+                        gap-3
+                        px-4
+                        py-3
+                        rounded-xl
+                        text-slate-700
+                        hover:bg-purple-50
+                        hover:text-purple-600
+                        font-semibold
+                    "
+                >
+
+                    <i
+                        data-lucide="scan-search"
+                        class="w-5 h-5"
+                    ></i>
+
+                    Kiểm tra trùng lặp
+
+                </a>
+
+
+                <!-- ================================================== -->
+                <!-- GIẢNG VIÊN -->
+                <!-- ================================================== -->
+
+                <a
+                    href="{{ url_for('danh_sach_giang_vien') }}"
+                    class="
+                        flex
+                        items-center
+                        gap-3
+                        px-4
+                        py-3
+                        rounded-xl
+                        text-slate-700
+                        hover:bg-blue-50
+                        hover:text-primary
+                        font-semibold
+                    "
+                >
+
+                    <i
+                        data-lucide="graduation-cap"
+                        class="w-5 h-5"
+                    ></i>
+
+                    Giảng viên
+
+                </a>
+
+
+                {% if current_user.is_authenticated %}
+
+
+                    <!-- ================================================== -->
+                    <!-- SINH VIÊN -->
+                    <!-- ================================================== -->
+
+                    {% if current_user.role and current_user.role.name == 'SINHVIEN' %}
+
+                        <div
+                            class="
+                                border-t
+                                border-slate-100
+                                my-2
+                                pt-2
+                            "
+                        ></div>
+
+
+                        <p
+                            class="
+                                px-4
+                                py-2
+                                text-xs
+                                uppercase
+                                tracking-wider
+                                font-bold
+                                text-slate-400
+                            "
+                        >
+
+                            Khu vực sinh viên
+
+                        </p>
+
+
+                        <a
+                            href="{{ url_for('them_de_tai') }}"
+                            class="
+                                flex
+                                items-center
+                                gap-3
+                                px-4
+                                py-3
+                                rounded-xl
+                                bg-blue-50
+                                text-primary
+                                font-semibold
+                            "
+                        >
+
+                            <i
+                                data-lucide="plus-circle"
+                                class="w-5 h-5"
+                            ></i>
+
+                            Thêm đề tài
+
+                        </a>
+
+                    {% endif %}
+
+
+                    <!-- ================================================== -->
+                    <!-- GIẢNG VIÊN -->
+                    <!-- ================================================== -->
+
+                    {% if current_user.role and current_user.role.name == 'GIANGVIEN' %}
+
+                        <div
+                            class="
+                                border-t
+                                border-slate-100
+                                my-2
+                                pt-2
+                            "
+                        ></div>
+
+
+                        <p
+                            class="
+                                px-4
+                                py-2
+                                text-xs
+                                uppercase
+                                tracking-wider
+                                font-bold
+                                text-slate-400
+                            "
+                        >
+
+                            Khu vực giảng viên
+
+                        </p>
+
+
+                        <!-- DASHBOARD GIẢNG VIÊN -->
+
+                        <a
+                            href="{{ url_for('giang_vien_dashboard') }}"
+                            class="
+                                flex
+                                items-center
+                                gap-3
+                                px-4
+                                py-3
+                                rounded-xl
+                                bg-blue-50
+                                text-primary
+                                font-semibold
+                            "
+                        >
+
+                            <i
+                                data-lucide="layout-dashboard"
+                                class="w-5 h-5"
+                            ></i>
+
+                            Dashboard giảng viên
+
+                        </a>
+
+
+                        <!-- ĐỀ TÀI HƯỚNG DẪN -->
+
+                        <a
+                            href="{{ url_for('giang_vien_dashboard') }}"
+                            class="
+                                flex
+                                items-center
+                                gap-3
+                                px-4
+                                py-3
+                                rounded-xl
+                                bg-purple-50
+                                text-purple-600
+                                font-semibold
+                            "
+                        >
+
+                            <i
+                                data-lucide="book-marked"
+                                class="w-5 h-5"
+                            ></i>
+
+                            Đề tài đang hướng dẫn
+
+                        </a>
+
+                    {% endif %}
+
+
+                    <!-- ================================================== -->
+                    <!-- ADMIN -->
+                    <!-- ================================================== -->
+
+                    {% if current_user.role and current_user.role.name == 'ADMIN' %}
+
+                        <div
+                            class="
+                                border-t
+                                border-slate-100
+                                my-2
+                                pt-2
+                            "
+                        ></div>
+
+
+                        <p
+                            class="
+                                px-4
+                                py-2
+                                text-xs
+                                uppercase
+                                tracking-wider
+                                font-bold
+                                text-slate-400
+                            "
+                        >
+
+                            Quản trị hệ thống
+
+                        </p>
+
+
+                        <a
+                            href="{{ url_for('admin_dashboard') }}"
+                            class="
+                                flex
+                                items-center
+                                gap-3
+                                px-4
+                                py-3
+                                rounded-xl
+                                text-slate-700
+                                hover:bg-blue-50
+                                hover:text-primary
+                                font-semibold
+                            "
+                        >
+
+                            <i
+                                data-lucide="layout-dashboard"
+                                class="w-5 h-5"
+                            ></i>
+
+                            Dashboard
+
+                        </a>
+
+
+                        <a
+                            href="{{ url_for('admin_quan_ly_de_tai') }}"
+                            class="
+                                flex
+                                items-center
+                                gap-3
+                                px-4
+                                py-3
+                                rounded-xl
+                                text-slate-700
+                                hover:bg-blue-50
+                                hover:text-primary
+                                font-semibold
+                            "
+                        >
+
+                            <i
+                                data-lucide="book-marked"
+                                class="w-5 h-5"
+                            ></i>
+
+                            Quản lý đề tài
+
+                        </a>
+
+
+                        <a
+                            href="{{ url_for('admin_nguoi_dung') }}"
+                            class="
+                                flex
+                                items-center
+                                gap-3
+                                px-4
+                                py-3
+                                rounded-xl
+                                text-slate-700
+                                hover:bg-blue-50
+                                hover:text-primary
+                                font-semibold
+                            "
+                        >
+
+                            <i
+                                data-lucide="users"
+                                class="w-5 h-5"
+                            ></i>
+
+                            Quản lý người dùng
+
+                        </a>
+
+
+                        <a
+                            href="{{ url_for('admin_linh_vuc') }}"
+                            class="
+                                flex
+                                items-center
+                                gap-3
+                                px-4
+                                py-3
+                                rounded-xl
+                                text-slate-700
+                                hover:bg-blue-50
+                                hover:text-primary
+                                font-semibold
+                            "
+                        >
+
+                            <i
+                                data-lucide="layers"
+                                class="w-5 h-5"
+                            ></i>
+
+                            Quản lý lĩnh vực
+
+                        </a>
+
+                    {% endif %}
+
+
+                    <!-- ================================================== -->
+                    <!-- MOBILE USER -->
+                    <!-- ================================================== -->
+
+                    <div
+                        class="
+                            border-t
+                            border-slate-100
+                            mt-3
+                            pt-4
+                        "
+                    >
+
+                        <div
+                            class="
+                                flex
+                                items-center
+                                gap-3
+                                px-4
+                                mb-3
+                            "
+                        >
+
+                            <div
+                                class="
+                                    w-10
+                                    h-10
+                                    rounded-full
+                                    bg-gradient-to-br
+                                    from-blue-500
+                                    to-purple-600
+                                    flex
+                                    items-center
+                                    justify-center
+                                    text-white
+                                    font-bold
+                                "
+                            >
+
+                                {{ current_user.hoTen[0] if current_user.hoTen else 'U' }}
+
+                            </div>
+
+
+                            <div>
+
+                                <p class="font-bold text-slate-800">
+
+                                    {{ current_user.hoTen or 'Người dùng' }}
+
+                                </p>
+
+
+                                <p class="text-xs text-slate-400">
+
+                                    {% if current_user.role %}
+
+                                        {% if current_user.role.name == 'ADMIN' %}
+
+                                            Quản trị viên
+
+                                        {% elif current_user.role.name == 'GIANGVIEN' %}
+
+                                            Giảng viên
+
+                                        {% elif current_user.role.name == 'SINHVIEN' %}
+
+                                            Sinh viên
+
+                                        {% else %}
+
+                                            Người dùng
+
+                                        {% endif %}
+
+                                    {% endif %}
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ĐĂNG XUẤT -->
+
+                        <a
+                            href="{{ url_for('logout_process') }}"
+                            class="
+                                flex
+                                items-center
+                                gap-3
+                                px-4
+                                py-3
+                                rounded-xl
+                                text-red-600
+                                hover:bg-red-50
+                                font-semibold
+                            "
+                        >
+
+                            <i
+                                data-lucide="log-out"
+                                class="w-5 h-5"
+                            ></i>
+
+                            Đăng xuất
+
+                        </a>
+
+                    </div>
+
+
+                {% else %}
+
+
+                    <!-- ================================================== -->
+                    <!-- MOBILE LOGIN / REGISTER -->
+                    <!-- ================================================== -->
+
+                    <div
+                        class="
+                            border-t
+                            border-slate-100
+                            mt-3
+                            pt-4
+                            grid
+                            grid-cols-2
+                            gap-3
+                        "
+                    >
+
+                        <a
+                            href="{{ url_for('login_process') }}"
+                            class="
+                                flex
+                                items-center
+                                justify-center
+                                gap-2
+                                px-4
+                                py-3
+                                rounded-xl
+                                border
+                                border-slate-200
+                                text-slate-700
+                                font-semibold
+                            "
+                        >
+
+                            <i
+                                data-lucide="log-in"
+                                class="w-4 h-4"
+                            ></i>
+
+                            Đăng nhập
+
+                        </a>
+
+
+                        <a
+                            href="{{ url_for('register') }}"
+                            class="
+                                flex
+                                items-center
+                                justify-center
+                                gap-2
+                                px-4
+                                py-3
+                                rounded-xl
+                                bg-gradient-to-r
+                                from-primary
+                                to-secondary
+                                text-white
+                                font-semibold
+                                shadow-btn
+                            "
+                        >
+
+                            <i
+                                data-lucide="user-plus"
+                                class="w-4 h-4"
+                            ></i>
+
+                            Đăng ký
+
+                        </a>
+
+                    </div>
+
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+{% endblock %}
+
+
+<!-- ================================================== -->
+<!-- MAIN -->
+<!-- ================================================== -->
+
+<main
+    class="
+        min-h-screen
+        pt-20
+        fade-in
+    "
+>
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+
+<!-- ================================================== -->
+<!-- FOOTER -->
+<!-- ================================================== -->
+
+{% block footer %}
+
+<footer
+    class="
+        bg-slate-950
+        text-slate-300
+        pt-16
+        pb-8
+        mt-16
+    "
+>
+
+    <div
+        class="
+            max-w-7xl
+            mx-auto
+            px-4
+            sm:px-6
+            lg:px-8
+        "
+    >
+
+        <div
+            class="
+                grid
+                grid-cols-1
+                sm:grid-cols-2
+                lg:grid-cols-4
+                gap-10
+            "
+        >
+
+
+            <!-- GIỚI THIỆU -->
+
+            <div>
+
+                <div
+                    class="
+                        flex
+                        items-center
+                        gap-3
+                        mb-5
+                    "
+                >
+
+                    <div
+                        class="
+                            w-11
+                            h-11
+                            rounded-xl
+                            bg-gradient-to-br
+                            from-primary
+                            to-secondary
+                            flex
+                            items-center
+                            justify-center
+                        "
+                    >
+
+                        <i
+                            data-lucide="atom"
+                            class="w-5 h-5 text-white"
+                        ></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <div
+                            class="
+                                text-white
+                                text-lg
+                                font-extrabold
+                            "
+                        >
+
+                            Nghiên Cứu
+
+                            <span class="text-blue-400">
+                                AI
+                            </span>
+
+                        </div>
+
+
+                        <p
+                            class="
+                                text-[9px]
+                                text-slate-500
+                                tracking-wider
+                            "
+                        >
+
+                            RESEARCH MANAGEMENT
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <p
+                    class="
+                        text-sm
+                        text-slate-400
+                        leading-7
+                    "
+                >
+
+                    Hệ thống quản lý nghiên cứu khoa học
+                    tích hợp trí tuệ nhân tạo, hỗ trợ sinh viên,
+                    giảng viên và nhà trường quản lý toàn bộ
+                    quá trình nghiên cứu.
+
+                </p>
+
+            </div>
+
+
+            <!-- KHÁM PHÁ -->
+
+            <div>
+
+                <h4
+                    class="
+                        text-white
+                        font-bold
+                        mb-5
+                    "
+                >
+
+                    Khám phá
+
+                </h4>
+
+
+                <ul
+                    class="
+                        space-y-3
+                        text-sm
+                        text-slate-400
+                    "
+                >
+
+                    <li>
+
+                        <a
+                            href="{{ url_for('index') }}"
+                            class="hover:text-blue-400 transition"
+                        >
+
+                            Trang chủ
+
+                        </a>
+
+                    </li>
+
+
+                    <li>
+
+                        <a
+                            href="{{ url_for('danh_sach_de_tai') }}"
+                            class="hover:text-blue-400 transition"
+                        >
+
+                            Đề tài nghiên cứu
+
+                        </a>
+
+                    </li>
+
+
+                    <li>
+
+                        <a
+                            href="{{ url_for('danh_sach_giang_vien') }}"
+                            class="hover:text-blue-400 transition"
+                        >
+
+                            Giảng viên
+
+                        </a>
+
+                    </li>
+
+
+                    <li>
+
+                        <a
+                            href="{{ url_for('ai_tim_kiem') }}"
+                            class="hover:text-blue-400 transition"
+                        >
+
+                            AI tìm kiếm
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- CÔNG NGHỆ -->
+
+            <div>
+
+                <h4
+                    class="
+                        text-white
+                        font-bold
+                        mb-5
+                    "
+                >
+
+                    Công nghệ AI
+
+                </h4>
+
+
+                <ul
+                    class="
+                        space-y-3
+                        text-sm
+                        text-slate-400
+                    "
+                >
+
+                    <li class="flex items-center gap-2">
+
+                        <i
+                            data-lucide="search"
+                            class="w-4 h-4 text-blue-400"
+                        ></i>
+
+                        Tìm kiếm ngữ nghĩa
+
+                    </li>
+
+
+                    <li class="flex items-center gap-2">
+
+                        <i
+                            data-lucide="scan-search"
+                            class="w-4 h-4 text-purple-400"
+                        ></i>
+
+                        Phát hiện trùng lặp
+
+                    </li>
+
+
+                    <li class="flex items-center gap-2">
+
+                        <i
+                            data-lucide="user-check"
+                            class="w-4 h-4 text-cyan-400"
+                        ></i>
+
+                        Gợi ý giảng viên
+
+                    </li>
+
+
+                    <li class="flex items-center gap-2">
+
+                        <i
+                            data-lucide="brain"
+                            class="w-4 h-4 text-indigo-400"
+                        ></i>
+
+                        Phân tích dữ liệu nghiên cứu
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- TÀI KHOẢN -->
+
+            <div>
+
+                <h4
+                    class="
+                        text-white
+                        font-bold
+                        mb-5
+                    "
+                >
+
+                    Tài khoản
+
+                </h4>
+
+
+                <ul
+                    class="
+                        space-y-3
+                        text-sm
+                        text-slate-400
+                    "
+                >
+
+                    {% if current_user.is_authenticated %}
+
+
+                        <li>
+
+                            <div
+                                class="
+                                    flex
+                                    items-center
+                                    gap-3
+                                "
+                            >
+
+                                <div
+                                    class="
+                                        w-9
+                                        h-9
+                                        rounded-full
+                                        bg-gradient-to-br
+                                        from-blue-500
+                                        to-purple-600
+                                        flex
+                                        items-center
+                                        justify-center
+                                        text-white
+                                        text-xs
+                                        font-bold
+                                    "
+                                >
+
+                                    {{ current_user.hoTen[0] if current_user.hoTen else 'U' }}
+
+                                </div>
+
+
+                                <span class="text-slate-300">
+
+                                    {{ current_user.hoTen or 'Người dùng' }}
+
+                                </span>
+
+                            </div>
+
+                        </li>
+
+
+                        <li class="pt-2">
+
+                            <a
+                                href="{{ url_for('logout_process') }}"
+                                class="
+                                    inline-flex
+                                    items-center
+                                    gap-2
+                                    hover:text-red-400
+                                    transition
+                                "
+                            >
+
+                                <i
+                                    data-lucide="log-out"
+                                    class="w-4 h-4"
+                                ></i>
+
+                                Đăng xuất
+
+                            </a>
+
+                        </li>
+
+
+                    {% else %}
+
+
+                        <li>
+
+                            <a
+                                href="{{ url_for('login_process') }}"
+                                class="
+                                    inline-flex
+                                    items-center
+                                    gap-2
+                                    hover:text-blue-400
+                                    transition
+                                "
+                            >
+
+                                <i
+                                    data-lucide="log-in"
+                                    class="w-4 h-4"
+                                ></i>
+
+                                Đăng nhập
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a
+                                href="{{ url_for('register') }}"
+                                class="
+                                    inline-flex
+                                    items-center
+                                    gap-2
+                                    hover:text-blue-400
+                                    transition
+                                "
+                            >
+
+                                <i
+                                    data-lucide="user-plus"
+                                    class="w-4 h-4"
+                                ></i>
+
+                                Đăng ký tài khoản
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a
+                                href="{{ url_for('quen_mat_khau') }}"
+                                class="
+                                    inline-flex
+                                    items-center
+                                    gap-2
+                                    hover:text-blue-400
+                                    transition
+                                "
+                            >
+
+                                <i
+                                    data-lucide="key-round"
+                                    class="w-4 h-4"
+                                ></i>
+
+                                Quên mật khẩu?
+
+                            </a>
+
+                        </li>
+
+
+                    {% endif %}
+
+                </ul>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- FOOTER BOTTOM -->
+
+        <div
+            class="
+                border-t
+                border-slate-800
+                mt-12
+                pt-8
+                flex
+                flex-col
+                md:flex-row
+                items-center
+                justify-between
+                gap-4
+                text-sm
+                text-slate-500
+            "
+        >
+
+            <p class="text-center md:text-left">
+
+                © 2026 Hệ thống quản lý nghiên cứu khoa học
+                tích hợp AI.
+
+            </p>
+
+
+            <div
+                class="
+                    flex
+                    items-center
+                    gap-2
+                "
+            >
+
+                <span
+                    class="
+                        w-2
+                        h-2
+                        rounded-full
+                        bg-green-400
+                        animate-pulse
+                    "
+                ></span>
+
+
+                <span>
+
+                    AI Research System
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+{% endblock %}
+
+
+<!-- ================================================== -->
+<!-- JAVASCRIPT -->
+<!-- ================================================== -->
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+
+            /* ================================================== */
+            /* LUCIDE ICON */
+            /* ================================================== */
+
+            if (
+                typeof lucide !== 'undefined'
+            ) {
+
+                lucide.createIcons();
+
+            }
+
+
+            /* ================================================== */
+            /* MOBILE MENU */
+            /* ================================================== */
+
+            const menuButton =
+                document.getElementById(
+                    "mobileMenuButton"
+                );
+
+            const mobileMenu =
+                document.getElementById(
+                    "mobileMenu"
+                );
+
+            if (
+                menuButton &&
+                mobileMenu
+            ) {
+
+                let isOpen = false;
+
+
+                menuButton.addEventListener(
+                    "click",
+                    function () {
+
+                        isOpen =
+                            !isOpen;
+
+
+                        if (isOpen) {
+
+                            mobileMenu.classList.remove(
+                                "hidden-menu"
+                            );
+
+                            mobileMenu.classList.add(
+                                "show-menu"
+                            );
+
+                        } else {
+
+                            mobileMenu.classList.remove(
+                                "show-menu"
+                            );
+
+                            mobileMenu.classList.add(
+                                "hidden-menu"
+                            );
+
+                        }
+
+
+                        setTimeout(
+                            function () {
+
+                                if (
+                                    typeof lucide !== 'undefined'
+                                ) {
+
+                                    lucide.createIcons();
+
+                                }
+
+                            },
+                            50
+                        );
+
+                    }
+                );
+
+
+                /* ================================================== */
+                /* ĐÓNG MOBILE MENU KHI CLICK LINK */
+                /* ================================================== */
+
+                const mobileLinks =
+                    mobileMenu.querySelectorAll(
+                        "a"
+                    );
+
+
+                mobileLinks.forEach(
+                    function (link) {
+
+                        link.addEventListener(
+                            "click",
+                            function () {
+
+                                mobileMenu.classList.remove(
+                                    "show-menu"
+                                );
+
+                                mobileMenu.classList.add(
+                                    "hidden-menu"
+                                );
+
+                                isOpen = false;
+
+                            }
+                        );
+
+                    }
+                );
+
+            }
+
+        }
+    );
+
+</script>
+
+
+{% block scripts %}
+{% endblock %}
+
+
+</body>
+
+</html>

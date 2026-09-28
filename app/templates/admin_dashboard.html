@@ -1,0 +1,1020 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Admin Dashboard | Nghiên Cứu AI
+{% endblock %}
+
+
+{% block content %}
+
+<section class="min-h-screen bg-slate-50">
+
+    <!-- HEADER -->
+
+    <div
+        class="
+            bg-gradient-to-r
+            from-primary
+            to-secondary
+            py-10
+            px-4
+        "
+    >
+
+        <div
+            class="
+                max-w-7xl
+                mx-auto
+                flex
+                flex-col
+                md:flex-row
+                md:items-center
+                md:justify-between
+                gap-5
+            "
+        >
+
+            <div>
+
+                <p
+                    class="
+                        text-blue-100
+                        font-medium
+                        mb-2
+                    "
+                >
+                    Trang quản trị hệ thống
+                </p>
+
+
+                <h1
+                    class="
+                        text-3xl
+                        md:text-4xl
+                        font-extrabold
+                        text-white
+                    "
+                >
+                    Dashboard Quản Trị
+                </h1>
+
+            </div>
+
+
+            <div
+                class="
+                    flex
+                    flex-wrap
+                    gap-3
+                "
+            >
+
+                <a
+                    href="{{ url_for('admin_quan_ly_de_tai') }}"
+                    class="
+                        px-5
+                        py-3
+                        rounded-xl
+                        bg-white
+                        text-primary
+                        font-bold
+                        hover:opacity-90
+                        transition
+                    "
+                >
+                    Quản lý đề tài
+                </a>
+
+
+                <a
+                    href="{{ url_for('admin_nguoi_dung') }}"
+                    class="
+                        px-5
+                        py-3
+                        rounded-xl
+                        bg-white/20
+                        text-white
+                        font-bold
+                        border
+                        border-white/30
+                        hover:bg-white/30
+                        transition
+                    "
+                >
+                    Người dùng
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CONTENT -->
+
+    <div
+        class="
+            max-w-7xl
+            mx-auto
+            px-4
+            py-10
+        "
+    >
+
+
+        <!-- THỐNG KÊ -->
+
+        <div
+            class="
+                grid
+                grid-cols-1
+                sm:grid-cols-2
+                lg:grid-cols-4
+                gap-6
+                mb-10
+            "
+        >
+
+            <!-- TỔNG ĐỀ TÀI -->
+
+            <div
+                class="
+                    bg-white
+                    rounded-2xl
+                    shadow-soft
+                    border
+                    border-slate-100
+                    p-6
+                "
+            >
+
+                <div
+                    class="
+                        flex
+                        items-center
+                        justify-between
+                    "
+                >
+
+                    <div>
+
+                        <p
+                            class="
+                                text-slate-500
+                                text-sm
+                                font-medium
+                            "
+                        >
+                            Tổng đề tài
+                        </p>
+
+
+                        <h2
+                            class="
+                                text-3xl
+                                font-extrabold
+                                text-slate-900
+                                mt-2
+                            "
+                        >
+                            {{ thong_ke.tongDeTai }}
+                        </h2>
+
+                    </div>
+
+
+                    <div
+                        class="
+                            w-14
+                            h-14
+                            rounded-2xl
+                            bg-blue-100
+                            text-blue-600
+                            flex
+                            items-center
+                            justify-center
+                        "
+                    >
+
+                        <i
+                            data-lucide="folder"
+                            class="w-7 h-7"
+                        ></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CHỜ DUYỆT -->
+
+            <div
+                class="
+                    bg-white
+                    rounded-2xl
+                    shadow-soft
+                    border
+                    border-slate-100
+                    p-6
+                "
+            >
+
+                <div
+                    class="
+                        flex
+                        items-center
+                        justify-between
+                    "
+                >
+
+                    <div>
+
+                        <p
+                            class="
+                                text-slate-500
+                                text-sm
+                                font-medium
+                            "
+                        >
+                            Chờ duyệt
+                        </p>
+
+
+                        <h2
+                            class="
+                                text-3xl
+                                font-extrabold
+                                text-yellow-600
+                                mt-2
+                            "
+                        >
+                            {{ thong_ke.choDuyet }}
+                        </h2>
+
+                    </div>
+
+
+                    <div
+                        class="
+                            w-14
+                            h-14
+                            rounded-2xl
+                            bg-yellow-100
+                            text-yellow-600
+                            flex
+                            items-center
+                            justify-center
+                        "
+                    >
+
+                        <i
+                            data-lucide="clock"
+                            class="w-7 h-7"
+                        ></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ĐÃ DUYỆT -->
+
+            <div
+                class="
+                    bg-white
+                    rounded-2xl
+                    shadow-soft
+                    border
+                    border-slate-100
+                    p-6
+                "
+            >
+
+                <div
+                    class="
+                        flex
+                        items-center
+                        justify-between
+                    "
+                >
+
+                    <div>
+
+                        <p
+                            class="
+                                text-slate-500
+                                text-sm
+                                font-medium
+                            "
+                        >
+                            Đã duyệt
+                        </p>
+
+
+                        <h2
+                            class="
+                                text-3xl
+                                font-extrabold
+                                text-green-600
+                                mt-2
+                            "
+                        >
+                            {{ thong_ke.daDuyet }}
+                        </h2>
+
+                    </div>
+
+
+                    <div
+                        class="
+                            w-14
+                            h-14
+                            rounded-2xl
+                            bg-green-100
+                            text-green-600
+                            flex
+                            items-center
+                            justify-center
+                        "
+                    >
+
+                        <i
+                            data-lucide="check-circle"
+                            class="w-7 h-7"
+                        ></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- HOÀN THÀNH -->
+
+            <div
+                class="
+                    bg-white
+                    rounded-2xl
+                    shadow-soft
+                    border
+                    border-slate-100
+                    p-6
+                "
+            >
+
+                <div
+                    class="
+                        flex
+                        items-center
+                        justify-between
+                    "
+                >
+
+                    <div>
+
+                        <p
+                            class="
+                                text-slate-500
+                                text-sm
+                                font-medium
+                            "
+                        >
+                            Hoàn thành
+                        </p>
+
+
+                        <h2
+                            class="
+                                text-3xl
+                                font-extrabold
+                                text-purple-600
+                                mt-2
+                            "
+                        >
+                            {{ thong_ke.hoanThanh }}
+                        </h2>
+
+                    </div>
+
+
+                    <div
+                        class="
+                            w-14
+                            h-14
+                            rounded-2xl
+                            bg-purple-100
+                            text-purple-600
+                            flex
+                            items-center
+                            justify-center
+                        "
+                    >
+
+                        <i
+                            data-lucide="award"
+                            class="w-7 h-7"
+                        ></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MENU QUẢN LÝ -->
+
+        <div
+            class="
+                grid
+                grid-cols-1
+                md:grid-cols-3
+                gap-6
+                mb-10
+            "
+        >
+
+            <!-- QUẢN LÝ ĐỀ TÀI -->
+
+            <a
+                href="{{ url_for('admin_quan_ly_de_tai') }}"
+                class="
+                    bg-white
+                    rounded-2xl
+                    border
+                    border-slate-100
+                    shadow-soft
+                    p-7
+                    hover:-translate-y-1
+                    transition-all
+                "
+            >
+
+                <div
+                    class="
+                        w-14
+                        h-14
+                        bg-blue-100
+                        text-blue-600
+                        rounded-2xl
+                        flex
+                        items-center
+                        justify-center
+                        mb-5
+                    "
+                >
+
+                    <i
+                        data-lucide="folder-kanban"
+                        class="w-7 h-7"
+                    ></i>
+
+                </div>
+
+
+                <h3
+                    class="
+                        text-xl
+                        font-bold
+                        text-slate-900
+                        mb-2
+                    "
+                >
+                    Quản lý đề tài
+                </h3>
+
+
+                <p class="text-slate-500">
+                    Xem, chỉnh sửa và quản lý toàn bộ đề tài nghiên cứu.
+                </p>
+
+            </a>
+
+
+            <!-- QUẢN LÝ NGƯỜI DÙNG -->
+
+            <a
+                href="{{ url_for('admin_nguoi_dung') }}"
+                class="
+                    bg-white
+                    rounded-2xl
+                    border
+                    border-slate-100
+                    shadow-soft
+                    p-7
+                    hover:-translate-y-1
+                    transition-all
+                "
+            >
+
+                <div
+                    class="
+                        w-14
+                        h-14
+                        bg-green-100
+                        text-green-600
+                        rounded-2xl
+                        flex
+                        items-center
+                        justify-center
+                        mb-5
+                    "
+                >
+
+                    <i
+                        data-lucide="users"
+                        class="w-7 h-7"
+                    ></i>
+
+                </div>
+
+
+                <h3
+                    class="
+                        text-xl
+                        font-bold
+                        text-slate-900
+                        mb-2
+                    "
+                >
+                    Quản lý người dùng
+                </h3>
+
+
+                <p class="text-slate-500">
+                    Quản lý sinh viên, giảng viên và tài khoản hệ thống.
+                </p>
+
+            </a>
+
+
+            <!-- QUẢN LÝ LĨNH VỰC -->
+
+            <a
+                href="{{ url_for('admin_linh_vuc') }}"
+                class="
+                    bg-white
+                    rounded-2xl
+                    border
+                    border-slate-100
+                    shadow-soft
+                    p-7
+                    hover:-translate-y-1
+                    transition-all
+                "
+            >
+
+                <div
+                    class="
+                        w-14
+                        h-14
+                        bg-purple-100
+                        text-purple-600
+                        rounded-2xl
+                        flex
+                        items-center
+                        justify-center
+                        mb-5
+                    "
+                >
+
+                    <i
+                        data-lucide="layers"
+                        class="w-7 h-7"
+                    ></i>
+
+                </div>
+
+
+                <h3
+                    class="
+                        text-xl
+                        font-bold
+                        text-slate-900
+                        mb-2
+                    "
+                >
+                    Quản lý lĩnh vực
+                </h3>
+
+
+                <p class="text-slate-500">
+                    Thêm, chỉnh sửa và quản lý các lĩnh vực nghiên cứu.
+                </p>
+
+            </a>
+
+        </div>
+
+
+        <!-- DANH SÁCH ĐỀ TÀI CHỜ DUYỆT -->
+
+        <div
+            class="
+                bg-white
+                rounded-3xl
+                border
+                border-slate-100
+                shadow-soft
+                overflow-hidden
+            "
+        >
+
+            <!-- HEADER -->
+
+            <div
+                class="
+                    px-7
+                    py-6
+                    border-b
+                    border-slate-100
+                    flex
+                    flex-col
+                    md:flex-row
+                    md:items-center
+                    md:justify-between
+                    gap-4
+                "
+            >
+
+                <div>
+
+                    <h2
+                        class="
+                            text-xl
+                            font-bold
+                            text-slate-900
+                        "
+                    >
+                        Đề tài chờ duyệt
+                    </h2>
+
+
+                    <p
+                        class="
+                            text-sm
+                            text-slate-500
+                            mt-1
+                        "
+                    >
+                        Danh sách đề tài đang chờ quản trị viên xử lý.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="{{ url_for('admin_quan_ly_de_tai') }}"
+                    class="
+                        text-primary
+                        font-bold
+                        hover:underline
+                    "
+                >
+                    Xem tất cả
+                </a>
+
+            </div>
+
+
+            <!-- TABLE -->
+
+            {% if danh_sach_cho_duyet %}
+
+                <div class="overflow-x-auto">
+
+                    <table class="w-full">
+
+                        <thead
+                            class="
+                                bg-slate-50
+                                border-b
+                                border-slate-100
+                            "
+                        >
+
+                            <tr>
+
+                                <th
+                                    class="
+                                        text-left
+                                        px-7
+                                        py-4
+                                        text-sm
+                                        font-bold
+                                        text-slate-600
+                                    "
+                                >
+                                    Đề tài
+                                </th>
+
+
+                                <th
+                                    class="
+                                        text-left
+                                        px-7
+                                        py-4
+                                        text-sm
+                                        font-bold
+                                        text-slate-600
+                                    "
+                                >
+                                    Sinh viên
+                                </th>
+
+
+                                <th
+                                    class="
+                                        text-left
+                                        px-7
+                                        py-4
+                                        text-sm
+                                        font-bold
+                                        text-slate-600
+                                    "
+                                >
+                                    Thao tác
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for de_tai in danh_sach_cho_duyet %}
+
+                                <tr
+                                    class="
+                                        border-b
+                                        border-slate-100
+                                        hover:bg-slate-50
+                                        transition
+                                    "
+                                >
+
+                                    <!-- ĐỀ TÀI -->
+
+                                    <td
+                                        class="
+                                            px-7
+                                            py-5
+                                        "
+                                    >
+
+                                        <p
+                                            class="
+                                                font-bold
+                                                text-slate-800
+                                            "
+                                        >
+                                            {{ de_tai.tenDeTai }}
+                                        </p>
+
+
+                                        <p
+                                            class="
+                                                text-sm
+                                                text-slate-500
+                                                mt-1
+                                            "
+                                        >
+
+                                            {{ de_tai.linh_vuc.tenLinhVuc
+                                            if de_tai.linh_vuc
+                                            else "Chưa có lĩnh vực" }}
+
+                                        </p>
+
+                                    </td>
+
+
+                                    <!-- SINH VIÊN -->
+
+                                    <td
+                                        class="
+                                            px-7
+                                            py-5
+                                            text-slate-600
+                                        "
+                                    >
+
+                                        {{ de_tai.sinh_vien.hoTen
+                                        if de_tai.sinh_vien
+                                        else "Không xác định" }}
+
+                                    </td>
+
+
+                                    <!-- THAO TÁC -->
+
+                                    <td
+                                        class="
+                                            px-7
+                                            py-5
+                                        "
+                                    >
+
+                                        <div
+                                            class="
+                                                flex
+                                                flex-wrap
+                                                gap-2
+                                            "
+                                        >
+
+                                            <!-- XEM -->
+
+                                            <a
+                                                href="{{ url_for(
+                                                    'chi_tiet_de_tai',
+                                                    de_tai_id=de_tai.id
+                                                ) }}"
+                                                class="
+                                                    inline-flex
+                                                    items-center
+                                                    gap-2
+                                                    px-4
+                                                    py-2
+                                                    rounded-lg
+                                                    bg-blue-50
+                                                    text-blue-600
+                                                    font-semibold
+                                                    hover:bg-blue-100
+                                                    transition
+                                                "
+                                            >
+
+                                                <i
+                                                    data-lucide="eye"
+                                                    class="w-4 h-4"
+                                                ></i>
+
+                                                Xem
+
+                                            </a>
+
+
+                                            <!-- GỢI Ý GIẢNG VIÊN -->
+
+                                            <a
+                                                href="{{ url_for(
+                                                    'admin_goi_y_giang_vien',
+                                                    de_tai_id=de_tai.id
+                                                ) }}"
+                                                class="
+                                                    inline-flex
+                                                    items-center
+                                                    gap-2
+                                                    px-4
+                                                    py-2
+                                                    rounded-lg
+                                                    bg-purple-50
+                                                    text-purple-600
+                                                    font-semibold
+                                                    hover:bg-purple-100
+                                                    transition
+                                                "
+                                            >
+
+                                                <i
+                                                    data-lucide="sparkles"
+                                                    class="w-4 h-4"
+                                                ></i>
+
+                                                Gợi ý GV
+
+                                            </a>
+
+
+                                            <!-- XÓA ĐỀ TÀI -->
+
+                                            <form
+                                                method="POST"
+                                                action="{{ url_for(
+                                                    'admin_xoa_de_tai',
+                                                    de_tai_id=de_tai.id
+                                                ) }}"
+                                                onsubmit="return confirm(
+                                                    'Bạn có chắc chắn muốn xóa đề tài này không?'
+                                                );"
+                                                class="inline"
+                                            >
+
+                                                <button
+                                                    type="submit"
+                                                    class="
+                                                        inline-flex
+                                                        items-center
+                                                        gap-2
+                                                        px-4
+                                                        py-2
+                                                        rounded-lg
+                                                        bg-red-50
+                                                        text-red-600
+                                                        font-semibold
+                                                        hover:bg-red-100
+                                                        transition
+                                                    "
+                                                >
+
+                                                    <i
+                                                        data-lucide="trash-2"
+                                                        class="w-4 h-4"
+                                                    ></i>
+
+                                                    Xóa
+
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div
+                    class="
+                        py-16
+                        text-center
+                    "
+                >
+
+                    <div
+                        class="
+                            w-16
+                            h-16
+                            mx-auto
+                            mb-4
+                            rounded-2xl
+                            bg-slate-100
+                            flex
+                            items-center
+                            justify-center
+                        "
+                    >
+
+                        <i
+                            data-lucide="check-circle"
+                            class="
+                                w-8
+                                h-8
+                                text-green-500
+                            "
+                        ></i>
+
+                    </div>
+
+
+                    <h3
+                        class="
+                            font-bold
+                            text-slate-800
+                            text-lg
+                        "
+                    >
+                        Không có đề tài chờ duyệt
+                    </h3>
+
+
+                    <p
+                        class="
+                            text-slate-500
+                            mt-2
+                        "
+                    >
+                        Hiện tại không có đề tài nào cần xử lý.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
