@@ -398,7 +398,1354 @@ Dashboard Giảng viên | Nghiên Cứu AI
 
 
         <!-- ==================================================
-             TIÊU ĐỀ DANH SÁCH
+             YÊU CẦU CHỈNH SỬA
+             ================================================== -->
+
+        <div
+            class="
+                bg-white
+                rounded-3xl
+                border
+                border-slate-100
+                shadow-card
+                p-6
+                md:p-8
+                mb-10
+            "
+        >
+
+            <div
+                class="
+                    flex
+                    flex-col
+                    sm:flex-row
+                    sm:items-center
+                    sm:justify-between
+                    gap-4
+                    mb-6
+                "
+            >
+
+                <div>
+
+                    <div class="flex items-center gap-3">
+
+                        <div
+                            class="
+                                w-11
+                                h-11
+                                rounded-xl
+                                bg-orange-100
+                                text-orange-600
+                                flex
+                                items-center
+                                justify-center
+                                shrink-0
+                            "
+                        >
+
+                            <i
+                                data-lucide="message-square-warning"
+                                class="w-5 h-5"
+                            ></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h2
+                                class="
+                                    text-xl
+                                    md:text-2xl
+                                    font-bold
+                                    text-slate-900
+                                "
+                            >
+                                Yêu cầu chỉnh sửa
+                            </h2>
+
+                            <p
+                                class="
+                                    text-sm
+                                    text-slate-500
+                                    mt-1
+                                "
+                            >
+                                Các yêu cầu chỉnh sửa từ sinh viên bạn đang hướng dẫn.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="
+                        inline-flex
+                        items-center
+                        gap-2
+                        px-4
+                        py-2
+                        rounded-full
+                        bg-orange-50
+                        text-orange-700
+                        text-sm
+                        font-semibold
+                    "
+                >
+
+                    <i
+                        data-lucide="bell"
+                        class="w-4 h-4"
+                    ></i>
+
+                    {{ so_yeu_cau_chua_xu_ly or 0 }} chưa xử lý
+
+                </div>
+
+            </div>
+
+
+            {% if danh_sach_yeu_cau_chinh_sua %}
+
+                <div class="space-y-4">
+
+                    {% for yc in danh_sach_yeu_cau_chinh_sua[:5] %}
+
+                    <div
+                        class="
+                            bg-white
+                            rounded-2xl
+                            border
+                            border-slate-200
+                            p-5
+                            hover:shadow-md
+                            transition
+                        "
+                    >
+
+                        <div
+                            class="
+                                flex
+                                flex-col
+                                lg:flex-row
+                                lg:items-start
+                                lg:justify-between
+                                gap-5
+                            "
+                        >
+
+                            <div class="flex-1 min-w-0">
+
+                                <div class="flex items-start gap-3 mb-3">
+
+                                    <div
+                                        class="
+                                            w-10
+                                            h-10
+                                            rounded-xl
+                                            bg-orange-100
+                                            text-orange-600
+                                            flex
+                                            items-center
+                                            justify-center
+                                            flex-shrink-0
+                                        "
+                                    >
+
+                                        <i
+                                            data-lucide="file-edit"
+                                            class="w-5 h-5"
+                                        ></i>
+
+                                    </div>
+
+                                    <div class="min-w-0">
+
+                                        <h3
+                                            class="
+                                                text-base
+                                                font-bold
+                                                text-slate-800
+                                                break-words
+                                            "
+                                        >
+                                            {{ yc.de_tai.tenDeTai }}
+                                        </h3>
+
+                                        <p class="text-sm text-slate-500 mt-1">
+
+                                            Sinh viên:
+
+                                            <span class="font-semibold text-slate-700">
+                                                {{ yc.nguoiYeuCau.hoTen }}
+                                            </span>
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div
+                                    class="
+                                        bg-slate-50
+                                        rounded-xl
+                                        p-4
+                                        border
+                                        border-slate-100
+                                    "
+                                >
+
+                                    <p
+                                        class="
+                                            text-xs
+                                            font-semibold
+                                            text-slate-500
+                                            uppercase
+                                            mb-2
+                                        "
+                                    >
+                                        Nội dung yêu cầu
+                                    </p>
+
+                                    <p
+                                        class="
+                                            text-sm
+                                            text-slate-700
+                                            leading-6
+                                            whitespace-pre-line
+                                        "
+                                    >
+                                        {{ yc.noiDung }}
+                                    </p>
+
+                                </div>
+
+
+                                <div
+                                    class="
+                                        flex
+                                        items-center
+                                        gap-2
+                                        mt-3
+                                        text-xs
+                                        text-slate-400
+                                    "
+                                >
+
+                                    <i
+                                        data-lucide="calendar"
+                                        class="w-4 h-4"
+                                    ></i>
+
+                                    {{ yc.ngayTao.strftime('%d/%m/%Y %H:%M') }}
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                class="
+                                    flex
+                                    flex-col
+                                    items-start
+                                    lg:items-end
+                                    gap-3
+                                    shrink-0
+                                "
+                            >
+
+                                {% if yc.daXuLy %}
+
+                                    <span
+                                        class="
+                                            inline-flex
+                                            items-center
+                                            gap-2
+                                            px-3
+                                            py-1.5
+                                            rounded-full
+                                            bg-green-100
+                                            text-green-700
+                                            text-xs
+                                            font-semibold
+                                        "
+                                    >
+
+                                        <i
+                                            data-lucide="circle-check"
+                                            class="w-4 h-4"
+                                        ></i>
+
+                                        Đã xử lý
+
+                                    </span>
+
+
+                                    <a
+                                        href="{{ url_for(
+                                            'giang_vien_xem_phan_hoi',
+                                            yeu_cau_id=yc.id
+                                        ) }}"
+                                        class="
+                                            inline-flex
+                                            items-center
+                                            justify-center
+                                            gap-2
+                                            px-4
+                                            py-2.5
+                                            rounded-xl
+                                            bg-green-100
+                                            text-green-700
+                                            text-sm
+                                            font-semibold
+                                            hover:bg-green-200
+                                            transition
+                                            whitespace-nowrap
+                                        "
+                                    >
+
+                                        <i
+                                            data-lucide="eye"
+                                            class="w-4 h-4"
+                                        ></i>
+
+                                        Xem phản hồi
+
+                                    </a>
+
+                                {% else %}
+
+                                    <span
+                                        class="
+                                            inline-flex
+                                            items-center
+                                            gap-2
+                                            px-3
+                                            py-1.5
+                                            rounded-full
+                                            bg-orange-100
+                                            text-orange-700
+                                            text-xs
+                                            font-semibold
+                                        "
+                                    >
+
+                                        <i
+                                            data-lucide="clock-3"
+                                            class="w-4 h-4"
+                                        ></i>
+
+                                        Chưa xử lý
+
+                                    </span>
+
+
+                                    <a
+                                        href="{{ url_for(
+                                            'giang_vien_xu_ly_yeu_cau',
+                                            yeu_cau_id=yc.id
+                                        ) }}"
+                                        style="
+                                            display: inline-flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                            gap: 8px;
+                                            padding: 10px 16px;
+                                            border-radius: 10px;
+                                            background-color: #f97316;
+                                            color: #ffffff !important;
+                                            font-size: 14px;
+                                            font-weight: 600;
+                                            text-decoration: none;
+                                            white-space: nowrap;
+                                            cursor: pointer;
+                                        "
+                                    >
+
+                                        <i
+                                            data-lucide="message-square"
+                                            style="
+                                                width: 16px;
+                                                height: 16px;
+                                                color: #ffffff;
+                                            "
+                                        ></i>
+
+                                        <span style="color: #ffffff !important;">
+                                            Xử lý yêu cầu
+                                        </span>
+
+                                    </a>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                {% if danh_sach_yeu_cau_chinh_sua|length > 5 %}
+
+                    <div class="mt-6 text-center">
+
+                        <a
+                            href="{{ url_for('giang_vien_yeu_cau_chinh_sua') }}"
+                            class="
+                                inline-flex
+                                items-center
+                                gap-2
+                                text-orange-600
+                                font-semibold
+                                text-sm
+                                hover:underline
+                            "
+                        >
+
+                            Xem tất cả yêu cầu
+
+                            <i
+                                data-lucide="arrow-right"
+                                class="w-4 h-4"
+                            ></i>
+
+                        </a>
+
+                    </div>
+
+                {% endif %}
+
+
+            {% else %}
+
+                <div
+                    class="
+                        border
+                        border-dashed
+                        border-slate-300
+                        rounded-2xl
+                        py-12
+                        text-center
+                    "
+                >
+
+                    <div
+                        class="
+                            w-14
+                            h-14
+                            mx-auto
+                            mb-4
+                            rounded-2xl
+                            bg-slate-100
+                            flex
+                            items-center
+                            justify-center
+                        "
+                    >
+
+                        <i
+                            data-lucide="inbox"
+                            class="w-7 h-7 text-slate-400"
+                        ></i>
+
+                    </div>
+
+
+                    <h3 class="font-bold text-slate-700">
+                        Chưa có yêu cầu chỉnh sửa
+                    </h3>
+
+
+                    <p class="text-sm text-slate-500 mt-2">
+
+                        Hiện tại chưa có sinh viên nào gửi yêu cầu chỉnh sửa.
+
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ==================================================
+             YÊU CẦU NGHIỆM THU
+             ================================================== -->
+
+        <div
+            class="
+                bg-white
+                rounded-3xl
+                border
+                border-slate-100
+                shadow-card
+                p-6
+                md:p-8
+                mb-10
+            "
+        >
+
+            <div
+                class="
+                    flex
+                    flex-col
+                    sm:flex-row
+                    sm:items-center
+                    sm:justify-between
+                    gap-4
+                    mb-6
+                "
+            >
+
+                <div>
+
+                    <div class="flex items-center gap-3">
+
+                        <div
+                            class="
+                                w-11
+                                h-11
+                                rounded-xl
+                                bg-green-100
+                                text-green-600
+                                flex
+                                items-center
+                                justify-center
+                                shrink-0
+                            "
+                        >
+
+                            <i
+                                data-lucide="clipboard-check"
+                                class="w-5 h-5"
+                            ></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h2
+                                class="
+                                    text-xl
+                                    md:text-2xl
+                                    font-bold
+                                    text-slate-900
+                                "
+                            >
+                                Yêu cầu nghiệm thu
+                            </h2>
+
+                            <p
+                                class="
+                                    text-sm
+                                    text-slate-500
+                                    mt-1
+                                "
+                            >
+                                Các đề tài sinh viên đã hoàn thành và đang chờ bạn nghiệm thu.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="
+                        inline-flex
+                        items-center
+                        gap-2
+                        px-4
+                        py-2
+                        rounded-full
+                        bg-green-50
+                        text-green-700
+                        text-sm
+                        font-semibold
+                    "
+                >
+
+                    <i
+                        data-lucide="clipboard-list"
+                        class="w-4 h-4"
+                    ></i>
+
+                    {{ danh_sach_yeu_cau_nghiem_thu|length }} yêu cầu
+
+                </div>
+
+            </div>
+
+
+            {% if danh_sach_yeu_cau_nghiem_thu %}
+
+                <div class="space-y-4">
+
+                    {% for yc in danh_sach_yeu_cau_nghiem_thu %}
+
+                        <div
+                            class="
+                                bg-slate-50
+                                border
+                                border-slate-200
+                                rounded-2xl
+                                p-5
+                            "
+                        >
+
+                            <div
+                                class="
+                                    flex
+                                    flex-col
+                                    lg:flex-row
+                                    lg:items-center
+                                    lg:justify-between
+                                    gap-5
+                                "
+                            >
+
+                                <div class="flex-1 min-w-0">
+
+                                    <div class="flex items-start gap-3">
+
+                                        <div
+                                            class="
+                                                w-10
+                                                h-10
+                                                rounded-xl
+                                                bg-green-100
+                                                text-green-600
+                                                flex
+                                                items-center
+                                                justify-center
+                                                shrink-0
+                                            "
+                                        >
+
+                                            <i
+                                                data-lucide="file-check"
+                                                class="w-5 h-5"
+                                            ></i>
+
+                                        </div>
+
+
+                                        <div class="min-w-0">
+
+                                            <h3
+                                                class="
+                                                    text-lg
+                                                    font-bold
+                                                    text-slate-800
+                                                "
+                                            >
+                                                {{ yc.de_tai.tenDeTai }}
+                                            </h3>
+
+
+                                            <p class="text-sm text-slate-500 mt-1">
+
+                                                Sinh viên:
+
+                                                <span
+                                                    class="
+                                                        font-semibold
+                                                        text-slate-700
+                                                    "
+                                                >
+                                                    {{ yc.nguoiYeuCau.hoTen }}
+                                                </span>
+
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    {% if yc.noiDung %}
+
+                                        <div
+                                            class="
+                                                bg-white
+                                                border
+                                                border-slate-200
+                                                rounded-xl
+                                                p-4
+                                                mt-4
+                                            "
+                                        >
+
+                                            <p
+                                                class="
+                                                    text-xs
+                                                    font-semibold
+                                                    text-slate-500
+                                                    uppercase
+                                                    mb-2
+                                                "
+                                            >
+                                                Nội dung yêu cầu
+                                            </p>
+
+                                            <p
+                                                class="
+                                                    text-sm
+                                                    text-slate-700
+                                                    whitespace-pre-line
+                                                "
+                                            >
+                                                {{ yc.noiDung }}
+                                            </p>
+
+                                        </div>
+
+                                    {% endif %}
+
+
+                                    <p
+                                        class="
+                                            text-xs
+                                            text-slate-400
+                                            mt-3
+                                        "
+                                    >
+
+                                        Ngày gửi:
+
+                                        {{ yc.ngayTao.strftime('%d/%m/%Y %H:%M') }}
+
+                                    </p>
+
+                                </div>
+
+
+                                <!-- NÚT NGHIỆM THU -->
+
+                                <div
+                                    class="
+                                        flex
+                                        items-center
+                                        justify-center
+                                        shrink-0
+                                    "
+                                    style="
+                                        min-width: 160px;
+                                        visibility: visible;
+                                        opacity: 1;
+                                    "
+                                >
+
+                                    <a
+                                        href="{{ url_for(
+                                            'giang_vien_nghiem_thu',
+                                            de_tai_id=yc.deTaiId
+                                        ) }}"
+                                        style="
+                                            display: inline-flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                            gap: 8px;
+                                            width: 160px;
+                                            min-height: 48px;
+                                            padding: 12px 20px;
+                                            border-radius: 12px;
+                                            background: #16a34a;
+                                            color: #ffffff !important;
+                                            font-size: 15px;
+                                            font-weight: 700;
+                                            line-height: 1.2;
+                                            text-decoration: none;
+                                            white-space: nowrap;
+                                            cursor: pointer;
+                                            visibility: visible;
+                                            opacity: 1;
+                                            position: relative;
+                                            z-index: 10;
+                                            box-sizing: border-box;
+                                        "
+                                    >
+
+                                        <i
+                                            data-lucide="clipboard-check"
+                                            style="
+                                                width: 20px;
+                                                height: 20px;
+                                                color: #ffffff;
+                                                flex-shrink: 0;
+                                            "
+                                        ></i>
+
+                                        <span
+                                            style="
+                                                color: #ffffff !important;
+                                                display: inline-block;
+                                                visibility: visible;
+                                                opacity: 1;
+                                            "
+                                        >
+                                            Nghiệm thu
+                                        </span>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div
+                    class="
+                        border
+                        border-dashed
+                        border-slate-300
+                        rounded-2xl
+                        py-10
+                        text-center
+                    "
+                >
+
+                    <div
+                        class="
+                            w-14
+                            h-14
+                            mx-auto
+                            mb-4
+                            rounded-2xl
+                            bg-slate-100
+                            flex
+                            items-center
+                            justify-center
+                        "
+                    >
+
+                        <i
+                            data-lucide="clipboard-list"
+                            class="w-7 h-7 text-slate-400"
+                        ></i>
+
+                    </div>
+
+
+                    <h3
+                        class="
+                            font-bold
+                            text-slate-700
+                        "
+                    >
+                        Chưa có yêu cầu nghiệm thu
+                    </h3>
+
+
+                    <p
+                        class="
+                            text-sm
+                            text-slate-500
+                            mt-2
+                        "
+                    >
+                        Hiện tại chưa có đề tài nào gửi yêu cầu nghiệm thu.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ==================================================
+             KHIẾU NẠI KẾT QUẢ NGHIỆM THU
+             ================================================== -->
+
+        <div
+            class="
+                bg-white
+                rounded-3xl
+                border
+                border-slate-100
+                shadow-card
+                p-6
+                md:p-8
+                mb-10
+            "
+        >
+
+            <!-- HEADER -->
+
+            <div
+                class="
+                    flex
+                    flex-col
+                    sm:flex-row
+                    sm:items-center
+                    sm:justify-between
+                    gap-4
+                    mb-6
+                "
+            >
+
+                <div>
+
+                    <div class="flex items-center gap-3">
+
+                        <div
+                            class="
+                                w-11
+                                h-11
+                                rounded-xl
+                                bg-orange-100
+                                text-orange-600
+                                flex
+                                items-center
+                                justify-center
+                                shrink-0
+                            "
+                        >
+
+                            <i
+                                data-lucide="message-square-warning"
+                                class="w-5 h-5"
+                            ></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h2
+                                class="
+                                    text-xl
+                                    md:text-2xl
+                                    font-bold
+                                    text-slate-900
+                                "
+                            >
+                                Khiếu nại kết quả nghiệm thu
+                            </h2>
+
+
+                            <p
+                                class="
+                                    text-sm
+                                    text-slate-500
+                                    mt-1
+                                "
+                            >
+                                Các khiếu nại từ sinh viên đang chờ giảng viên xử lý.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SỐ LƯỢNG KHIẾU NẠI -->
+
+                <div
+                    class="
+                        inline-flex
+                        items-center
+                        gap-2
+                        px-4
+                        py-2
+                        rounded-full
+                        bg-orange-50
+                        text-orange-700
+                        text-sm
+                        font-semibold
+                    "
+                >
+
+                    <i
+                        data-lucide="bell"
+                        class="w-4 h-4"
+                    ></i>
+
+                    {{ danh_sach_khieu_nai|length }} khiếu nại
+
+                </div>
+
+            </div>
+
+
+            <!-- DANH SÁCH KHIẾU NẠI -->
+
+            {% if danh_sach_khieu_nai %}
+
+                <div class="space-y-4">
+
+                    {% for khieu_nai in danh_sach_khieu_nai %}
+
+                        <div
+                            class="
+                                bg-slate-50
+                                border
+                                border-slate-200
+                                rounded-2xl
+                                p-5
+                            "
+                        >
+
+                            <div
+                                class="
+                                    flex
+                                    flex-col
+                                    lg:flex-row
+                                    lg:items-center
+                                    lg:justify-between
+                                    gap-5
+                                "
+                            >
+
+                                <!-- THÔNG TIN KHIẾU NẠI -->
+
+                                <div class="flex-1 min-w-0">
+
+                                    <div
+                                        class="
+                                            flex
+                                            items-start
+                                            gap-3
+                                        "
+                                    >
+
+                                        <div
+                                            class="
+                                                w-10
+                                                h-10
+                                                rounded-xl
+                                                bg-orange-100
+                                                text-orange-600
+                                                flex
+                                                items-center
+                                                justify-center
+                                                shrink-0
+                                            "
+                                        >
+
+                                            <i
+                                                data-lucide="message-square-warning"
+                                                class="w-5 h-5"
+                                            ></i>
+
+                                        </div>
+
+
+                                        <div class="min-w-0">
+
+                                            <h3
+                                                class="
+                                                    text-lg
+                                                    font-bold
+                                                    text-slate-800
+                                                    break-words
+                                                "
+                                            >
+                                                {{ khieu_nai.de_tai.tenDeTai }}
+                                            </h3>
+
+
+                                            <p
+                                                class="
+                                                    text-sm
+                                                    text-slate-500
+                                                    mt-1
+                                                "
+                                            >
+
+                                                Sinh viên:
+
+                                                <span
+                                                    class="
+                                                        font-semibold
+                                                        text-slate-700
+                                                    "
+                                                >
+                                                    {{ khieu_nai.nguoiKhieuNai.hoTen }}
+                                                </span>
+
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- LÝ DO -->
+
+                                    <div
+                                        class="
+                                            bg-white
+                                            border
+                                            border-slate-200
+                                            rounded-xl
+                                            p-4
+                                            mt-4
+                                        "
+                                    >
+
+                                        <p
+                                            class="
+                                                text-xs
+                                                font-semibold
+                                                text-slate-500
+                                                uppercase
+                                                mb-2
+                                            "
+                                        >
+                                            Lý do khiếu nại
+                                        </p>
+
+
+                                        <p
+                                            class="
+                                                text-sm
+                                                text-slate-700
+                                                leading-6
+                                                whitespace-pre-line
+                                            "
+                                        >
+                                            {{ khieu_nai.lyDo }}
+                                        </p>
+
+                                    </div>
+
+
+                                    <!-- MINH CHỨNG -->
+
+                                    {% if khieu_nai.minhChung %}
+
+                                        <div
+                                            class="
+                                                bg-white
+                                                border
+                                                border-slate-200
+                                                rounded-xl
+                                                p-4
+                                                mt-3
+                                            "
+                                        >
+
+                                            <p
+                                                class="
+                                                    text-xs
+                                                    font-semibold
+                                                    text-slate-500
+                                                    uppercase
+                                                    mb-2
+                                                "
+                                            >
+                                                Minh chứng
+                                            </p>
+
+
+                                            <p
+                                                class="
+                                                    text-sm
+                                                    text-slate-700
+                                                    leading-6
+                                                    whitespace-pre-line
+                                                "
+                                            >
+                                                {{ khieu_nai.minhChung }}
+                                            </p>
+
+                                        </div>
+
+                                    {% endif %}
+
+
+                                    <!-- NGÀY GỬI -->
+
+                                    <p
+                                        class="
+                                            text-xs
+                                            text-slate-400
+                                            mt-3
+                                        "
+                                    >
+
+                                        Ngày gửi:
+
+                                        {{ khieu_nai.ngayTao.strftime('%d/%m/%Y %H:%M') }}
+
+                                    </p>
+
+                                </div>
+
+
+                                <!-- TRẠNG THÁI + NÚT -->
+
+                                <div
+                                    class="
+                                        flex
+                                        flex-col
+                                        items-start
+                                        lg:items-end
+                                        gap-3
+                                        shrink-0
+                                    "
+                                >
+
+                                    <span
+                                        class="
+                                            inline-flex
+                                            items-center
+                                            gap-2
+                                            px-3
+                                            py-1.5
+                                            rounded-full
+                                            bg-yellow-100
+                                            text-yellow-700
+                                            text-xs
+                                            font-semibold
+                                        "
+                                    >
+
+                                        <i
+                                            data-lucide="clock-3"
+                                            class="w-4 h-4"
+                                        ></i>
+
+                                        Chờ xử lý
+
+                                    </span>
+
+
+                                    <a
+                                        href="{{ url_for(
+                                            'giang_vien_xu_ly_khieu_nai',
+                                            khieu_nai_id=khieu_nai.id
+                                        ) }}"
+                                        class="
+                                            inline-flex
+                                            items-center
+                                            justify-center
+                                            gap-2
+                                            px-5
+                                            py-3
+                                            rounded-xl
+                                            bg-orange-500
+                                            hover:bg-orange-600
+                                            text-white
+                                            font-bold
+                                            transition
+                                            whitespace-nowrap
+                                        "
+                                    >
+
+                                        <i
+                                            data-lucide="message-square"
+                                            class="w-5 h-5"
+                                        ></i>
+
+                                        Xem và xử lý
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+            {% else %}
+
+                <!-- KHÔNG CÓ KHIẾU NẠI -->
+
+                <div
+                    class="
+                        border
+                        border-dashed
+                        border-slate-300
+                        rounded-2xl
+                        py-10
+                        text-center
+                    "
+                >
+
+                    <div
+                        class="
+                            w-14
+                            h-14
+                            mx-auto
+                            mb-4
+                            rounded-2xl
+                            bg-slate-100
+                            flex
+                            items-center
+                            justify-center
+                        "
+                    >
+
+                        <i
+                            data-lucide="inbox"
+                            class="w-7 h-7 text-slate-400"
+                        ></i>
+
+                    </div>
+
+
+                    <h3
+                        class="
+                            font-bold
+                            text-slate-700
+                        "
+                    >
+                        Chưa có khiếu nại
+                    </h3>
+
+
+                    <p
+                        class="
+                            text-sm
+                            text-slate-500
+                            mt-2
+                        "
+                    >
+                        Hiện tại chưa có khiếu nại nào đang chờ xử lý.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ==================================================
+             TIÊU ĐỀ DANH SÁCH ĐỀ TÀI
              ================================================== -->
 
         <div
@@ -426,9 +1773,7 @@ Dashboard Giảng viên | Nghiên Cứu AI
                 </h2>
 
                 <p class="text-slate-500 mt-1">
-
                     Chỉ hiển thị các đề tài được phân công cho bạn.
-
                 </p>
 
             </div>
@@ -668,9 +2013,7 @@ Dashboard Giảng viên | Nghiên Cứu AI
                         </div>
 
 
-                        <!-- ==================================================
-                             FOOTER
-                             ================================================== -->
+                        <!-- FOOTER -->
 
                         <div
                             class="
@@ -686,8 +2029,6 @@ Dashboard Giảng viên | Nghiên Cứu AI
                                 border-slate-100
                             "
                         >
-
-                            <!-- NGÀY TẠO -->
 
                             <span
                                 class="
@@ -706,8 +2047,6 @@ Dashboard Giảng viên | Nghiên Cứu AI
                             </span>
 
 
-                            <!-- NÚT -->
-
                             <div
                                 class="
                                     flex
@@ -717,9 +2056,7 @@ Dashboard Giảng viên | Nghiên Cứu AI
                                 "
                             >
 
-                                <!-- ==========================================
-                                     THEO DÕI TIẾN ĐỘ
-                                     ========================================== -->
+                                <!-- THEO DÕI TIẾN ĐỘ -->
 
                                 <a
                                     href="{{ url_for(
@@ -752,9 +2089,7 @@ Dashboard Giảng viên | Nghiên Cứu AI
                                 </a>
 
 
-                                <!-- ==========================================
-                                     XEM CHI TIẾT
-                                     ========================================== -->
+                                <!-- XEM CHI TIẾT -->
 
                                 <a
                                     href="{{ url_for(
@@ -794,9 +2129,7 @@ Dashboard Giảng viên | Nghiên Cứu AI
 
         {% else %}
 
-            <!-- ==================================================
-                 KHÔNG CÓ ĐỀ TÀI
-                 ================================================== -->
+            <!-- KHÔNG CÓ ĐỀ TÀI -->
 
             <div
                 class="
@@ -839,9 +2172,7 @@ Dashboard Giảng viên | Nghiên Cứu AI
                         text-slate-700
                     "
                 >
-
                     Chưa có đề tài nào
-
                 </h3>
 
 
@@ -866,14 +2197,15 @@ Dashboard Giảng viên | Nghiên Cứu AI
 
 <script>
 
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-        if (typeof lucide !== "undefined") {
-            lucide.createIcons();
-        }
+    if (typeof lucide !== "undefined") {
+        lucide.createIcons();
+    }
 
-    });
+});
 
 </script>
 
 {% endblock %}
+

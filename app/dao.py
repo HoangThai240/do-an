@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy import or_, func
 
 from werkzeug.security import (
@@ -20,19 +21,22 @@ from app.models import (
     KiemTraTrungLap,
     GoiYGiangVien,
     LichSuTimKiem,
-
+    YeuCauNghiemThu,
+    TrangThaiYeuCauNghiemThu,
     TienDo,
     TrangThaiTienDo,
-
+    KhieuNaiNghiemThu,
+    TrangThaiKhieuNai,
     YeuCauChinhSua,
-
     KetQuaNghiemThu,
     TrangThaiNghiemThu,
-
     ThongBao,
     LoaiThongBao,
     TaiLieu
 )
+
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
 
 
 # ==========================================================
@@ -775,6 +779,8 @@ def them_de_tai(
 
         commit()
 
+        reset_embedding_cache()
+
         return (
             True,
             "Tạo đề tài thành công!",
@@ -838,6 +844,8 @@ def cap_nhat_de_tai(
 
         commit()
 
+        reset_embedding_cache()
+
         return (
             True,
             "Cập nhật đề tài thành công!"
@@ -878,6 +886,8 @@ def xoa_de_tai(
         db.session.delete(de_tai)
 
         commit()
+
+        reset_embedding_cache()
 
         return (
             True,
@@ -1042,13 +1052,211 @@ def get_list_de_tai(
     ).all()
 
 
-# ==========================================================
+# ============================================================
+# MODEL AI DÙNG CHO TÌM KIẾM NGỮ NGHĨA
+# ============================================================
+
+_model_embedding = None
+
+
+def get_embedding_model():
+    global _model_embedding
+
+    if _model_embedding is None:
+        _model_embedding = SentenceTransformer(
+            'paraphrase-multilingual-MiniLM-L12-v2'
+        )
+
+    return _model_embedding
+
+
+# ============================================================
+# TẠO NỘI DUNG ĐỂ AI HIỂU ĐỀ TÀI
+# ============================================================
+
+def tao_text_de_tai(de_tai):
+
+    parts = []
+
+    if de_tai.tenDeTai:
+        parts.append(
+            f"Tên đề tài: {de_tai.tenDeTai}"
+        )
+
+    if de_tai.moTa:
+        parts.append(
+            f"Mô tả: {de_tai.moTa}"
+        )
+
+    if de_tai.mucTieu:
+        parts.append(
+            f"Mục tiêu: {de_tai.mucTieu}"
+        )
+
+    if de_tai.tuKhoa:
+        parts.append(
+            f"Từ khóa: {de_tai.tuKhoa}"
+        )
+
+    return ". ".join(parts)
+
+
+# ============================================================
+# MODEL AI DÙNG CHO TÌM KIẾM NGỮ NGHĨA
+# ============================================================
+
+_model_embedding = None
+
+# Cache danh sách đề tài
+_de_tai_cache = None
+
+# Cache embedding của các đề tài
+_embedding_cache = None
+
+
+# ============================================================
+# LOAD MODEL AI
+# ============================================================
+
+def get_embedding_model():
+
+    global _model_embedding
+
+    if _model_embedding is None:
+
+        print("========================================")
+        print("ĐANG TẢI MODEL AI...")
+        print("========================================")
+
+        _model_embedding = SentenceTransformer(
+            'paraphrase-multilingual-MiniLM-L12-v2'
+        )
+
+        print("ĐÃ TẢI MODEL AI")
+        print("========================================")
+
+    return _model_embedding
+
+
+# ============================================================
+# TẠO NỘI DUNG ĐỂ AI HIỂU ĐỀ TÀI
+# ============================================================
+
+def tao_text_de_tai(de_tai):
+
+    parts = []
+
+    if de_tai.tenDeTai:
+
+        parts.append(
+            f"Tên đề tài: {de_tai.tenDeTai}"
+        )
+
+    if de_tai.moTa:
+
+        parts.append(
+            f"Mô tả: {de_tai.moTa}"
+        )
+
+    if de_tai.mucTieu:
+
+        parts.append(
+            f"Mục tiêu: {de_tai.mucTieu}"
+        )
+
+    if de_tai.tuKhoa:
+
+        parts.append(
+            f"Từ khóa: {de_tai.tuKhoa}"
+        )
+
+    return ". ".join(parts)
+
+
+# ============================================================
+# TẠO CACHE EMBEDDING CHO CÁC ĐỀ TÀI
+# ============================================================
+
+def tao_embedding_cache():
+
+    global _de_tai_cache
+    global _embedding_cache
+
+    print("========================================")
+    print("ĐANG TẠO EMBEDDING CHO CÁC ĐỀ TÀI...")
+    print("========================================")
+
+    # Lấy tất cả đề tài
+    danh_sach_de_tai = (
+        DeTai.query
+        .order_by(DeTai.ngayTao.desc())
+        .all()
+    )
+
+    if not danh_sach_de_tai:
+
+        _de_tai_cache = []
+        _embedding_cache = None
+
+        print("Không có đề tài để tạo embedding.")
+
+        return
+
+    # Load model
+    model = get_embedding_model()
+
+    # Tạo nội dung cho từng đề tài
+    texts = [
+        tao_text_de_tai(de_tai)
+        for de_tai in danh_sach_de_tai
+    ]
+
+    # Tạo embedding MỘT LẦN
+    _embedding_cache = model.encode(
+        texts,
+        convert_to_numpy=True,
+        normalize_embeddings=True
+    )
+
+    # Lưu danh sách đề tài
+    _de_tai_cache = danh_sach_de_tai
+
+    print(
+        f"ĐÃ TẠO EMBEDDING CHO "
+        f"{len(danh_sach_de_tai)} ĐỀ TÀI"
+    )
+
+    print("========================================")
+
+
+# ============================================================
+# XÓA CACHE AI
+# ============================================================
+
+def reset_embedding_cache():
+
+    global _de_tai_cache
+    global _embedding_cache
+
+    _de_tai_cache = None
+    _embedding_cache = None
+
+    print("ĐÃ RESET CACHE AI")
+
+
+# ============================================================
 # TÌM KIẾM NGỮ NGHĨA
-# ==========================================================
+# ============================================================
 
 def tim_kiem_ngu_nghia(
-    query
+    query,
+    nguong=0.35,
+    so_luong=10
 ):
+
+    # --------------------------------------------------------
+    # 1. Kiểm tra câu hỏi
+    # --------------------------------------------------------
 
     if not query:
 
@@ -1060,156 +1268,238 @@ def tim_kiem_ngu_nghia(
 
         return []
 
-    keyword = f"%{query}%"
 
-    return (
-        DeTai.query.filter(
+    # --------------------------------------------------------
+    # 2. Nếu chưa có cache thì tạo cache
+    # --------------------------------------------------------
 
-            or_(
-                DeTai.tenDeTai.ilike(
-                    keyword
-                ),
+    if (
+        _de_tai_cache is None
+        or _embedding_cache is None
+    ):
 
-                DeTai.moTa.ilike(
-                    keyword
-                ),
+        tao_embedding_cache()
 
-                DeTai.mucTieu.ilike(
-                    keyword
-                ),
 
-                DeTai.tuKhoa.ilike(
-                    keyword
+    # --------------------------------------------------------
+    # 3. Không có đề tài
+    # --------------------------------------------------------
+
+    if not _de_tai_cache:
+
+        return []
+
+
+    # --------------------------------------------------------
+    # 4. Load model
+    # --------------------------------------------------------
+
+    model = get_embedding_model()
+
+
+    # --------------------------------------------------------
+    # 5. Chỉ encode câu hỏi người dùng
+    # --------------------------------------------------------
+
+    query_embedding = model.encode(
+        [query],
+        convert_to_numpy=True,
+        normalize_embeddings=True
+    )
+
+
+    # --------------------------------------------------------
+    # 6. Tính Cosine Similarity
+    # --------------------------------------------------------
+
+    scores = cosine_similarity(
+        query_embedding,
+        _embedding_cache
+    )[0]
+
+
+    # --------------------------------------------------------
+    # 7. Ghép đề tài + điểm tương đồng
+    # --------------------------------------------------------
+
+    ket_qua = []
+
+    for de_tai, score in zip(
+        _de_tai_cache,
+        scores
+    ):
+
+        score = float(score)
+
+        if score >= nguong:
+
+            ket_qua.append(
+                (
+                    de_tai,
+                    score
                 )
             )
 
-        ).order_by(
-            DeTai.ngayTao.desc()
-        ).all()
+
+    # --------------------------------------------------------
+    # 8. Sắp xếp điểm cao → thấp
+    # --------------------------------------------------------
+
+    ket_qua.sort(
+        key=lambda x: x[1],
+        reverse=True
     )
 
+
+    # --------------------------------------------------------
+    # 9. Giới hạn số kết quả
+    # --------------------------------------------------------
+
+    ket_qua = ket_qua[:so_luong]
+
+
+    # --------------------------------------------------------
+    # 10. Trả về danh sách DeTai
+    # --------------------------------------------------------
+
+    return [
+        de_tai
+        for de_tai, score in ket_qua
+    ]
 
 # ==========================================================
 # TÍNH ĐỘ TƯƠNG ĐỒNG
 # ==========================================================
 
-def tinh_do_tuong_dong(
-    text1,
-    text2
-):
+def tinh_do_tuong_dong(text1, text2):
+    """
+    Tính độ tương đồng giữa 2 chuỗi bằng Jaccard.
+    Kết quả: 0 - 100 (%)
+    """
 
     if not text1 or not text2:
+        return 0.0
 
-        return 0
+    text1 = str(text1).lower().strip()
+    text2 = str(text2).lower().strip()
 
-    words1 = set(
-        text1.lower().split()
-    )
+    if not text1 or not text2:
+        return 0.0
 
-    words2 = set(
-        text2.lower().split()
-    )
+    words1 = set(text1.split())
+    words2 = set(text2.split())
 
-    intersection = (
-        words1.intersection(
-            words2
-        )
-    )
+    if not words1 or not words2:
+        return 0.0
 
-    union = (
-        words1.union(
-            words2
-        )
-    )
+    intersection = words1.intersection(words2)
+    union = words1.union(words2)
 
     if not union:
+        return 0.0
 
-        return 0
+    score = len(intersection) / len(union)
 
-    score = (
-        len(intersection)
-        / len(union)
+    return round(score * 100, 2)
+
+
+# ==========================================================
+# TÍNH 5 TIÊU CHÍ TRÙNG LẶP
+# ==========================================================
+
+def tinh_5_tieu_chi_trung_lap(de_tai_1, de_tai_2):
+
+    # ------------------------------------------------------
+    # 1. TRÙNG LẶP ĐỀ TÀI
+    # ------------------------------------------------------
+
+    diem_de_tai = tinh_do_tuong_dong(
+        de_tai_1.tenDeTai,
+        de_tai_2.tenDeTai
     )
 
-    return round(
-        score * 100,
+    # ------------------------------------------------------
+    # 2. TRÙNG LẶP HƯỚNG NGHIÊN CỨU
+    # ------------------------------------------------------
+
+    linh_vuc_1 = ""
+    linh_vuc_2 = ""
+
+    if de_tai_1.linh_vuc:
+        linh_vuc_1 = (
+            de_tai_1.linh_vuc.tenLinhVuc or ""
+        )
+
+    if de_tai_2.linh_vuc:
+        linh_vuc_2 = (
+            de_tai_2.linh_vuc.tenLinhVuc or ""
+        )
+
+    huong_nghien_cuu_1 = " ".join([
+        linh_vuc_1,
+        de_tai_1.tuKhoa or "",
+        de_tai_1.moTa or ""
+    ])
+
+    huong_nghien_cuu_2 = " ".join([
+        linh_vuc_2,
+        de_tai_2.tuKhoa or "",
+        de_tai_2.moTa or ""
+    ])
+
+    diem_huong_nghien_cuu = tinh_do_tuong_dong(
+        huong_nghien_cuu_1,
+        huong_nghien_cuu_2
+    )
+
+    # ------------------------------------------------------
+    # 3. TRÙNG LẶP MỤC TIÊU
+    # ------------------------------------------------------
+
+    diem_muc_tieu = tinh_do_tuong_dong(
+        de_tai_1.mucTieu,
+        de_tai_2.mucTieu
+    )
+
+    # ------------------------------------------------------
+    # 4. TRÙNG LẶP TỪ KHÓA
+    # ------------------------------------------------------
+
+    diem_tu_khoa = tinh_do_tuong_dong(
+        de_tai_1.tuKhoa,
+        de_tai_2.tuKhoa
+    )
+
+    # ------------------------------------------------------
+    # 5. TRÙNG LẶP MÔ TẢ
+    # ------------------------------------------------------
+
+    diem_mo_ta = tinh_do_tuong_dong(
+        de_tai_1.moTa,
+        de_tai_2.moTa
+    )
+
+    # ------------------------------------------------------
+    # ĐIỂM TỔNG
+    # ------------------------------------------------------
+
+    do_tuong_dong = round(
+        diem_de_tai * 0.20
+        + diem_huong_nghien_cuu * 0.25
+        + diem_muc_tieu * 0.20
+        + diem_tu_khoa * 0.15
+        + diem_mo_ta * 0.20,
         2
     )
 
-
-# ==========================================================
-# KIỂM TRA ĐỀ TÀI TRÙNG LẶP
-# ==========================================================
-
-def kiem_tra_trung_lap(
-    de_tai_id
-):
-
-    de_tai = get_de_tai_by_id(
-        de_tai_id
-    )
-
-    if not de_tai:
-
-        return []
-
-    ket_qua = []
-
-    danh_sach = DeTai.query.filter(
-        DeTai.id != de_tai_id
-    ).all()
-
-    noi_dung_1 = (
-
-        f"{de_tai.tenDeTai or ''} "
-
-        f"{de_tai.moTa or ''} "
-
-        f"{de_tai.mucTieu or ''} "
-
-        f"{de_tai.tuKhoa or ''}"
-    )
-
-    for item in danh_sach:
-
-        noi_dung_2 = (
-
-            f"{item.tenDeTai or ''} "
-
-            f"{item.moTa or ''} "
-
-            f"{item.mucTieu or ''} "
-
-            f"{item.tuKhoa or ''}"
-        )
-
-        do_tuong_dong = (
-            tinh_do_tuong_dong(
-                noi_dung_1,
-                noi_dung_2
-            )
-        )
-
-        if do_tuong_dong > 0:
-
-            ket_qua.append({
-
-                "deTai": item,
-
-                "doTuongDong":
-                    do_tuong_dong
-            })
-
-    ket_qua.sort(
-
-        key=lambda x:
-            x["doTuongDong"],
-
-        reverse=True
-    )
-
-    return ket_qua
-
+    return {
+        "trungLapDeTai": diem_de_tai,
+        "trungLapHuongNghienCuu": diem_huong_nghien_cuu,
+        "trungLapMucTieu": diem_muc_tieu,
+        "trungLapTuKhoa": diem_tu_khoa,
+        "trungLapMoTa": diem_mo_ta,
+        "doTuongDong": do_tuong_dong
+    }
 
 # ==========================================================
 # LƯU KIỂM TRA TRÙNG LẶP
@@ -1218,7 +1508,7 @@ def kiem_tra_trung_lap(
 def luu_kiem_tra_trung_lap(
     de_tai_1_id,
     de_tai_2_id,
-    do_tuong_dong
+    diem
 ):
 
     try:
@@ -1232,21 +1522,79 @@ def luu_kiem_tra_trung_lap(
         )
 
         if not de_tai_1 or not de_tai_2:
-
             return False
 
-        kiem_tra = KiemTraTrungLap(
+        kiem_tra = KiemTraTrungLap.query.filter(
+            or_(
+                (
+                    (KiemTraTrungLap.deTai1Id == de_tai_1_id)
+                    &
+                    (KiemTraTrungLap.deTai2Id == de_tai_2_id)
+                ),
+                (
+                    (KiemTraTrungLap.deTai1Id == de_tai_2_id)
+                    &
+                    (KiemTraTrungLap.deTai2Id == de_tai_1_id)
+                )
+            )
+        ).first()
 
-            deTai1Id=de_tai_1_id,
+        if not kiem_tra:
 
-            deTai2Id=de_tai_2_id,
+            kiem_tra = KiemTraTrungLap(
 
-            doTuongDong=do_tuong_dong
-        )
+                deTai1Id=de_tai_1_id,
 
-        db.session.add(
-            kiem_tra
-        )
+                deTai2Id=de_tai_2_id,
+
+                doTuongDong=
+                    diem["doTuongDong"],
+
+                trungLapDeTai=
+                    diem["trungLapDeTai"],
+
+                trungLapHuongNghienCuu=
+                    diem["trungLapHuongNghienCuu"],
+
+                trungLapMucTieu=
+                    diem["trungLapMucTieu"],
+
+                trungLapTuKhoa=
+                    diem["trungLapTuKhoa"],
+
+                trungLapMoTa=
+                    diem["trungLapMoTa"]
+            )
+
+            db.session.add(
+                kiem_tra
+            )
+
+        else:
+
+            kiem_tra.doTuongDong = (
+                diem["doTuongDong"]
+            )
+
+            kiem_tra.trungLapDeTai = (
+                diem["trungLapDeTai"]
+            )
+
+            kiem_tra.trungLapHuongNghienCuu = (
+                diem["trungLapHuongNghienCuu"]
+            )
+
+            kiem_tra.trungLapMucTieu = (
+                diem["trungLapMucTieu"]
+            )
+
+            kiem_tra.trungLapTuKhoa = (
+                diem["trungLapTuKhoa"]
+            )
+
+            kiem_tra.trungLapMoTa = (
+                diem["trungLapMoTa"]
+            )
 
         commit()
 
@@ -1263,6 +1611,274 @@ def luu_kiem_tra_trung_lap(
 
         return False
 
+
+# ==========================================================
+# KIỂM TRA + TÍNH + LƯU
+# ==========================================================
+
+def kiem_tra_va_luu_trung_lap(de_tai_id):
+
+    print("\n========================================")
+    print("BAT DAU KIEM TRA TRUNG LAP")
+    print("De tai ID:", de_tai_id)
+    print("========================================")
+
+    de_tai = get_de_tai_by_id(de_tai_id)
+
+    if not de_tai:
+        print("KHONG TIM THAY DE TAI")
+        return []
+
+    print("Tim thay de tai:")
+    print("ID:", de_tai.id)
+    print("Ten:", de_tai.tenDeTai)
+
+    danh_sach = DeTai.query.filter(
+        DeTai.id != de_tai_id,
+        DeTai.trangThai.in_([
+            TrangThaiDeTai.CHO_DUYET,
+            TrangThaiDeTai.DA_DUYET,
+            TrangThaiDeTai.HOAN_THANH
+        ])
+    ).all()
+
+    print("So de tai dung de so sanh:", len(danh_sach))
+
+    ket_qua = []
+
+    for item in danh_sach:
+
+        print("----------------------------------------")
+        print("Dang so sanh:")
+        print("De tai hien tai:", de_tai.id)
+        print("De tai so sanh:", item.id)
+        print("Ten:", item.tenDeTai)
+
+        try:
+
+            print("1. Bat dau tinh 5 tieu chi...")
+
+            diem = tinh_5_tieu_chi_trung_lap(
+                de_tai,
+                item
+            )
+
+            print("2. Tinh xong:")
+            print(diem)
+
+            print("3. Dang luu ket qua...")
+
+            luu_thanh_cong = luu_kiem_tra_trung_lap(
+                de_tai_id,
+                item.id,
+                diem
+            )
+
+            print(
+                "4. Luu ket qua:",
+                luu_thanh_cong
+            )
+
+            ket_qua.append({
+                "deTai": item,
+
+                "doTuongDong": float(
+                    diem.get("doTuongDong", 0)
+                ),
+
+                "trungLapDeTai": float(
+                    diem.get("trungLapDeTai", 0)
+                ),
+
+                "trungLapHuongNghienCuu": float(
+                    diem.get("trungLapHuongNghienCuu", 0)
+                ),
+
+                "trungLapMucTieu": float(
+                    diem.get("trungLapMucTieu", 0)
+                ),
+
+                "trungLapTuKhoa": float(
+                    diem.get("trungLapTuKhoa", 0)
+                ),
+
+                "trungLapMoTa": float(
+                    diem.get("trungLapMoTa", 0)
+                )
+            })
+
+            print("5. Da them vao ket qua")
+
+        except Exception as e:
+
+            print("LOI KHI XU LY DE TAI:", item.id)
+            print("LOI:", e)
+
+            continue
+
+    ket_qua.sort(
+        key=lambda x: x["doTuongDong"],
+        reverse=True
+    )
+
+    print("\n========================================")
+    print("HOAN THANH KIEM TRA TRUNG LAP")
+    print("Tong ket qua:", len(ket_qua))
+    print("========================================\n")
+
+    return ket_qua[:5]
+
+# ==========================================================
+# KIỂM TRA ĐỀ TÀI MỚI - DÀNH CHO SINH VIÊN
+# ==========================================================
+
+def kiem_tra_trung_lap_de_tai_moi(
+    ten_de_tai,
+    mo_ta,
+    muc_tieu,
+    tu_khoa,
+    linh_vuc_id=None
+):
+
+    linh_vuc_moi = ""
+
+    # Lấy tên lĩnh vực của đề tài mới
+    if linh_vuc_id:
+
+        try:
+            linh_vuc_id = int(linh_vuc_id)
+        except (ValueError, TypeError):
+            linh_vuc_id = None
+
+    if linh_vuc_id:
+
+        linh_vuc = get_linh_vuc_by_id(
+            linh_vuc_id
+        )
+
+        if linh_vuc:
+            linh_vuc_moi = (
+                linh_vuc.tenLinhVuc or ""
+            )
+
+    ket_qua = []
+
+    # Lấy tất cả đề tài đã có trong hệ thống
+    danh_sach_de_tai = DeTai.query.all()
+
+    for de_tai in danh_sach_de_tai:
+
+        # ==================================================
+        # 1. TRÙNG LẶP ĐỀ TÀI
+        # ==================================================
+
+        diem_de_tai = tinh_do_tuong_dong(
+            ten_de_tai,
+            de_tai.tenDeTai
+        )
+
+        # ==================================================
+        # 2. TRÙNG LẶP HƯỚNG NGHIÊN CỨU
+        # ==================================================
+
+        linh_vuc_cu = ""
+
+        if de_tai.linh_vuc:
+
+            linh_vuc_cu = (
+                de_tai.linh_vuc.tenLinhVuc or ""
+            )
+
+        huong_nghien_cuu_moi = " ".join([
+            linh_vuc_moi,
+            tu_khoa or "",
+            mo_ta or ""
+        ])
+
+        huong_nghien_cuu_cu = " ".join([
+            linh_vuc_cu,
+            de_tai.tuKhoa or "",
+            de_tai.moTa or ""
+        ])
+
+        diem_huong_nghien_cuu = tinh_do_tuong_dong(
+            huong_nghien_cuu_moi,
+            huong_nghien_cuu_cu
+        )
+
+        # ==================================================
+        # 3. TRÙNG LẶP MỤC TIÊU
+        # ==================================================
+
+        diem_muc_tieu = tinh_do_tuong_dong(
+            muc_tieu,
+            de_tai.mucTieu
+        )
+
+        # ==================================================
+        # 4. TRÙNG LẶP TỪ KHÓA
+        # ==================================================
+
+        diem_tu_khoa = tinh_do_tuong_dong(
+            tu_khoa,
+            de_tai.tuKhoa
+        )
+
+        # ==================================================
+        # 5. TRÙNG LẶP NỘI DUNG MÔ TẢ
+        # ==================================================
+
+        diem_mo_ta = tinh_do_tuong_dong(
+            mo_ta,
+            de_tai.moTa
+        )
+
+        # ==================================================
+        # TÍNH ĐIỂM TỔNG
+        # ==================================================
+
+        do_tuong_dong = round(
+            diem_de_tai * 0.20
+            + diem_huong_nghien_cuu * 0.25
+            + diem_muc_tieu * 0.20
+            + diem_tu_khoa * 0.15
+            + diem_mo_ta * 0.20,
+            2
+        )
+
+        # Chỉ lấy những đề tài có tương đồng
+        if do_tuong_dong > 0:
+
+            ket_qua.append({
+
+                "deTai": de_tai,
+
+                "trungLapDeTai":
+                    diem_de_tai,
+
+                "trungLapHuongNghienCuu":
+                    diem_huong_nghien_cuu,
+
+                "trungLapMucTieu":
+                    diem_muc_tieu,
+
+                "trungLapTuKhoa":
+                    diem_tu_khoa,
+
+                "trungLapMoTa":
+                    diem_mo_ta,
+
+                "doTuongDong":
+                    do_tuong_dong
+            })
+
+    # Sắp xếp từ cao xuống thấp
+    ket_qua.sort(
+        key=lambda x: x["doTuongDong"],
+        reverse=True
+    )
+
+    return ket_qua
 
 # ==========================================================
 # GỢI Ý GIẢNG VIÊN
@@ -1754,6 +2370,265 @@ def thong_ke_de_tai():
             hoan_thanh
     }
 
+def them_ket_qua_nghiem_thu(
+    de_tai_id,
+    nguoi_nghiem_thu_id,
+    diem,
+    nhan_xet,
+    ket_luan,
+    trang_thai
+):
+    try:
+        ket_qua = KetQuaNghiemThu(
+            deTaiId=de_tai_id,
+            nguoiNghiemThuId=nguoi_nghiem_thu_id,
+            diem=diem,
+            nhanXet=nhan_xet,
+            ketLuan=ket_luan,
+            trangThai=trang_thai
+        )
+
+        db.session.add(ket_qua)
+        db.session.commit()
+
+        return True, "Lưu kết quả nghiệm thu thành công.", ket_qua
+
+    except Exception as e:
+        db.session.rollback()
+        return False, f"Lỗi khi lưu kết quả nghiệm thu: {str(e)}", None
+
+# ==================================================
+# YÊU CẦU NGHIỆM THU
+# ==================================================
+
+def get_yeu_cau_nghiem_thu(de_tai_id):
+
+    return YeuCauNghiemThu.query.filter_by(
+        deTaiId=de_tai_id
+    ).first()
+
+
+def tao_yeu_cau_nghiem_thu(
+    de_tai_id,
+    nguoi_yeu_cau_id,
+    noi_dung=None
+):
+
+    try:
+
+        yeu_cau = get_yeu_cau_nghiem_thu(
+            de_tai_id
+        )
+
+        if yeu_cau:
+
+            return (
+                False,
+                "Đề tài này đã gửi yêu cầu nghiệm thu!",
+                yeu_cau
+            )
+
+        yeu_cau = YeuCauNghiemThu(
+
+            deTaiId=de_tai_id,
+
+            nguoiYeuCauId=nguoi_yeu_cau_id,
+
+            noiDung=noi_dung,
+
+            trangThai=(
+                TrangThaiYeuCauNghiemThu
+                .CHO_NGHIEM_THU
+            )
+        )
+
+        db.session.add(yeu_cau)
+
+        db.session.commit()
+
+        return (
+            True,
+            "Gửi yêu cầu nghiệm thu thành công!",
+            yeu_cau
+        )
+
+    except Exception as e:
+
+        db.session.rollback()
+
+        return (
+            False,
+            str(e),
+            None
+        )
+
+
+def get_danh_sach_yeu_cau_nghiem_thu():
+
+    return (
+        YeuCauNghiemThu.query
+        .order_by(
+            YeuCauNghiemThu.ngayTao.desc()
+        )
+        .all()
+    )
+
+def get_danh_sach_yeu_cau_nghiem_thu_cua_giang_vien(giang_vien_id):
+    return (
+        YeuCauNghiemThu.query
+        .join(
+            DeTai,
+            YeuCauNghiemThu.deTaiId == DeTai.id
+        )
+        .filter(
+            DeTai.giangVienId == giang_vien_id,
+            YeuCauNghiemThu.trangThai ==
+            TrangThaiYeuCauNghiemThu.CHO_NGHIEM_THU
+        )
+        .order_by(
+            YeuCauNghiemThu.ngayTao.desc()
+        )
+        .all()
+    )
+
+def cap_nhat_yeu_cau_nghiem_thu(
+    yeu_cau_id,
+    trang_thai
+):
+
+    try:
+
+        yeu_cau = YeuCauNghiemThu.query.get(
+            yeu_cau_id
+        )
+
+        if not yeu_cau:
+
+            return (
+                False,
+                "Không tìm thấy yêu cầu nghiệm thu!"
+            )
+
+        yeu_cau.trangThai = trang_thai
+
+        yeu_cau.ngayXuLy = datetime.now()
+
+        db.session.commit()
+
+        return (
+            True,
+            "Cập nhật yêu cầu nghiệm thu thành công!"
+        )
+
+    except Exception as e:
+
+        db.session.rollback()
+
+        return (
+            False,
+            str(e)
+        )
+
+def get_ket_qua_nghiem_thu(de_tai_id):
+
+    return KetQuaNghiemThu.query.filter_by(
+        deTaiId=de_tai_id
+    ).first()
+
+
+def tao_ket_qua_nghiem_thu(
+    de_tai_id,
+    nguoi_nghiem_thu_id,
+    diem,
+    nhan_xet=None,
+    ket_luan=None
+):
+
+    try:
+
+        ket_qua = get_ket_qua_nghiem_thu(
+            de_tai_id
+        )
+
+        if ket_qua:
+
+            ket_qua.nguoiNghiemThuId = (
+                nguoi_nghiem_thu_id
+            )
+
+            ket_qua.diem = diem
+
+            ket_qua.nhanXet = nhan_xet
+
+            ket_qua.ketLuan = ket_luan
+
+            ket_qua.ngayNghiemThu = datetime.now()
+
+        else:
+
+            if diem >= 5:
+
+                trang_thai = (
+                    TrangThaiNghiemThu.DAT
+                )
+
+            else:
+
+                trang_thai = (
+                    TrangThaiNghiemThu.KHONG_DAT
+                )
+
+            ket_qua = KetQuaNghiemThu(
+
+                deTaiId=de_tai_id,
+
+                nguoiNghiemThuId=(
+                    nguoi_nghiem_thu_id
+                ),
+
+                diem=diem,
+
+                nhanXet=nhan_xet,
+
+                ketLuan=ket_luan,
+
+                trangThai=trang_thai,
+
+                ngayNghiemThu=datetime.now()
+            )
+
+            db.session.add(ket_qua)
+
+        # Đảm bảo trạng thái luôn được cập nhật
+        if diem >= 5:
+
+            ket_qua.trangThai = (
+                TrangThaiNghiemThu.DAT
+            )
+
+        else:
+
+            ket_qua.trangThai = (
+                TrangThaiNghiemThu.KHONG_DAT
+            )
+
+        db.session.commit()
+
+        return (
+            True,
+            "Lưu kết quả nghiệm thu thành công!",
+            ket_qua
+        )
+
+    except Exception as e:
+
+        db.session.rollback()
+
+        return (
+            False,
+            str(e),
+            None
+        )
 
 # ==========================================================
 # LỊCH SỬ TÌM KIẾM
@@ -2018,6 +2893,13 @@ def them_tien_do(
             None
         )
 
+def get_yeu_cau_chinh_sua_moi_nhat(de_tai_id):
+    return (
+        YeuCauChinhSua.query
+        .filter_by(deTaiId=de_tai_id)
+        .order_by(YeuCauChinhSua.ngayTao.desc())
+        .first()
+    )
 
 def cap_nhat_tien_do(
     tien_do_id,
@@ -2035,7 +2917,6 @@ def cap_nhat_tien_do(
         )
 
         if not tien_do:
-
             return (
                 False,
                 "Không tìm thấy tiến độ!"
@@ -2047,7 +2928,6 @@ def cap_nhat_tien_do(
         ).strip()
 
         if not tieu_de:
-
             return (
                 False,
                 "Tiêu đề tiến độ không được để trống!"
@@ -2055,7 +2935,6 @@ def cap_nhat_tien_do(
 
         # Kiểm tra phần trăm
         try:
-
             phan_tram = int(
                 phan_tram
             )
@@ -2064,17 +2943,20 @@ def cap_nhat_tien_do(
             ValueError,
             TypeError
         ):
-
             return (
                 False,
                 "Phần trăm tiến độ không hợp lệ!"
             )
 
-        if phan_tram < 0:
-            phan_tram = 0
+        if phan_tram < 0 or phan_tram > 100:
+            return (
+                False,
+                "Phần trăm tiến độ phải từ 0 đến 100%!"
+            )
 
-        if phan_tram > 100:
-            phan_tram = 100
+        # ==============================
+        # CẬP NHẬT TIẾN ĐỘ
+        # ==============================
 
         tien_do.tieuDe = tieu_de
 
@@ -2108,7 +2990,6 @@ def cap_nhat_tien_do(
             False,
             str(e)
         )
-
 
 def xoa_tien_do(
     tien_do_id
@@ -2287,33 +3168,166 @@ def get_ket_qua_nghiem_thu(
 def them_ket_qua_nghiem_thu(
     de_tai_id,
     nguoi_nghiem_thu_id,
-    diem=None,
+    diem,
     nhan_xet=None,
     ket_luan=None,
     trang_thai=TrangThaiNghiemThu.CHUA_NGHIEM_THU
 ):
-
     try:
+        # ==========================================
+        # 1. LẤY ĐỀ TÀI
+        # ==========================================
 
-        ket_qua = KetQuaNghiemThu(
+        de_tai = DeTai.query.get(de_tai_id)
 
-            deTaiId=de_tai_id,
+        if not de_tai:
+            return False, "Không tìm thấy đề tài!", None
 
-            nguoiNghiemThuId=
-                nguoi_nghiem_thu_id,
 
-            diem=diem,
+        # ==========================================
+        # 2. KIỂM TRA ĐIỂM
+        # ==========================================
 
-            nhanXet=nhan_xet,
+        if diem is None:
+            return False, "Vui lòng nhập điểm nghiệm thu!", None
 
-            ketLuan=ket_luan,
+        try:
+            diem = float(diem)
+        except (ValueError, TypeError):
+            return False, "Điểm nghiệm thu không hợp lệ!", None
 
-            trangThai=trang_thai
+        if diem < 0 or diem > 10:
+            return False, "Điểm nghiệm thu phải từ 0 đến 10!", None
+
+
+        # ==========================================
+        # 3. KIỂM TRA TIẾN ĐỘ
+        # ==========================================
+
+        danh_sach_tien_do = (
+            TienDo.query
+            .filter_by(deTaiId=de_tai_id)
+            .order_by(TienDo.ngayCapNhat.desc())
+            .all()
         )
 
-        db.session.add(ket_qua)
+        tien_do = None
 
-        commit()
+        if danh_sach_tien_do:
+            tien_do = max(
+                danh_sach_tien_do,
+                key=lambda x: (
+                    x.ngayCapNhat
+                    if x.ngayCapNhat
+                    else datetime.min
+                )
+            )
+
+        if (
+            not tien_do
+            or tien_do.phanTram is None
+            or tien_do.phanTram < 100
+        ):
+            return (
+                False,
+                "Đề tài chưa hoàn thành 100% nên chưa thể nghiệm thu!",
+                None
+            )
+
+
+        # ==========================================
+        # 4. KIỂM TRA TRẠNG THÁI NGHIỆM THU
+        # ==========================================
+
+        if trang_thai not in (
+            TrangThaiNghiemThu.DAT,
+            TrangThaiNghiemThu.KHONG_DAT
+        ):
+            return (
+                False,
+                "Trạng thái nghiệm thu không hợp lệ!",
+                None
+            )
+
+
+        # ==========================================
+        # 5. TÌM KẾT QUẢ NGHIỆM THU CŨ
+        # ==========================================
+
+        ket_qua = KetQuaNghiemThu.query.filter_by(
+            deTaiId=de_tai_id
+        ).first()
+
+
+        # ==========================================
+        # 6. CẬP NHẬT KẾT QUẢ CŨ
+        # ==========================================
+
+        if ket_qua:
+
+            ket_qua.nguoiNghiemThuId = (
+                nguoi_nghiem_thu_id
+            )
+
+            ket_qua.diem = diem
+
+            ket_qua.nhanXet = nhan_xet
+
+            ket_qua.ketLuan = ket_luan
+
+            ket_qua.trangThai = trang_thai
+
+            ket_qua.ngayNghiemThu = datetime.now()
+
+
+        # ==========================================
+        # 7. TẠO KẾT QUẢ MỚI
+        # ==========================================
+
+        else:
+
+            ket_qua = KetQuaNghiemThu(
+                deTaiId=de_tai_id,
+                nguoiNghiemThuId=nguoi_nghiem_thu_id,
+                diem=diem,
+                nhanXet=nhan_xet,
+                ketLuan=ket_luan,
+                trangThai=trang_thai,
+                ngayNghiemThu=datetime.now()
+            )
+
+            db.session.add(ket_qua)
+
+
+        # ==========================================
+        # 8. XỬ LÝ TRẠNG THÁI ĐỀ TÀI
+        # ==========================================
+
+        if trang_thai == TrangThaiNghiemThu.DAT:
+
+            de_tai.trangThai = (
+                TrangThaiDeTai.HOAN_THANH
+            )
+
+        elif trang_thai == TrangThaiNghiemThu.KHONG_DAT:
+
+            # Không được chuyển sang hoàn thành
+            # Giữ nguyên trạng thái hiện tại
+
+
+            de_tai.trangThai = TrangThaiDeTai.DA_DUYET
+
+
+        # ==========================================
+        # 9. LƯU DATABASE
+        # ==========================================
+
+        db.session.commit()
+
+
+        # ==========================================
+        # 10. TRẢ KẾT QUẢ
+        # ==========================================
 
         return (
             True,
@@ -2321,9 +3335,15 @@ def them_ket_qua_nghiem_thu(
             ket_qua
         )
 
+
     except Exception as e:
 
-        rollback()
+        db.session.rollback()
+
+        print(
+            "Lỗi thêm kết quả nghiệm thu:",
+            e
+        )
 
         return (
             False,
@@ -2342,10 +3362,8 @@ def cap_nhat_ket_qua_nghiem_thu(
 
     try:
 
-        ket_qua = (
-            get_ket_qua_nghiem_thu(
-                de_tai_id
-            )
+        ket_qua = get_ket_qua_nghiem_thu(
+            de_tai_id
         )
 
         if not ket_qua:
@@ -2373,6 +3391,11 @@ def cap_nhat_ket_qua_nghiem_thu(
     except Exception as e:
 
         rollback()
+
+        print(
+            "Lỗi cập nhật kết quả nghiệm thu:",
+            e
+        )
 
         return (
             False,
@@ -2720,3 +3743,85 @@ def get_de_tai_cua_giang_vien(
         DeTai.ngayTao.desc()
 
     ).all()
+
+def them_khieu_nai_nghiem_thu(
+    de_tai_id,
+    ket_qua_id,
+    nguoi_khieu_nai_id,
+    ly_do,
+    minh_chung=None
+):
+    try:
+        khieu_nai = KhieuNaiNghiemThu(
+            deTaiId=de_tai_id,
+            ketQuaId=ket_qua_id,
+            nguoiKhieuNaiId=nguoi_khieu_nai_id,
+            lyDo=ly_do,
+            minhChung=minh_chung,
+            trangThai=TrangThaiKhieuNai.CHO_XU_LY
+        )
+
+        db.session.add(khieu_nai)
+        db.session.commit()
+
+        return True, "Gửi khiếu nại thành công.", khieu_nai
+
+    except Exception as e:
+        db.session.rollback()
+
+        return (
+            False,
+            f"Lỗi khi gửi khiếu nại: {str(e)}",
+            None
+        )
+
+def get_khieu_nai_by_sinh_vien(
+    nguoi_khieu_nai_id
+):
+    return (
+        KhieuNaiNghiemThu.query
+        .filter_by(
+            nguoiKhieuNaiId=nguoi_khieu_nai_id
+        )
+        .order_by(
+            KhieuNaiNghiemThu.ngayTao.desc()
+        )
+        .all()
+    )
+
+def get_khieu_nai_by_de_tai(
+    de_tai_id
+):
+    return (
+        KhieuNaiNghiemThu.query
+        .filter_by(
+            deTaiId=de_tai_id
+        )
+        .order_by(
+            KhieuNaiNghiemThu.ngayTao.desc()
+        )
+        .all()
+    )
+
+def get_khieu_nai_by_id(
+    khieu_nai_id
+):
+    return (
+        KhieuNaiNghiemThu.query
+        .filter_by(
+            id=khieu_nai_id
+        )
+        .first()
+    )
+
+def get_khieu_nai_cho_xu_ly():
+    return (
+        KhieuNaiNghiemThu.query
+        .filter_by(
+            trangThai=TrangThaiKhieuNai.CHO_XU_LY
+        )
+        .order_by(
+            KhieuNaiNghiemThu.ngayTao.asc()
+        )
+        .all()
+    )

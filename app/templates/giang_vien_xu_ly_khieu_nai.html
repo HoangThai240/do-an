@@ -1,0 +1,424 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Xử lý khiếu nại nghiệm thu
+{% endblock %}
+
+{% block content %}
+
+<div class="min-h-screen bg-slate-50 py-8">
+
+    <div class="max-w-4xl mx-auto px-4">
+
+        <!-- ================================================== -->
+        <!-- HEADER -->
+        <!-- ================================================== -->
+
+        <div class="mb-6">
+
+            <a
+                href="{{ url_for('giang_vien_dashboard') }}"
+                class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 mb-4"
+            >
+                ← Quay lại Dashboard
+            </a>
+
+            <h1 class="text-2xl font-bold text-slate-800">
+                Xử lý khiếu nại kết quả nghiệm thu
+            </h1>
+
+            <p class="text-slate-500 mt-1">
+                Xem nội dung khiếu nại và xem xét lại điểm nghiệm thu.
+            </p>
+
+        </div>
+
+
+        <!-- ================================================== -->
+        <!-- THÔNG TIN ĐỀ TÀI -->
+        <!-- ================================================== -->
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
+
+            <h2 class="text-lg font-semibold text-slate-800 mb-4">
+                Thông tin đề tài
+            </h2>
+
+            <div class="space-y-3">
+
+                <div>
+                    <span class="font-medium text-slate-600">
+                        Tên đề tài:
+                    </span>
+
+                    <span class="text-slate-800">
+                        {{ de_tai.tenDeTai }}
+                    </span>
+                </div>
+
+                <div>
+                    <span class="font-medium text-slate-600">
+                        Sinh viên khiếu nại:
+                    </span>
+
+                    <span class="text-slate-800">
+                        {{ khieu_nai.nguoiKhieuNai.hoTen }}
+                    </span>
+                </div>
+
+                <div>
+                    <span class="font-medium text-slate-600">
+                        Ngày gửi:
+                    </span>
+
+                    <span class="text-slate-800">
+                        {{ khieu_nai.ngayTao.strftime('%d/%m/%Y %H:%M') }}
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================== -->
+        <!-- KẾT QUẢ NGHIỆM THU HIỆN TẠI -->
+        <!-- ================================================== -->
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
+
+            <h2 class="text-lg font-semibold text-slate-800 mb-5">
+                Kết quả nghiệm thu
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                <!-- ĐIỂM CŨ -->
+
+                <div class="rounded-2xl bg-slate-50 border border-slate-200 p-6">
+
+                    <p class="text-sm font-medium text-slate-500 mb-2">
+                        Điểm hiện tại
+                    </p>
+
+                    <div class="flex items-end gap-2">
+
+                        <span class="text-4xl font-bold text-slate-800">
+                            {{ "%.1f"|format(ket_qua.diem or 0) }}
+                        </span>
+
+                        <span class="text-slate-500 mb-1">
+                            / 10
+                        </span>
+
+                    </div>
+
+                    <p class="text-sm text-slate-500 mt-3">
+                        Đây là điểm nghiệm thu hiện đang được lưu trong hệ thống.
+                    </p>
+
+                </div>
+
+
+                <!-- ĐIỂM MỚI -->
+
+                <div class="rounded-2xl bg-blue-50 border border-blue-200 p-6">
+
+                    <p class="text-sm font-medium text-blue-700 mb-2">
+                        Điểm sau khi xem xét
+                    </p>
+
+                    <div class="flex items-center gap-3">
+
+                        <input
+                            type="number"
+                            name="diem_moi"
+                            id="diem_moi_preview"
+                            min="0"
+                            max="10"
+                            step="0.1"
+                            value="{{ ket_qua.diem if ket_qua.diem is not none else '' }}"
+                            disabled
+                            class="w-full text-3xl font-bold rounded-xl border border-blue-300 bg-white px-4 py-3 text-blue-700"
+                        >
+
+                        <span class="text-slate-500 whitespace-nowrap">
+                            / 10
+                        </span>
+
+                    </div>
+
+                    <p class="text-sm text-slate-500 mt-3">
+                        Điểm mới sẽ được nhập bên dưới khi chấp nhận khiếu nại.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================== -->
+        <!-- NỘI DUNG KHIẾU NẠI -->
+        <!-- ================================================== -->
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
+
+            <h2 class="text-lg font-semibold text-slate-800 mb-5">
+                Nội dung khiếu nại
+            </h2>
+
+            <!-- LÝ DO -->
+
+            <div class="mb-5">
+
+                <p class="text-sm font-medium text-slate-500 mb-2">
+                    Lý do khiếu nại
+                </p>
+
+                <div class="bg-slate-50 rounded-xl p-4 text-slate-700 whitespace-pre-line border border-slate-100">
+                    {{ khieu_nai.lyDo }}
+                </div>
+
+            </div>
+
+
+            <!-- MINH CHỨNG -->
+
+            {% if khieu_nai.minhChung %}
+
+            <div>
+
+                <p class="text-sm font-medium text-slate-500 mb-2">
+                    Minh chứng
+                </p>
+
+                <div class="bg-slate-50 rounded-xl p-4 text-slate-700 whitespace-pre-line border border-slate-100">
+                    {{ khieu_nai.minhChung }}
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <div class="text-sm text-slate-400">
+                Sinh viên không cung cấp minh chứng.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ================================================== -->
+        <!-- TRẠNG THÁI HIỆN TẠI -->
+        <!-- ================================================== -->
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
+
+            <h2 class="text-lg font-semibold text-slate-800 mb-4">
+                Trạng thái khiếu nại
+            </h2>
+
+            {% if khieu_nai.trangThai.name == 'CHO_XU_LY' %}
+
+                <span class="inline-flex items-center px-4 py-2 rounded-full bg-yellow-100 text-yellow-800 font-medium">
+                    Chờ xử lý
+                </span>
+
+            {% elif khieu_nai.trangThai.name == 'DANG_XU_LY' %}
+
+                <span class="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-800 font-medium">
+                    Đang xử lý
+                </span>
+
+            {% elif khieu_nai.trangThai.name == 'CHAP_NHAN' %}
+
+                <span class="inline-flex items-center px-4 py-2 rounded-full bg-green-100 text-green-800 font-medium">
+                    Đã chấp nhận
+                </span>
+
+            {% elif khieu_nai.trangThai.name == 'TU_CHOI' %}
+
+                <span class="inline-flex items-center px-4 py-2 rounded-full bg-red-100 text-red-800 font-medium">
+                    Đã từ chối
+                </span>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ================================================== -->
+        <!-- FORM XỬ LÝ -->
+        <!-- ================================================== -->
+
+        <form
+            method="POST"
+            class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6"
+        >
+
+            <h2 class="text-lg font-semibold text-slate-800 mb-6">
+                Xem xét và xử lý khiếu nại
+            </h2>
+
+
+            <!-- ============================================== -->
+            <!-- ĐIỂM MỚI -->
+            <!-- ============================================== -->
+
+            <div class="mb-6">
+
+                <label
+                    for="diem_moi"
+                    class="block text-sm font-medium text-slate-700 mb-2"
+                >
+                    Điểm sau khi xem xét
+                </label>
+
+                <div class="flex items-center gap-3">
+
+                    <input
+                        type="number"
+                        name="diem_moi"
+                        id="diem_moi"
+                        min="0"
+                        max="10"
+                        step="0.1"
+                        value="{{ ket_qua.diem if ket_qua.diem is not none else '' }}"
+                        required
+                        class="w-full rounded-xl border border-slate-300 px-4 py-3 text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+
+                    <span class="text-slate-500">
+                        / 10
+                    </span>
+
+                </div>
+
+                <p class="text-sm text-slate-500 mt-2">
+                    Nếu chấp nhận khiếu nại, điểm này sẽ được cập nhật vào kết quả nghiệm thu.
+                </p>
+
+            </div>
+
+
+            <!-- ============================================== -->
+            <!-- TRẠNG THÁI -->
+            <!-- ============================================== -->
+
+            <div class="mb-6">
+
+                <label
+                    for="trang_thai"
+                    class="block text-sm font-medium text-slate-700 mb-2"
+                >
+                    Kết luận xử lý
+                </label>
+
+                <select
+                    name="trang_thai"
+                    id="trang_thai"
+                    required
+                    class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+
+                    <option value="">
+                        -- Chọn kết luận --
+                    </option>
+
+                    <option value="DANG_XU_LY">
+                        Đang xử lý
+                    </option>
+
+                    <option value="CHAP_NHAN">
+                        Chấp nhận khiếu nại
+                    </option>
+
+                    <option value="TU_CHOI">
+                        Từ chối khiếu nại
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ============================================== -->
+            <!-- PHẢN HỒI -->
+            <!-- ============================================== -->
+
+            <div class="mb-6">
+
+                <label
+                    for="phan_hoi"
+                    class="block text-sm font-medium text-slate-700 mb-2"
+                >
+                    Phản hồi cho sinh viên
+                </label>
+
+                <textarea
+                    name="phan_hoi"
+                    id="phan_hoi"
+                    rows="5"
+                    required
+                    placeholder="Nhập nội dung phản hồi cho sinh viên..."
+                    class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >{{ khieu_nai.phanHoi or '' }}</textarea>
+
+            </div>
+
+
+            <!-- ============================================== -->
+            <!-- GỢI Ý -->
+            <!-- ============================================== -->
+
+            <div class="rounded-xl bg-blue-50 border border-blue-100 p-4 mb-6">
+
+                <p class="text-sm text-blue-800">
+
+                    <strong>Lưu ý:</strong>
+
+                    Nếu chọn
+                    <strong>“Chấp nhận khiếu nại”</strong>,
+                    hệ thống sẽ cập nhật điểm mới vào kết quả nghiệm thu.
+
+                    Nếu chọn
+                    <strong>“Từ chối khiếu nại”</strong>,
+                    điểm hiện tại sẽ được giữ nguyên.
+
+                </p>
+
+            </div>
+
+
+            <!-- ============================================== -->
+            <!-- BUTTON -->
+            <!-- ============================================== -->
+
+            <div class="flex justify-end gap-3">
+
+                <a
+                    href="{{ url_for('giang_vien_dashboard') }}"
+                    class="px-5 py-3 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50"
+                >
+                    Quay lại
+                </a>
+
+                <button
+                    type="submit"
+                    class="px-6 py-3 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700"
+                >
+                    Lưu kết quả xử lý
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

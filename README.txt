@@ -1,4 +1,4 @@
-HƯỚNG DẪN CÀI ĐẶT VÀ VẬN HÀNH HỆ THỐNG
+requHƯỚNG DẪN CÀI ĐẶT VÀ VẬN HÀNH HỆ THỐNG
 HỆ THỐNG QUẢN LÝ NGHIÊN CỨU KHOA HỌC TÍCH HỢP AI
 
 

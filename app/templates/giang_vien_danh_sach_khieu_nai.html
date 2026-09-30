@@ -1,0 +1,140 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+    Khiếu nại nghiệm thu | Nghiên Cứu AI
+{% endblock %}
+
+{% block content %}
+
+<div class="max-w-7xl mx-auto px-4 py-8">
+
+    <div class="mb-8">
+
+        <h1 class="text-2xl font-bold text-gray-900">
+            Khiếu nại kết quả nghiệm thu
+        </h1>
+
+        <p class="text-gray-500 mt-2">
+            Danh sách các khiếu nại đang chờ xử lý.
+        </p>
+
+    </div>
+
+
+    {% if danh_sach_khieu_nai %}
+
+        <div class="space-y-4">
+
+            {% for khieu_nai in danh_sach_khieu_nai %}
+
+                <div
+                    class="
+                        bg-white
+                        border
+                        border-gray-200
+                        rounded-xl
+                        p-6
+                        shadow-sm
+                    "
+                >
+
+                    <div class="flex justify-between items-start">
+
+                        <div>
+
+                            <h2 class="text-lg font-bold text-gray-900">
+                                {{ khieu_nai.de_tai.tenDeTai }}
+                            </h2>
+
+                            <p class="text-sm text-gray-500 mt-1">
+                                Sinh viên:
+                                {{ khieu_nai.nguoiKhieuNai.hoTen }}
+                            </p>
+
+                        </div>
+
+                        <span
+                            class="
+                                px-3
+                                py-1
+                                rounded-full
+                                text-sm
+                                font-semibold
+                                bg-yellow-100
+                                text-yellow-700
+                            "
+                        >
+                            Chờ xử lý
+                        </span>
+
+                    </div>
+
+
+                    <div class="mt-5">
+
+                        <p class="font-semibold text-gray-700">
+                            Lý do khiếu nại
+                        </p>
+
+                        <p class="text-gray-600 mt-1">
+                            {{ khieu_nai.lyDo }}
+                        </p>
+
+                    </div>
+
+
+                    {% if khieu_nai.minhChung %}
+
+                        <div class="mt-4">
+
+                            <p class="font-semibold text-gray-700">
+                                Minh chứng
+                            </p>
+
+                            <p class="text-gray-600 mt-1">
+                                {{ khieu_nai.minhChung }}
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <div class="mt-5 text-sm text-gray-500">
+
+                        Ngày gửi:
+
+                        {{ khieu_nai.ngayTao.strftime('%d/%m/%Y %H:%M') }}
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div
+            class="
+                bg-white
+                border
+                border-gray-200
+                rounded-xl
+                p-10
+                text-center
+            "
+        >
+
+            <p class="text-gray-500">
+                Hiện không có khiếu nại nào đang chờ xử lý.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

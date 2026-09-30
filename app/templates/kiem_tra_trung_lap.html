@@ -1,0 +1,873 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Kiểm tra trùng lặp đề tài | Nghiên Cứu AI
+{% endblock %}
+
+{% block content %}
+
+<section class="min-h-screen bg-slate-50 py-10">
+
+    <div class="max-w-7xl mx-auto px-4">
+
+        <!-- HEADER -->
+        <div class="mb-8">
+
+            <div class="flex items-center gap-3 mb-2">
+
+                <div
+                    class="
+                        w-12 h-12
+                        rounded-2xl
+                        flex items-center justify-center
+                    "
+                    style="
+                        background: linear-gradient(
+                            135deg,
+                            #7c3aed,
+                            #2563eb
+                        );
+                    "
+                >
+                    <i
+                        data-lucide="scan-search"
+                        style="
+                            width: 24px;
+                            height: 24px;
+                            color: #ffffff;
+                            stroke: #ffffff;
+                        "
+                    ></i>
+                </div>
+
+                <div>
+
+                    <h1 class="text-3xl font-bold text-slate-800">
+                        Kiểm tra trùng lặp đề tài
+                    </h1>
+
+                    <p class="text-slate-500 mt-1">
+                        Kiểm tra mức độ tương đồng giữa đề tài của bạn
+                        và các đề tài đã có trong hệ thống.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CHỌN ĐỀ TÀI -->
+        <div
+            class="
+                bg-white
+                rounded-2xl
+                shadow-sm
+                border border-slate-200
+                p-6
+                mb-8
+            "
+        >
+
+            <h2 class="text-xl font-bold text-slate-800 mb-5">
+                Chọn đề tài cần kiểm tra
+            </h2>
+
+
+            {% if de_tais %}
+
+            <div
+                class="
+                    grid
+                    grid-cols-1
+                    md:grid-cols-2
+                    lg:grid-cols-3
+                    gap-5
+                "
+            >
+
+                {% for dt in de_tais %}
+
+                <div
+                    class="
+                        border border-slate-200
+                        rounded-2xl
+                        p-5
+                        hover:border-purple-300
+                        hover:shadow-md
+                        transition
+                        bg-white
+                    "
+                >
+
+                    <div
+                        class="
+                            flex
+                            items-start
+                            justify-between
+                            gap-3
+                        "
+                    >
+
+                        <div class="flex-1">
+
+                            <div
+                                class="
+                                    text-xs
+                                    text-slate-400
+                                    mb-2
+                                "
+                            >
+                                ĐỀ TÀI #{{ dt.id }}
+                            </div>
+
+
+                            <h3
+                                class="
+                                    font-bold
+                                    text-slate-800
+                                    leading-6
+                                "
+                            >
+                                {{ dt.tenDeTai }}
+                            </h3>
+
+
+                            {% if dt.linhVuc %}
+
+                            <p
+                                class="
+                                    text-sm
+                                    text-slate-500
+                                    mt-2
+                                "
+                            >
+                                {{ dt.linhVuc.tenLinhVuc }}
+                            </p>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BUTTON KIỂM TRA -->
+                    <button
+                        type="button"
+                        class="btn-kiem-tra"
+                        data-id="{{ dt.id }}"
+                        data-name="{{ dt.tenDeTai|e }}"
+                        style="
+                            display: inline-flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 8px;
+                            width: 100%;
+                            margin-top: 20px;
+                            padding: 12px 16px;
+                            border-radius: 12px;
+                            background: linear-gradient(
+                                135deg,
+                                #7c3aed,
+                                #2563eb
+                            );
+                            color: #ffffff !important;
+                            font-size: 15px;
+                            font-weight: 700;
+                            border: none;
+                            cursor: pointer;
+                            box-shadow:
+                                0 4px 12px
+                                rgba(37, 99, 235, 0.22);
+                            transition:
+                                opacity 0.2s ease,
+                                transform 0.2s ease,
+                                box-shadow 0.2s ease;
+                        "
+                        onmouseover="
+                            this.style.opacity='0.92';
+                            this.style.transform='translateY(-1px)';
+                            this.style.boxShadow='0 6px 16px rgba(37, 99, 235, 0.30)';
+                        "
+                        onmouseout="
+                            this.style.opacity='1';
+                            this.style.transform='translateY(0)';
+                            this.style.boxShadow='0 4px 12px rgba(37, 99, 235, 0.22)';
+                        "
+                    >
+
+                        <i
+                            data-lucide="scan-search"
+                            style="
+                                width: 20px;
+                                height: 20px;
+                                color: #ffffff !important;
+                                stroke: #ffffff;
+                            "
+                        ></i>
+
+                        <span
+                            style="
+                                color: #ffffff !important;
+                            "
+                        >
+                            Kiểm tra trùng lặp
+                        </span>
+
+                    </button>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <!-- KHÔNG CÓ ĐỀ TÀI -->
+            <div class="text-center py-12">
+
+                <i
+                    data-lucide="file-search"
+                    class="
+                        w-12 h-12
+                        mx-auto
+                        text-slate-300
+                        mb-4
+                    "
+                ></i>
+
+                <p class="text-slate-500">
+                    Bạn chưa có đề tài nào để kiểm tra.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- KẾT QUẢ -->
+        <div
+            id="ketQua"
+            class="hidden"
+        >
+
+            <div
+                class="
+                    bg-white
+                    rounded-2xl
+                    shadow-sm
+                    border border-slate-200
+                    p-6
+                "
+            >
+
+                <!-- TITLE -->
+                <div class="flex items-center gap-3 mb-6">
+
+                    <div
+                        class="
+                            w-10 h-10
+                            rounded-xl
+                            flex items-center justify-center
+                        "
+                        style="
+                            background: linear-gradient(
+                                135deg,
+                                #ede9fe,
+                                #dbeafe
+                            );
+                        "
+                    >
+
+                        <i
+                            data-lucide="file-warning"
+                            style="
+                                width: 20px;
+                                height: 20px;
+                                color: #7c3aed;
+                                stroke: #7c3aed;
+                            "
+                        ></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2
+                            class="
+                                text-xl
+                                font-bold
+                                text-slate-800
+                            "
+                        >
+                            Kết quả kiểm tra
+                        </h2>
+
+                        <p
+                            id="tenDeTaiDangKiemTra"
+                            class="
+                                text-sm
+                                text-slate-500
+                                mt-1
+                            "
+                        ></p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOADING -->
+                <div
+                    id="loading"
+                    class="
+                        hidden
+                        text-center
+                        py-10
+                    "
+                >
+
+                    <div
+                        class="
+                            inline-flex
+                            flex-col
+                            items-center
+                        "
+                    >
+
+                        <div
+                            class="
+                                w-10 h-10
+                                border-4
+                                border-slate-200
+                                rounded-full
+                                animate-spin
+                            "
+                            style="
+                                border-top-color: #7c3aed;
+                            "
+                        ></div>
+
+                        <p class="mt-4 text-slate-500">
+                            Đang kiểm tra mức độ tương đồng...
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DANH SÁCH KẾT QUẢ -->
+                <div
+                    id="danhSachKetQua"
+                    class="space-y-5"
+                >
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const buttons =
+        document.querySelectorAll(".btn-kiem-tra");
+
+    const ketQua =
+        document.getElementById("ketQua");
+
+    const loading =
+        document.getElementById("loading");
+
+    const danhSachKetQua =
+        document.getElementById("danhSachKetQua");
+
+    const tenDeTaiDangKiemTra =
+        document.getElementById(
+            "tenDeTaiDangKiemTra"
+        );
+
+
+    buttons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            async function () {
+
+                const deTaiId =
+                    this.dataset.id;
+
+                const tenDeTai =
+                    this.dataset.name;
+
+
+                // Hiện khu vực kết quả
+                ketQua.classList.remove("hidden");
+
+
+                // Hiện tên đề tài
+                tenDeTaiDangKiemTra.innerHTML = `
+                    <span class="font-semibold text-slate-700">
+                        Đề tài đang kiểm tra:
+                    </span>
+                    ${escapeHtml(tenDeTai)}
+                `;
+
+
+                // Loading
+                loading.classList.remove("hidden");
+
+                danhSachKetQua.innerHTML = "";
+
+
+                // Scroll xuống kết quả
+                ketQua.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+
+                try {
+
+                    const response = await fetch(
+                        `/api/de-tai/${deTaiId}/kiem-tra-trung-lap`
+                    );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (!data.success) {
+
+                        danhSachKetQua.innerHTML = `
+                            <div
+                                class="
+                                    p-5
+                                    rounded-xl
+                                    bg-red-50
+                                    border
+                                    border-red-200
+                                    text-red-700
+                                "
+                            >
+                                Không thể kiểm tra trùng lặp.
+                            </div>
+                        `;
+
+                        return;
+                    }
+
+
+                    const results =
+                        data.data || [];
+
+
+                    if (results.length === 0) {
+
+                        danhSachKetQua.innerHTML = `
+                            <div class="text-center py-10">
+
+                                <div
+                                    class="
+                                        w-16 h-16
+                                        mx-auto
+                                        rounded-full
+                                        bg-green-100
+                                        flex
+                                        items-center
+                                        justify-center
+                                    "
+                                >
+
+                                    <i
+                                        data-lucide="check-circle"
+                                        class="
+                                            w-8 h-8
+                                            text-green-600
+                                        "
+                                    ></i>
+
+                                </div>
+
+
+                                <h3
+                                    class="
+                                        text-lg
+                                        font-bold
+                                        text-slate-800
+                                        mt-4
+                                    "
+                                >
+                                    Không tìm thấy đề tài tương đồng
+                                </h3>
+
+
+                                <p
+                                    class="
+                                        text-slate-500
+                                        mt-2
+                                    "
+                                >
+                                    Hệ thống không tìm thấy đề tài
+                                    có mức độ tương đồng đáng kể.
+                                </p>
+
+                            </div>
+                        `;
+
+                        lucide.createIcons();
+
+                        return;
+                    }
+
+
+                    results.forEach(
+                        (item, index) => {
+
+                            const deTai =
+                                item.deTai || {};
+
+
+                            const tong =
+                                Number(
+                                    item.doTuongDong || 0
+                                );
+
+
+                            const mauTong =
+                                getMau(tong);
+
+
+                            danhSachKetQua.innerHTML += `
+
+                                <div
+                                    class="
+                                        border
+                                        border-slate-200
+                                        rounded-2xl
+                                        p-6
+                                        hover:shadow-md
+                                        transition
+                                    "
+                                >
+
+                                    <!-- HEADER -->
+                                    <div
+                                        class="
+                                            flex
+                                            flex-col
+                                            md:flex-row
+                                            md:items-center
+                                            md:justify-between
+                                            gap-4
+                                        "
+                                    >
+
+                                        <div>
+
+                                            <div
+                                                class="
+                                                    text-xs
+                                                    font-semibold
+                                                    text-purple-600
+                                                    uppercase
+                                                    mb-2
+                                                "
+                                            >
+                                                Đang so sánh với đề tài
+                                            </div>
+
+
+                                            <h3
+                                                class="
+                                                    text-lg
+                                                    font-bold
+                                                    text-slate-800
+                                                "
+                                            >
+                                                ${escapeHtml(
+                                                    deTai.tenDeTai
+                                                    || "Không có tên"
+                                                )}
+                                            </h3>
+
+
+                                            ${
+                                                deTai.linhVuc
+                                                ?
+                                                `
+                                                <p
+                                                    class="
+                                                        text-sm
+                                                        text-slate-500
+                                                        mt-1
+                                                    "
+                                                >
+                                                    Lĩnh vực:
+                                                    ${escapeHtml(
+                                                        deTai.linhVuc
+                                                    )}
+                                                </p>
+                                                `
+                                                :
+                                                ""
+                                            }
+
+                                        </div>
+
+
+                                        <!-- TỔNG -->
+                                        <div
+                                            class="
+                                                text-center
+                                                min-w-[120px]
+                                            "
+                                        >
+
+                                            <div
+                                                class="
+                                                    text-xs
+                                                    text-slate-500
+                                                    mb-1
+                                                "
+                                            >
+                                                Tương đồng tổng thể
+                                            </div>
+
+
+                                            <div
+                                                class="
+                                                    text-3xl
+                                                    font-bold
+                                                    ${mauTong}
+                                                "
+                                            >
+                                                ${tong.toFixed(2)}%
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- TIÊU CHÍ -->
+                                    <div
+                                        class="
+                                            mt-6
+                                            grid
+                                            grid-cols-1
+                                            md:grid-cols-2
+                                            gap-4
+                                        "
+                                    >
+
+                                        ${taoTieuChi(
+                                            "Tên đề tài",
+                                            item.trungLapDeTai
+                                        )}
+
+                                        ${taoTieuChi(
+                                            "Hướng nghiên cứu",
+                                            item.trungLapHuongNghienCuu
+                                        )}
+
+                                        ${taoTieuChi(
+                                            "Mục tiêu",
+                                            item.trungLapMucTieu
+                                        )}
+
+                                        ${taoTieuChi(
+                                            "Từ khóa",
+                                            item.trungLapTuKhoa
+                                        )}
+
+                                        ${taoTieuChi(
+                                            "Mô tả",
+                                            item.trungLapMoTa
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+                            `;
+
+                        }
+                    );
+
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    danhSachKetQua.innerHTML = `
+                        <div
+                            class="
+                                p-5
+                                rounded-xl
+                                bg-red-50
+                                border
+                                border-red-200
+                                text-red-700
+                            "
+                        >
+                            Có lỗi xảy ra khi kiểm tra trùng lặp.
+                        </div>
+                    `;
+
+                } finally {
+
+                    loading.classList.add("hidden");
+
+                    lucide.createIcons();
+
+                }
+
+            }
+        );
+
+    });
+
+
+    function taoTieuChi(
+        ten,
+        giaTri
+    ) {
+
+        const value =
+            Number(giaTri || 0);
+
+        const mau =
+            getMau(value);
+
+
+        return `
+
+            <div
+                class="
+                    bg-slate-50
+                    rounded-xl
+                    p-4
+                "
+            >
+
+                <div
+                    class="
+                        flex
+                        justify-between
+                        items-center
+                        mb-2
+                    "
+                >
+
+                    <span
+                        class="
+                            text-sm
+                            font-medium
+                            text-slate-600
+                        "
+                    >
+                        ${ten}
+                    </span>
+
+
+                    <span
+                        class="
+                            font-bold
+                            ${mau}
+                        "
+                    >
+                        ${value.toFixed(2)}%
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="
+                        w-full
+                        h-2
+                        bg-slate-200
+                        rounded-full
+                        overflow-hidden
+                    "
+                >
+
+                    <div
+                        class="
+                            h-full
+                            bg-current
+                            ${mau}
+                            rounded-full
+                        "
+                        style="
+                            width: ${Math.min(
+                                value,
+                                100
+                            )}%
+                        "
+                    ></div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    function getMau(value) {
+
+        if (value >= 70) {
+            return "text-red-600";
+        }
+
+        if (value >= 40) {
+            return "text-orange-500";
+        }
+
+        if (value >= 20) {
+            return "text-yellow-600";
+        }
+
+        return "text-green-600";
+
+    }
+
+
+    function escapeHtml(text) {
+
+        const div =
+            document.createElement("div");
+
+        div.textContent =
+            text ?? "";
+
+        return div.innerHTML;
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

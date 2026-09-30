@@ -1,15 +1,11 @@
+
 {% extends "layout/base.html" %}
 
-
 {% block title %}
-
 {{ de_tai.tenDeTai }} | Nghiên Cứu AI
-
 {% endblock %}
 
-
 {% block content %}
-
 
 <section
     class="
@@ -29,7 +25,6 @@
         "
     >
 
-
         <!-- QUAY LẠI -->
 
         <a
@@ -46,14 +41,12 @@
                 transition-colors
             "
         >
-
             <i
                 data-lucide="arrow-left"
                 class="w-4 h-4"
             ></i>
 
             Quay lại danh sách đề tài
-
         </a>
 
 
@@ -69,7 +62,6 @@
                 overflow-hidden
             "
         >
-
 
             <!-- HEADER -->
 
@@ -96,9 +88,7 @@
                     "
                 >
 
-
                     <div>
-
 
                         <div
                             class="
@@ -115,12 +105,10 @@
                                 mb-6
                             "
                         >
-
                             <i
                                 data-lucide="flask-conical"
                                 class="w-7 h-7"
                             ></i>
-
                         </div>
 
 
@@ -133,11 +121,8 @@
                                 leading-tight
                             "
                         >
-
                             {{ de_tai.tenDeTai }}
-
                         </h1>
-
 
                     </div>
 
@@ -158,16 +143,12 @@
                                 font-bold
                             "
                         >
-
                             {{ de_tai.trangThai.value }}
-
                         </span>
 
                     </div>
 
-
                 </div>
-
 
             </div>
 
@@ -181,7 +162,6 @@
                 "
             >
 
-
                 <!-- THÔNG TIN -->
 
                 <div
@@ -193,7 +173,6 @@
                         mb-10
                     "
                 >
-
 
                     <!-- LĨNH VỰC -->
 
@@ -225,12 +204,10 @@
                                     justify-center
                                 "
                             >
-
                                 <i
                                     data-lucide="folder"
                                     class="w-5 h-5"
                                 ></i>
-
                             </div>
 
 
@@ -243,9 +220,7 @@
                                         mb-1
                                     "
                                 >
-
                                     Lĩnh vực nghiên cứu
-
                                 </p>
 
 
@@ -268,9 +243,7 @@
 
                                 </p>
 
-
                             </div>
-
 
                         </div>
 
@@ -307,12 +280,10 @@
                                     justify-center
                                 "
                             >
-
                                 <i
                                     data-lucide="user"
                                     class="w-5 h-5"
                                 ></i>
-
                             </div>
 
 
@@ -325,9 +296,7 @@
                                         mb-1
                                     "
                                 >
-
                                     Người thực hiện
-
                                 </p>
 
 
@@ -350,9 +319,7 @@
 
                                 </p>
 
-
                             </div>
-
 
                         </div>
 
@@ -389,12 +356,10 @@
                                     justify-center
                                 "
                             >
-
                                 <i
                                     data-lucide="graduation-cap"
                                     class="w-5 h-5"
                                 ></i>
-
                             </div>
 
 
@@ -407,34 +372,45 @@
                                         mb-1
                                     "
                                 >
-
                                     Giảng viên hướng dẫn
-
                                 </p>
 
 
-                                <p
-                                    class="
-                                        font-bold
-                                        text-slate-800
-                                    "
-                                >
+                                {% if giang_vien %}
 
-                                    {% if de_tai.giang_vien %}
+                                    <a
+                                        href="{{ url_for(
+                                            'chi_tiet_giang_vien',
+                                            giang_vien_id=giang_vien.id
+                                        ) }}"
+                                        class="
+                                            font-bold
+                                            text-slate-800
+                                            hover:text-primary
+                                            hover:underline
+                                            transition-colors
+                                        "
+                                    >
 
-                                        {{ de_tai.giang_vien.hoTen }}
+                                        {{ giang_vien.hocVi or '' }}
+                                        {{ giang_vien.user.hoTen }}
 
-                                    {% else %}
+                                    </a>
 
+                                {% else %}
+
+                                    <p
+                                        class="
+                                            font-bold
+                                            text-slate-400
+                                        "
+                                    >
                                         Chưa có giảng viên hướng dẫn
+                                    </p>
 
-                                    {% endif %}
-
-                                </p>
-
+                                {% endif %}
 
                             </div>
-
 
                         </div>
 
@@ -471,12 +447,10 @@
                                     justify-center
                                 "
                             >
-
                                 <i
                                     data-lucide="calendar"
                                     class="w-5 h-5"
                                 ></i>
-
                             </div>
 
 
@@ -489,9 +463,7 @@
                                         mb-1
                                     "
                                 >
-
                                     Ngày tạo
-
                                 </p>
 
 
@@ -514,14 +486,11 @@
 
                                 </p>
 
-
                             </div>
-
 
                         </div>
 
                     </div>
-
 
                 </div>
 
@@ -529,7 +498,6 @@
                 <!-- MÔ TẢ -->
 
                 <div>
-
 
                     <div
                         class="
@@ -552,12 +520,10 @@
                                 justify-center
                             "
                         >
-
                             <i
                                 data-lucide="file-text"
                                 class="w-5 h-5"
                             ></i>
-
                         </div>
 
 
@@ -568,11 +534,8 @@
                                 text-slate-900
                             "
                         >
-
                             Mô tả đề tài
-
                         </h2>
-
 
                     </div>
 
@@ -600,18 +563,12 @@
 
                     </div>
 
-
                 </div>
 
 
                 <!-- MỤC TIÊU -->
 
-                <div
-                    class="
-                        mt-10
-                    "
-                >
-
+                <div class="mt-10">
 
                     <div
                         class="
@@ -634,12 +591,10 @@
                                 justify-center
                             "
                         >
-
                             <i
                                 data-lucide="target"
                                 class="w-5 h-5"
                             ></i>
-
                         </div>
 
 
@@ -650,11 +605,8 @@
                                 text-slate-900
                             "
                         >
-
                             Mục tiêu đề tài
-
                         </h2>
-
 
                     </div>
 
@@ -682,18 +634,12 @@
 
                     </div>
 
-
                 </div>
 
 
                 <!-- TỪ KHÓA -->
 
-                <div
-                    class="
-                        mt-10
-                    "
-                >
-
+                <div class="mt-10">
 
                     <div
                         class="
@@ -716,12 +662,10 @@
                                 justify-center
                             "
                         >
-
                             <i
                                 data-lucide="tags"
                                 class="w-5 h-5"
                             ></i>
-
                         </div>
 
 
@@ -732,11 +676,8 @@
                                 text-slate-900
                             "
                         >
-
                             Từ khóa
-
                         </h2>
-
 
                     </div>
 
@@ -764,31 +705,20 @@
                                         font-semibold
                                     "
                                 >
-
                                     {{ tu_khoa.strip() }}
-
                                 </span>
 
                             {% endfor %}
 
-
                         {% else %}
 
-                            <p
-                                class="
-                                    text-slate-400
-                                "
-                            >
-
+                            <p class="text-slate-400">
                                 Chưa có từ khóa.
-
                             </p>
 
                         {% endif %}
 
-
                     </div>
-
 
                 </div>
 
@@ -809,7 +739,6 @@
                     "
                 >
 
-
                     <a
                         href="/de-tai"
                         class="
@@ -828,15 +757,12 @@
                             transition-all
                         "
                     >
-
                         <i
                             data-lucide="arrow-left"
                             class="w-5 h-5"
                         ></i>
 
                         Quay lại
-
-
                     </a>
 
 
@@ -860,43 +786,33 @@
                             transition-all
                         "
                     >
-
                         <i
                             data-lucide="scan-search"
                             class="w-5 h-5"
                         ></i>
 
                         Kiểm tra trùng lặp
-
-
                     </a>
-
 
                 </div>
 
-
             </div>
-
 
         </div>
 
-
     </div>
-
 
 </section>
 
-
 {% endblock %}
+
 
 {% block scripts %}
 
 <script>
 
     if (typeof lucide !== 'undefined') {
-
         lucide.createIcons();
-
     }
 
 </script>

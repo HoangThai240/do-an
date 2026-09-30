@@ -10,10 +10,7 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <!-- ===================================================== -->
         <!-- HEADER -->
-        <!-- ===================================================== -->
-
         <div class="mb-8">
 
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
@@ -26,9 +23,7 @@ Theo dõi tiến độ | Nghiên Cứu AI
                             rounded-2xl
                             bg-blue-100
                             text-blue-600
-                            flex
-                            items-center
-                            justify-center
+                            flex items-center justify-center
                             shadow-sm
                         "
                     >
@@ -59,26 +54,16 @@ Theo dõi tiến độ | Nghiên Cứu AI
                 <a
                     href="{{ url_for('sinh_vien') }}"
                     class="
-                        inline-flex
-                        items-center
-                        justify-center
-                        gap-2
-                        px-4 py-2.5
-                        rounded-xl
-                        bg-white
-                        border border-gray-200
+                        inline-flex items-center justify-center gap-2
+                        px-4 py-2.5 rounded-xl
+                        bg-white border border-gray-200
                         text-gray-700
                         hover:text-blue-600
                         hover:border-blue-200
-                        shadow-sm
-                        transition
+                        shadow-sm transition
                     "
                 >
-                    <i
-                        data-lucide="arrow-left"
-                        class="w-4 h-4"
-                    ></i>
-
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
                     Quay lại Cổng sinh viên
                 </a>
 
@@ -87,10 +72,7 @@ Theo dõi tiến độ | Nghiên Cứu AI
         </div>
 
 
-        <!-- ===================================================== -->
         <!-- FLASH MESSAGE -->
-        <!-- ===================================================== -->
-
         {% with messages = get_flashed_messages(with_categories=true) %}
 
             {% if messages %}
@@ -101,17 +83,11 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                         <div
                             class="
-                                rounded-xl
-                                px-5 py-4
-                                border
+                                rounded-xl px-5 py-4 border
                                 {% if category == 'success' %}
-                                    bg-green-50
-                                    border-green-200
-                                    text-green-700
+                                    bg-green-50 border-green-200 text-green-700
                                 {% else %}
-                                    bg-red-50
-                                    border-red-200
-                                    text-red-700
+                                    bg-red-50 border-red-200 text-red-700
                                 {% endif %}
                             "
                         >
@@ -119,19 +95,9 @@ Theo dõi tiến độ | Nghiên Cứu AI
                             <div class="flex items-center gap-3">
 
                                 {% if category == 'success' %}
-
-                                    <i
-                                        data-lucide="circle-check"
-                                        class="w-5 h-5"
-                                    ></i>
-
+                                    <i data-lucide="circle-check" class="w-5 h-5"></i>
                                 {% else %}
-
-                                    <i
-                                        data-lucide="circle-alert"
-                                        class="w-5 h-5"
-                                    ></i>
-
+                                    <i data-lucide="circle-alert" class="w-5 h-5"></i>
                                 {% endif %}
 
                                 <span class="font-medium">
@@ -151,10 +117,7 @@ Theo dõi tiến độ | Nghiên Cứu AI
         {% endwith %}
 
 
-        <!-- ===================================================== -->
         <!-- DANH SÁCH ĐỀ TÀI -->
-        <!-- ===================================================== -->
-
         {% if danh_sach_de_tai %}
 
             <div class="space-y-8">
@@ -165,42 +128,33 @@ Theo dõi tiến độ | Nghiên Cứu AI
                         tien_do_theo_de_tai.get(de_tai.id, [])
                     %}
 
+                    {% set da_hoan_thanh =
+                        da_hoan_thanh_tien_do.get(de_tai.id, false)
+                    %}
 
-                    <!-- ================================================= -->
+
                     <!-- CARD ĐỀ TÀI -->
-                    <!-- ================================================= -->
-
                     <div
                         class="
-                            bg-white
-                            rounded-2xl
+                            bg-white rounded-2xl
                             border border-gray-200
-                            shadow-sm
-                            overflow-hidden
+                            shadow-sm overflow-hidden
                         "
                     >
 
-                        <!-- ================================================= -->
                         <!-- HEADER ĐỀ TÀI -->
-                        <!-- ================================================= -->
-
                         <div
                             class="
                                 p-6
-                                bg-gradient-to-r
-                                from-blue-50
-                                to-indigo-50
+                                bg-gradient-to-r from-blue-50 to-indigo-50
                                 border-b border-blue-100
                             "
                         >
 
                             <div
                                 class="
-                                    flex
-                                    flex-col
-                                    md:flex-row
-                                    md:items-start
-                                    md:justify-between
+                                    flex flex-col md:flex-row
+                                    md:items-start md:justify-between
                                     gap-5
                                 "
                             >
@@ -209,23 +163,16 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                                     <div
                                         class="
-                                            w-12 h-12
-                                            rounded-xl
-                                            bg-white
-                                            text-blue-600
-                                            flex
-                                            items-center
-                                            justify-center
-                                            shadow-sm
-                                            flex-shrink-0
+                                            w-12 h-12 rounded-xl
+                                            bg-white text-blue-600
+                                            flex items-center justify-center
+                                            shadow-sm flex-shrink-0
                                         "
                                     >
-
                                         <i
                                             data-lucide="flask-conical"
                                             class="w-6 h-6"
                                         ></i>
-
                                     </div>
 
 
@@ -233,12 +180,9 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                                         <p
                                             class="
-                                                text-xs
-                                                font-semibold
-                                                text-blue-600
-                                                uppercase
-                                                tracking-wide
-                                                mb-1
+                                                text-xs font-semibold
+                                                text-blue-600 uppercase
+                                                tracking-wide mb-1
                                             "
                                         >
                                             ĐỀ TÀI NGHIÊN CỨU
@@ -246,10 +190,8 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                                         <h2
                                             class="
-                                                text-xl
-                                                md:text-2xl
-                                                font-bold
-                                                text-gray-900
+                                                text-xl md:text-2xl
+                                                font-bold text-gray-900
                                             "
                                         >
                                             {{ de_tai.tenDeTai }}
@@ -260,12 +202,8 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                                             <p
                                                 class="
-                                                    flex
-                                                    items-center
-                                                    gap-2
-                                                    text-sm
-                                                    text-gray-500
-                                                    mt-2
+                                                    flex items-center gap-2
+                                                    text-sm text-gray-500 mt-2
                                                 "
                                             >
 
@@ -290,132 +228,80 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
 
                                 <!-- TRẠNG THÁI ĐỀ TÀI -->
-
                                 {% if de_tai.trangThai %}
 
                                     {% if de_tai.trangThai.value == 'DA_DUYET' %}
 
                                         <span
                                             class="
-                                                inline-flex
-                                                items-center
-                                                gap-2
-                                                px-3 py-1.5
-                                                rounded-full
-                                                bg-green-100
-                                                text-green-700
-                                                text-sm
-                                                font-semibold
+                                                inline-flex items-center gap-2
+                                                px-3 py-1.5 rounded-full
+                                                bg-green-100 text-green-700
+                                                text-sm font-semibold
                                                 whitespace-nowrap
                                             "
                                         >
-
-                                            <i
-                                                data-lucide="circle-check"
-                                                class="w-4 h-4"
-                                            ></i>
-
+                                            <i data-lucide="circle-check" class="w-4 h-4"></i>
                                             Đã duyệt
-
                                         </span>
 
                                     {% elif de_tai.trangThai.value == 'CHO_DUYET' %}
 
                                         <span
                                             class="
-                                                inline-flex
-                                                items-center
-                                                gap-2
-                                                px-3 py-1.5
-                                                rounded-full
-                                                bg-yellow-100
-                                                text-yellow-700
-                                                text-sm
-                                                font-semibold
+                                                inline-flex items-center gap-2
+                                                px-3 py-1.5 rounded-full
+                                                bg-yellow-100 text-yellow-700
+                                                text-sm font-semibold
                                                 whitespace-nowrap
                                             "
                                         >
-
-                                            <i
-                                                data-lucide="clock-3"
-                                                class="w-4 h-4"
-                                            ></i>
-
+                                            <i data-lucide="clock-3" class="w-4 h-4"></i>
                                             Chờ duyệt
-
                                         </span>
 
                                     {% elif de_tai.trangThai.value == 'TU_CHOI' %}
 
                                         <span
                                             class="
-                                                inline-flex
-                                                items-center
-                                                gap-2
-                                                px-3 py-1.5
-                                                rounded-full
-                                                bg-red-100
-                                                text-red-700
-                                                text-sm
-                                                font-semibold
+                                                inline-flex items-center gap-2
+                                                px-3 py-1.5 rounded-full
+                                                bg-red-100 text-red-700
+                                                text-sm font-semibold
                                                 whitespace-nowrap
                                             "
                                         >
-
-                                            <i
-                                                data-lucide="circle-x"
-                                                class="w-4 h-4"
-                                            ></i>
-
+                                            <i data-lucide="circle-x" class="w-4 h-4"></i>
                                             Từ chối
-
                                         </span>
 
                                     {% elif de_tai.trangThai.value == 'HOAN_THANH' %}
 
                                         <span
                                             class="
-                                                inline-flex
-                                                items-center
-                                                gap-2
-                                                px-3 py-1.5
-                                                rounded-full
-                                                bg-purple-100
-                                                text-purple-700
-                                                text-sm
-                                                font-semibold
+                                                inline-flex items-center gap-2
+                                                px-3 py-1.5 rounded-full
+                                                bg-purple-100 text-purple-700
+                                                text-sm font-semibold
                                                 whitespace-nowrap
                                             "
                                         >
-
-                                            <i
-                                                data-lucide="trophy"
-                                                class="w-4 h-4"
-                                            ></i>
-
+                                            <i data-lucide="trophy" class="w-4 h-4"></i>
                                             Hoàn thành
-
                                         </span>
 
                                     {% else %}
 
                                         <span
                                             class="
-                                                inline-flex
-                                                items-center
-                                                gap-2
-                                                px-3 py-1.5
-                                                rounded-full
-                                                bg-gray-100
-                                                text-gray-700
-                                                text-sm
-                                                font-semibold
+                                                inline-flex items-center gap-2
+                                                px-3 py-1.5 rounded-full
+                                                bg-gray-100 text-gray-700
+                                                text-sm font-semibold
                                                 whitespace-nowrap
                                             "
                                         >
-
                                             {{ de_tai.trangThai.value }}
-
                                         </span>
 
                                     {% endif %}
@@ -427,175 +313,260 @@ Theo dõi tiến độ | Nghiên Cứu AI
                         </div>
 
 
-                        <!-- ================================================= -->
                         <!-- BODY -->
-                        <!-- ================================================= -->
-
                         <div class="p-6">
 
 
                             <!-- ================================================= -->
-                            <!-- FORM CẬP NHẬT TIẾN ĐỘ -->
+                            <!-- CẬP NHẬT TIẾN ĐỘ -->
                             <!-- ================================================= -->
 
-                            <div
-                                class="
-                                    bg-blue-50
-                                    border
-                                    border-blue-100
-                                    rounded-2xl
-                                    p-6
-                                    mb-8
-                                "
-                            >
+                            {% if da_hoan_thanh %}
 
-                                <div class="flex items-center gap-3 mb-5">
+                                <!-- ĐÃ HOÀN THÀNH 100% -->
 
-                                    <div
-                                        class="
-                                            w-10 h-10
-                                            rounded-xl
-                                            bg-blue-100
-                                            text-blue-600
-                                            flex
-                                            items-center
-                                            justify-center
-                                        "
-                                    >
+                                <div
+                                    class="
+                                        bg-green-50
+                                        border border-green-200
+                                        rounded-2xl
+                                        p-6
+                                        mb-8
+                                    "
+                                >
 
-                                        <i
-                                            data-lucide="plus"
-                                            class="w-5 h-5"
-                                        ></i>
+                                    <div class="flex items-start gap-4">
+
+                                        <div
+                                            class="
+                                                w-12 h-12
+                                                rounded-xl
+                                                bg-green-100
+                                                text-green-600
+                                                flex items-center justify-center
+                                                flex-shrink-0
+                                            "
+                                        >
+                                            <i
+                                                data-lucide="circle-check"
+                                                class="w-6 h-6"
+                                            ></i>
+                                        </div>
+
+
+                                        <div class="flex-1">
+
+                                            <h3
+                                                class="
+                                                    text-lg font-bold
+                                                    text-green-800
+                                                "
+                                            >
+                                                Tiến độ đã hoàn thành 100%
+                                            </h3>
+
+                                            <p
+                                                class="
+                                                    text-sm text-green-700
+                                                    mt-1
+                                                "
+                                            >
+                                                Đề tài đã hoàn thành tiến độ.
+                                                Không thể cập nhật thêm nếu chưa
+                                                được giảng viên cho phép chỉnh sửa.
+                                            </p>
+
+                                        </div>
 
                                     </div>
 
-                                    <div>
 
-                                        <h3 class="text-lg font-bold text-gray-900">
-                                            Cập nhật tiến độ
-                                        </h3>
+                                    <!-- YÊU CẦU CHỈNH SỬA -->
 
-                                        <p class="text-sm text-gray-500">
-                                            Thêm một mốc tiến độ mới cho đề tài.
+                                    <div
+                                        class="
+                                            mt-5 pt-5
+                                            border-t border-green-200
+                                        "
+                                    >
+
+                                        <p
+                                            class="
+                                                text-sm text-gray-600 mb-3
+                                            "
+                                        >
+                                            Nếu cần thay đổi hoặc bổ sung nội dung,
+                                            bạn có thể gửi yêu cầu chỉnh sửa cho
+                                            giảng viên.
                                         </p>
+
+                                        <form
+    method="POST"
+    action="{{ url_for(
+        'sinh_vien_yeu_cau_nghiem_thu',
+        de_tai_id=de_tai.id
+    ) }}"
+    class="mt-3"
+>
+
+    <button
+    type="submit"
+    style="
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 20px;
+        border-radius: 12px;
+        background-color: #16a34a;
+        color: #ffffff !important;
+        font-size: 14px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+    "
+>
+
+    <i
+        data-lucide="clipboard-check"
+        style="
+            width: 20px;
+            height: 20px;
+            color: #ffffff;
+        "
+    ></i>
+
+
+    <span style="color:#ffffff !important;">
+        Gửi yêu cầu nghiệm thu
+    </span>
+
+</button>
+
+</form>
+
+                                        <form
+                                            method="POST"
+                                            action="{{ url_for(
+                                                'sinh_vien_yeu_cau_chinh_sua',
+                                                de_tai_id=de_tai.id
+                                            ) }}"
+                                        >
+
+                                            <button
+                                                type="submit"
+                                                class="
+                                                    inline-flex
+                                                    items-center gap-2
+                                                    px-5 py-2.5
+                                                    rounded-xl
+                                                    bg-orange-500
+                                                    hover:bg-orange-600
+                                                    !text-white
+                                                    font-semibold
+                                                    shadow-sm
+                                                    transition
+                                                "
+                                            >
+
+                                                <i
+                                                    data-lucide="pencil"
+                                                    class="w-5 h-5"
+                                                ></i>
+
+                                                Yêu cầu chỉnh sửa
+
+                                            </button>
+
+                                        </form>
 
                                     </div>
 
                                 </div>
 
 
-                                <form
-                                    method="POST"
-                                    action="{{ url_for(
-                                        'sinh_vien_them_tien_do',
-                                        de_tai_id=de_tai.id
-                                    ) }}"
+                            {% else %}
+
+
+                                <!-- ================================================= -->
+                                <!-- FORM CẬP NHẬT TIẾN ĐỘ -->
+                                <!-- ================================================= -->
+
+                                <div
+                                    class="
+                                        bg-blue-50
+                                        border border-blue-100
+                                        rounded-2xl
+                                        p-6
+                                        mb-8
+                                    "
                                 >
 
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div class="flex items-center gap-3 mb-5">
 
-
-                                        <!-- TIÊU ĐỀ -->
-
-                                        <div class="md:col-span-2">
-
-                                            <label
-                                                class="
-                                                    block
-                                                    text-sm
-                                                    font-semibold
-                                                    text-gray-700
-                                                    mb-2
-                                                "
-                                            >
-                                                Giai đoạn / tiêu đề
-                                            </label>
-
-                                            <input
-                                                type="text"
-                                                name="tieu_de"
-                                                required
-                                                placeholder="Ví dụ: Phân tích yêu cầu hệ thống"
-                                                class="
-                                                    w-full
-                                                    px-4 py-3
-                                                    rounded-xl
-                                                    border border-gray-300
-                                                    bg-white
-                                                    focus:ring-2
-                                                    focus:ring-blue-500
-                                                    focus:outline-none
-                                                "
-                                            >
-
+                                        <div
+                                            class="
+                                                w-10 h-10
+                                                rounded-xl
+                                                bg-blue-100
+                                                text-blue-600
+                                                flex items-center justify-center
+                                            "
+                                        >
+                                            <i data-lucide="plus" class="w-5 h-5"></i>
                                         </div>
-
-
-                                        <!-- NỘI DUNG -->
-
-                                        <div class="md:col-span-2">
-
-                                            <label
-                                                class="
-                                                    block
-                                                    text-sm
-                                                    font-semibold
-                                                    text-gray-700
-                                                    mb-2
-                                                "
-                                            >
-                                                Nội dung thực hiện
-                                            </label>
-
-                                            <textarea
-                                                name="noi_dung"
-                                                rows="4"
-                                                placeholder="Nhập những công việc bạn đã thực hiện..."
-                                                class="
-                                                    w-full
-                                                    px-4 py-3
-                                                    rounded-xl
-                                                    border border-gray-300
-                                                    bg-white
-                                                    focus:ring-2
-                                                    focus:ring-blue-500
-                                                    focus:outline-none
-                                                    resize-y
-                                                "
-                                            ></textarea>
-
-                                        </div>
-
-
-                                        <!-- PHẦN TRĂM -->
 
                                         <div>
 
-                                            <label
-                                                class="
-                                                    block
-                                                    text-sm
-                                                    font-semibold
-                                                    text-gray-700
-                                                    mb-2
-                                                "
-                                            >
-                                                Mức độ hoàn thành
-                                            </label>
+                                            <h3 class="text-lg font-bold text-gray-900">
+                                                Cập nhật tiến độ
+                                            </h3>
 
-                                            <div class="relative">
+                                            <p class="text-sm text-gray-500">
+                                                Thêm một mốc tiến độ mới cho đề tài.
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <form
+                                        method="POST"
+                                        action="{{ url_for(
+                                            'sinh_vien_them_tien_do',
+                                            de_tai_id=de_tai.id
+                                        ) }}"
+                                    >
+
+                                        <div
+                                            class="
+                                                grid grid-cols-1
+                                                md:grid-cols-2 gap-5
+                                            "
+                                        >
+
+                                            <!-- TIÊU ĐỀ -->
+
+                                            <div class="md:col-span-2">
+
+                                                <label
+                                                    class="
+                                                        block text-sm
+                                                        font-semibold
+                                                        text-gray-700 mb-2
+                                                    "
+                                                >
+                                                    Giai đoạn / tiêu đề
+                                                </label>
 
                                                 <input
-                                                    type="number"
-                                                    name="phan_tram"
-                                                    min="0"
-                                                    max="100"
-                                                    value="0"
+                                                    type="text"
+                                                    name="tieu_de"
                                                     required
+                                                    placeholder="Ví dụ: Phân tích yêu cầu hệ thống"
                                                     class="
-                                                        w-full
-                                                        px-4 py-3 pr-12
+                                                        w-full px-4 py-3
                                                         rounded-xl
                                                         border border-gray-300
                                                         bg-white
@@ -605,119 +576,187 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                     "
                                                 >
 
-                                                <span
+                                            </div>
+
+
+                                            <!-- NỘI DUNG -->
+
+                                            <div class="md:col-span-2">
+
+                                                <label
                                                     class="
-                                                        absolute
-                                                        right-4
-                                                        top-1/2
-                                                        -translate-y-1/2
-                                                        text-gray-400
+                                                        block text-sm
                                                         font-semibold
+                                                        text-gray-700 mb-2
                                                     "
                                                 >
-                                                    %
-                                                </span>
+                                                    Nội dung thực hiện
+                                                </label>
+
+                                                <textarea
+                                                    name="noi_dung"
+                                                    rows="4"
+                                                    placeholder="Nhập những công việc bạn đã thực hiện..."
+                                                    class="
+                                                        w-full px-4 py-3
+                                                        rounded-xl
+                                                        border border-gray-300
+                                                        bg-white
+                                                        focus:ring-2
+                                                        focus:ring-blue-500
+                                                        focus:outline-none
+                                                        resize-y
+                                                    "
+                                                ></textarea>
+
+                                            </div>
+
+
+                                            <!-- PHẦN TRĂM -->
+
+                                            <div>
+
+                                                <label
+                                                    class="
+                                                        block text-sm
+                                                        font-semibold
+                                                        text-gray-700 mb-2
+                                                    "
+                                                >
+                                                    Mức độ hoàn thành
+                                                </label>
+
+                                                <div class="relative">
+
+                                                    <input
+                                                        type="number"
+                                                        name="phan_tram"
+                                                        min="0"
+                                                        max="100"
+                                                        value="0"
+                                                        required
+                                                        class="
+                                                            w-full
+                                                            px-4 py-3 pr-12
+                                                            rounded-xl
+                                                            border border-gray-300
+                                                            bg-white
+                                                            focus:ring-2
+                                                            focus:ring-blue-500
+                                                            focus:outline-none
+                                                        "
+                                                    >
+
+                                                    <span
+                                                        class="
+                                                            absolute right-4
+                                                            top-1/2
+                                                            -translate-y-1/2
+                                                            text-gray-400
+                                                            font-semibold
+                                                        "
+                                                    >
+                                                        %
+                                                    </span>
+
+                                                </div>
+
+                                                <p class="text-xs text-gray-400 mt-1">
+                                                    Chỉ được nhập từ 0% đến 100%.
+                                                </p>
+
+                                            </div>
+
+
+                                            <!-- TRẠNG THÁI -->
+
+                                            <div>
+
+                                                <label
+                                                    class="
+                                                        block text-sm
+                                                        font-semibold
+                                                        text-gray-700 mb-2
+                                                    "
+                                                >
+                                                    Trạng thái
+                                                </label>
+
+                                                <select
+                                                    name="trang_thai"
+                                                    class="
+                                                        w-full px-4 py-3
+                                                        rounded-xl
+                                                        border border-gray-300
+                                                        bg-white
+                                                        focus:ring-2
+                                                        focus:ring-blue-500
+                                                        focus:outline-none
+                                                    "
+                                                >
+
+                                                    <option value="CHUA_BAT_DAU">
+                                                        Chưa bắt đầu
+                                                    </option>
+
+                                                    <option
+                                                        value="DANG_THUC_HIEN"
+                                                        selected
+                                                    >
+                                                        Đang thực hiện
+                                                    </option>
+
+                                                    <option value="HOAN_THANH_MOT_PHAN">
+                                                        Hoàn thành một phần
+                                                    </option>
+
+                                                    <option value="HOAN_THANH">
+                                                        Hoàn thành
+                                                    </option>
+
+                                                </select>
 
                                             </div>
 
                                         </div>
 
 
-                                        <!-- TRẠNG THÁI -->
+                                        <!-- BUTTON -->
 
-                                        <div>
+                                        <div class="flex justify-end mt-5">
 
-                                            <label
+                                            <button
+                                                type="submit"
                                                 class="
-                                                    block
-                                                    text-sm
-                                                    font-semibold
-                                                    text-gray-700
-                                                    mb-2
-                                                "
-                                            >
-                                                Trạng thái
-                                            </label>
-
-                                            <select
-                                                name="trang_thai"
-                                                class="
-                                                    w-full
-                                                    px-4 py-3
+                                                    inline-flex
+                                                    items-center gap-2
+                                                    px-6 py-3
                                                     rounded-xl
-                                                    border border-gray-300
-                                                    bg-white
-                                                    focus:ring-2
-                                                    focus:ring-blue-500
-                                                    focus:outline-none
+                                                    bg-blue-600
+                                                    hover:bg-blue-700
+                                                    !text-white
+                                                    font-semibold
+                                                    shadow-sm
+                                                    transition
                                                 "
                                             >
 
-                                                <option value="CHUA_BAT_DAU">
-                                                    Chưa bắt đầu
-                                                </option>
+                                                <i
+                                                    data-lucide="save"
+                                                    class="w-5 h-5"
+                                                ></i>
 
-                                                <option
-                                                    value="DANG_THUC_HIEN"
-                                                    selected
-                                                >
-                                                    Đang thực hiện
-                                                </option>
+                                                Thêm cập nhật
 
-                                                <option value="HOAN_THANH_MOT_PHAN">
-                                                    Hoàn thành một phần
-                                                </option>
-
-                                                <option value="HOAN_THANH">
-                                                    Hoàn thành
-                                                </option>
-
-                                                <option value="DA_NGHIEM_THU">
-                                                    Đã nghiệm thu
-                                                </option>
-
-                                            </select>
+                                            </button>
 
                                         </div>
 
-                                    </div>
+                                    </form>
 
+                                </div>
 
-                                    <!-- BUTTON -->
-
-                                    <div class="flex justify-end mt-5">
-
-                                        <button
-                                            type="submit"
-                                            class="
-                                                inline-flex
-                                                items-center
-                                                gap-2
-                                                px-6 py-3
-                                                rounded-xl
-                                                bg-blue-600
-                                                hover:bg-blue-700
-                                                text-white
-                                                font-semibold
-                                                shadow-sm
-                                                transition
-                                            "
-                                        >
-
-                                            <i
-                                                data-lucide="save"
-                                                class="w-5 h-5"
-                                            ></i>
-
-                                            Thêm cập nhật
-
-                                        </button>
-
-                                    </div>
-
-                                </form>
-
-                            </div>
+                            {% endif %}
 
 
                             <!-- ================================================= -->
@@ -728,13 +767,9 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                                 <div
                                     class="
-                                        flex
-                                        flex-col
-                                        sm:flex-row
-                                        sm:items-center
-                                        sm:justify-between
-                                        gap-3
-                                        mb-5
+                                        flex flex-col sm:flex-row
+                                        sm:items-center sm:justify-between
+                                        gap-3 mb-5
                                     "
                                 >
 
@@ -742,9 +777,7 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                                         <h3
                                             class="
-                                                text-xl
-                                                font-bold
-                                                text-gray-900
+                                                text-xl font-bold text-gray-900
                                             "
                                         >
                                             Lịch sử tiến độ
@@ -759,15 +792,11 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                                     <span
                                         class="
-                                            inline-flex
-                                            items-center
-                                            gap-2
+                                            inline-flex items-center gap-2
                                             px-3 py-1.5
-                                            bg-blue-50
-                                            text-blue-600
+                                            bg-blue-50 text-blue-600
                                             rounded-full
-                                            text-sm
-                                            font-semibold
+                                            text-sm font-semibold
                                         "
                                     >
 
@@ -784,10 +813,6 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                 </div>
 
 
-                                <!-- ================================================= -->
-                                <!-- CÓ TIẾN ĐỘ -->
-                                <!-- ================================================= -->
-
                                 {% if danh_sach_tien_do_cua_de_tai %}
 
                                     <div class="space-y-5">
@@ -796,19 +821,10 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                                             {% set phan_tram = tien_do.phanTram or 0 %}
 
-                                            {% if phan_tram < 0 %}
-                                                {% set phan_tram = 0 %}
-                                            {% elif phan_tram > 100 %}
-                                                {% set phan_tram = 100 %}
-                                            {% endif %}
-
-
                                             <div
                                                 class="
-                                                    border
-                                                    border-gray-200
-                                                    rounded-2xl
-                                                    p-5
+                                                    border border-gray-200
+                                                    rounded-2xl p-5
                                                     bg-white
                                                     hover:border-blue-200
                                                     hover:shadow-sm
@@ -820,8 +836,7 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                                                 <div
                                                     class="
-                                                        flex
-                                                        flex-col
+                                                        flex flex-col
                                                         md:flex-row
                                                         md:items-start
                                                         md:justify-between
@@ -837,18 +852,15 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                                 rounded-xl
                                                                 bg-blue-50
                                                                 text-blue-600
-                                                                flex
-                                                                items-center
+                                                                flex items-center
                                                                 justify-center
                                                                 flex-shrink-0
                                                             "
                                                         >
-
                                                             <i
                                                                 data-lucide="file-chart-column"
                                                                 class="w-5 h-5"
                                                             ></i>
-
                                                         </div>
 
 
@@ -869,8 +881,7 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                                                                 <p
                                                                     class="
-                                                                        flex
-                                                                        items-center
+                                                                        flex items-center
                                                                         gap-1.5
                                                                         text-xs
                                                                         text-gray-400
@@ -907,8 +918,7 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                             <span
                                                                 class="
                                                                     inline-flex
-                                                                    items-center
-                                                                    gap-2
+                                                                    items-center gap-2
                                                                     px-3 py-1.5
                                                                     rounded-full
                                                                     bg-gray-100
@@ -918,24 +928,19 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                                     whitespace-nowrap
                                                                 "
                                                             >
-
                                                                 <i
                                                                     data-lucide="circle"
                                                                     class="w-3.5 h-3.5"
                                                                 ></i>
-
                                                                 Chưa bắt đầu
-
                                                             </span>
-
 
                                                         {% elif tien_do.trangThai.value == 'DANG_THUC_HIEN' %}
 
                                                             <span
                                                                 class="
                                                                     inline-flex
-                                                                    items-center
-                                                                    gap-2
+                                                                    items-center gap-2
                                                                     px-3 py-1.5
                                                                     rounded-full
                                                                     bg-blue-100
@@ -945,24 +950,19 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                                     whitespace-nowrap
                                                                 "
                                                             >
-
                                                                 <i
                                                                     data-lucide="loader-circle"
                                                                     class="w-3.5 h-3.5"
                                                                 ></i>
-
                                                                 Đang thực hiện
-
                                                             </span>
-
 
                                                         {% elif tien_do.trangThai.value == 'HOAN_THANH_MOT_PHAN' %}
 
                                                             <span
                                                                 class="
                                                                     inline-flex
-                                                                    items-center
-                                                                    gap-2
+                                                                    items-center gap-2
                                                                     px-3 py-1.5
                                                                     rounded-full
                                                                     bg-yellow-100
@@ -972,24 +972,19 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                                     whitespace-nowrap
                                                                 "
                                                             >
-
                                                                 <i
                                                                     data-lucide="circle-half"
                                                                     class="w-3.5 h-3.5"
                                                                 ></i>
-
                                                                 Hoàn thành một phần
-
                                                             </span>
-
 
                                                         {% elif tien_do.trangThai.value == 'HOAN_THANH' %}
 
                                                             <span
                                                                 class="
                                                                     inline-flex
-                                                                    items-center
-                                                                    gap-2
+                                                                    items-center gap-2
                                                                     px-3 py-1.5
                                                                     rounded-full
                                                                     bg-green-100
@@ -999,24 +994,19 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                                     whitespace-nowrap
                                                                 "
                                                             >
-
                                                                 <i
                                                                     data-lucide="circle-check"
                                                                     class="w-3.5 h-3.5"
                                                                 ></i>
-
                                                                 Hoàn thành
-
                                                             </span>
-
 
                                                         {% elif tien_do.trangThai.value == 'DA_NGHIEM_THU' %}
 
                                                             <span
                                                                 class="
                                                                     inline-flex
-                                                                    items-center
-                                                                    gap-2
+                                                                    items-center gap-2
                                                                     px-3 py-1.5
                                                                     rounded-full
                                                                     bg-purple-100
@@ -1026,16 +1016,12 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                                     whitespace-nowrap
                                                                 "
                                                             >
-
                                                                 <i
                                                                     data-lucide="award"
                                                                     class="w-3.5 h-3.5"
                                                                 ></i>
-
                                                                 Đã nghiệm thu
-
                                                             </span>
-
 
                                                         {% else %}
 
@@ -1051,9 +1037,7 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                                     font-semibold
                                                                 "
                                                             >
-
                                                                 {{ tien_do.trangThai.value }}
-
                                                             </span>
 
                                                         {% endif %}
@@ -1063,9 +1047,7 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                 </div>
 
 
-                                                <!-- ================================================= -->
                                                 <!-- NỘI DUNG -->
-                                                <!-- ================================================= -->
 
                                                 {% if tien_do.noiDung %}
 
@@ -1073,12 +1055,10 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                                                         <p
                                                             class="
-                                                                text-xs
-                                                                font-bold
+                                                                text-xs font-bold
                                                                 text-gray-500
                                                                 uppercase
-                                                                tracking-wide
-                                                                mb-2
+                                                                tracking-wide mb-2
                                                             "
                                                         >
                                                             Nội dung thực hiện
@@ -1088,11 +1068,9 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                             class="
                                                                 bg-gray-50
                                                                 rounded-xl
-                                                                border
-                                                                border-gray-100
+                                                                border border-gray-100
                                                                 p-4
-                                                                text-sm
-                                                                text-gray-700
+                                                                text-sm text-gray-700
                                                                 leading-relaxed
                                                                 whitespace-pre-line
                                                             "
@@ -1105,18 +1083,14 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                 {% endif %}
 
 
-                                                <!-- ================================================= -->
                                                 <!-- PHẦN TRĂM -->
-                                                <!-- ================================================= -->
 
                                                 <div class="mt-5">
 
                                                     <div
                                                         class="
-                                                            flex
-                                                            items-center
-                                                            justify-between
-                                                            mb-2
+                                                            flex items-center
+                                                            justify-between mb-2
                                                         "
                                                     >
 
@@ -1139,7 +1113,6 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                                                         </div>
 
-
                                                         <span
                                                             class="
                                                                 text-lg
@@ -1155,13 +1128,11 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                                                     <div
                                                         class="
-                                                            w-full
-                                                            h-4
+                                                            w-full h-4
                                                             bg-gray-100
                                                             rounded-full
                                                             overflow-hidden
-                                                            border
-                                                            border-gray-200
+                                                            border border-gray-200
                                                         "
                                                     >
 
@@ -1183,26 +1154,19 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                                                     <div
                                                         class="
-                                                            flex
-                                                            justify-between
-                                                            text-xs
-                                                            text-gray-400
+                                                            flex justify-between
+                                                            text-xs text-gray-400
                                                             mt-2
                                                         "
                                                     >
-
                                                         <span>0%</span>
-
                                                         <span>100%</span>
-
                                                     </div>
 
                                                 </div>
 
 
-                                                <!-- ================================================= -->
                                                 <!-- NHẬN XÉT GIẢNG VIÊN -->
-                                                <!-- ================================================= -->
 
                                                 {% if tien_do.nhanXetGiangVien %}
 
@@ -1210,10 +1174,8 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                         class="
                                                             mt-5
                                                             bg-amber-50
-                                                            border
-                                                            border-amber-200
-                                                            rounded-xl
-                                                            p-4
+                                                            border border-amber-200
+                                                            rounded-xl p-4
                                                         "
                                                     >
 
@@ -1231,14 +1193,11 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                                     flex-shrink-0
                                                                 "
                                                             >
-
                                                                 <i
                                                                     data-lucide="message-square-text"
                                                                     class="w-4 h-4"
                                                                 ></i>
-
                                                             </div>
-
 
                                                             <div>
 
@@ -1246,8 +1205,7 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                                     class="
                                                                         font-bold
                                                                         text-amber-800
-                                                                        text-sm
-                                                                        mb-1
+                                                                        text-sm mb-1
                                                                     "
                                                                 >
                                                                     Nhận xét của giảng viên
@@ -1276,10 +1234,8 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                         class="
                                                             mt-5
                                                             bg-gray-50
-                                                            border
-                                                            border-gray-100
-                                                            rounded-xl
-                                                            p-4
+                                                            border border-gray-100
+                                                            rounded-xl p-4
                                                         "
                                                     >
 
@@ -1291,17 +1247,14 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                                     rounded-lg
                                                                     bg-gray-100
                                                                     text-gray-400
-                                                                    flex
-                                                                    items-center
+                                                                    flex items-center
                                                                     justify-center
                                                                 "
                                                             >
-
                                                                 <i
                                                                     data-lucide="message-square"
                                                                     class="w-4 h-4"
                                                                 ></i>
-
                                                             </div>
 
                                                             <div>
@@ -1323,7 +1276,8 @@ Theo dõi tiến độ | Nghiên Cứu AI
                                                                         mt-1
                                                                     "
                                                                 >
-                                                                    Giảng viên chưa đưa ra nhận xét cho mốc tiến độ này.
+                                                                    Giảng viên chưa đưa ra
+                                                                    nhận xét cho mốc tiến độ này.
                                                                 </p>
 
                                                             </div>
@@ -1340,44 +1294,35 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                                     </div>
 
-
                                 {% else %}
 
-                                    <!-- ================================================= -->
                                     <!-- CHƯA CÓ TIẾN ĐỘ -->
-                                    <!-- ================================================= -->
 
                                     <div
                                         class="
-                                            text-center
-                                            py-10
+                                            text-center py-10
                                             bg-gray-50
                                             rounded-2xl
-                                            border
-                                            border-dashed
+                                            border border-dashed
                                             border-gray-200
                                         "
                                     >
 
                                         <div
                                             class="
-                                                w-14 h-14
-                                                mx-auto
+                                                w-14 h-14 mx-auto
                                                 rounded-full
                                                 bg-blue-50
                                                 text-blue-500
-                                                flex
-                                                items-center
+                                                flex items-center
                                                 justify-center
                                                 mb-4
                                             "
                                         >
-
                                             <i
                                                 data-lucide="clock-3"
                                                 class="w-7 h-7"
                                             ></i>
-
                                         </div>
 
                                         <h3
@@ -1413,16 +1358,13 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
         {% else %}
 
-            <!-- ================================================= -->
             <!-- CHƯA CÓ ĐỀ TÀI -->
-            <!-- ================================================= -->
 
             <div
                 class="
                     bg-white
                     rounded-2xl
-                    border
-                    border-gray-200
+                    border border-gray-200
                     shadow-sm
                     p-10 md:p-16
                     text-center
@@ -1431,31 +1373,24 @@ Theo dõi tiến độ | Nghiên Cứu AI
 
                 <div
                     class="
-                        w-20 h-20
-                        mx-auto
+                        w-20 h-20 mx-auto
                         rounded-full
                         bg-blue-50
                         text-blue-600
-                        flex
-                        items-center
-                        justify-center
+                        flex items-center justify-center
                         mb-6
                     "
                 >
-
                     <i
                         data-lucide="chart-no-axes-combined"
                         class="w-10 h-10"
                     ></i>
-
                 </div>
 
                 <h2
                     class="
-                        text-xl
-                        md:text-2xl
-                        font-bold
-                        text-gray-900
+                        text-xl md:text-2xl
+                        font-bold text-gray-900
                         mb-3
                     "
                 >
@@ -1465,8 +1400,7 @@ Theo dõi tiến độ | Nghiên Cứu AI
                 <p
                     class="
                         text-gray-500
-                        max-w-lg
-                        mx-auto
+                        max-w-lg mx-auto
                         leading-relaxed
                     "
                 >
@@ -1477,28 +1411,19 @@ Theo dõi tiến độ | Nghiên Cứu AI
                 <a
                     href="{{ url_for('sinh_vien') }}"
                     class="
-                        inline-flex
-                        items-center
-                        gap-2
-                        mt-7
-                        px-5 py-3
+                        inline-flex items-center gap-2
+                        mt-7 px-5 py-3
                         rounded-xl
                         bg-blue-600
                         hover:bg-blue-700
-                        text-white
+                        !text-white
                         font-semibold
                         shadow-sm
                         transition
                     "
                 >
-
-                    <i
-                        data-lucide="arrow-left"
-                        class="w-5 h-5"
-                    ></i>
-
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
                     Về Cổng sinh viên
-
                 </a>
 
             </div>

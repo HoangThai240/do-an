@@ -1,0 +1,193 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Yêu cầu nghiệm thu | Giảng viên
+{% endblock %}
+
+{% block content %}
+
+<div class="min-h-screen bg-slate-50 py-10">
+
+    <div class="max-w-6xl mx-auto px-4">
+
+        <!-- HEADER -->
+        <div class="mb-8">
+
+            <h1 class="text-3xl font-bold text-slate-800">
+                Yêu cầu nghiệm thu
+            </h1>
+
+            <p class="text-slate-500 mt-2">
+                Các đề tài sinh viên đã hoàn thành và đang chờ bạn nghiệm thu.
+            </p>
+
+        </div>
+
+
+        {% if danh_sach %}
+
+            <div class="space-y-5">
+
+                {% for yeu_cau in danh_sach %}
+
+                    <div
+                        class="
+                            bg-white
+                            border border-slate-200
+                            rounded-2xl
+                            p-6
+                            shadow-sm
+                            hover:shadow-md
+                            transition
+                        "
+                    >
+
+                        <div
+                            class="
+                                flex
+                                flex-col
+                                md:flex-row
+                                md:items-center
+                                md:justify-between
+                                gap-5
+                            "
+                        >
+
+                            <!-- THÔNG TIN ĐỀ TÀI -->
+                            <div class="flex-1">
+
+                                <h2
+                                    class="
+                                        text-xl
+                                        font-bold
+                                        text-slate-800
+                                    "
+                                >
+                                    {{ yeu_cau.de_tai.tenDeTai }}
+                                </h2>
+
+
+                                <!-- SINH VIÊN -->
+                                <div class="mt-3">
+
+                                    <p class="text-sm text-slate-500">
+                                        Sinh viên
+                                    </p>
+
+                                    <p class="font-semibold text-slate-700">
+                                        {{ yeu_cau.nguoiYeuCau.hoTen }}
+                                    </p>
+
+                                </div>
+
+
+                                <!-- NỘI DUNG -->
+                                {% if yeu_cau.noiDung %}
+
+                                    <div class="mt-3">
+
+                                        <p class="text-sm text-slate-500">
+                                            Nội dung yêu cầu
+                                        </p>
+
+                                        <p class="text-slate-600">
+                                            {{ yeu_cau.noiDung }}
+                                        </p>
+
+                                    </div>
+
+                                {% endif %}
+
+
+                                <!-- NGÀY GỬI -->
+                                <div class="mt-3">
+
+                                    <p class="text-sm text-slate-400">
+                                        Ngày gửi:
+                                        {{ yeu_cau.ngayTao.strftime('%d/%m/%Y %H:%M') }}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- BUTTON -->
+                            <div>
+
+                                <a
+                                    href="{{
+                                        url_for(
+                                            'giang_vien_nghiem_thu',
+                                            de_tai_id=yeu_cau.deTaiId
+                                        )
+                                    }}"
+                                    class="
+                                        inline-flex
+                                        items-center
+                                        justify-center
+                                        px-5
+                                        py-3
+                                        rounded-xl
+                                        bg-indigo-600
+                                        text-white
+                                        font-semibold
+                                        hover:bg-indigo-700
+                                        transition
+                                    "
+                                >
+                                    Nghiệm thu
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <!-- KHÔNG CÓ YÊU CẦU -->
+
+            <div
+                class="
+                    bg-white
+                    border border-slate-200
+                    rounded-2xl
+                    p-12
+                    text-center
+                    shadow-sm
+                "
+            >
+
+                <div class="text-5xl mb-4">
+                    📋
+                </div>
+
+                <h2
+                    class="
+                        text-xl
+                        font-bold
+                        text-slate-700
+                    "
+                >
+                    Chưa có yêu cầu nghiệm thu
+                </h2>
+
+                <p class="text-slate-500 mt-2">
+                    Hiện tại chưa có đề tài nào đang chờ bạn nghiệm thu.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

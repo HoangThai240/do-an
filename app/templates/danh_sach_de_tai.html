@@ -1,7 +1,7 @@
 {% extends "layout/base.html" %}
 
 {% block title %}
-Đề tài nghiên cứu | Nghiên Cứu AI
+Đề tài của tôi | Nghiên Cứu AI
 {% endblock %}
 
 
@@ -45,11 +45,11 @@
                 >
 
                     <i
-                        data-lucide="flask-conical"
+                        data-lucide="folder-open"
                         class="w-4 h-4"
                     ></i>
 
-                    Kho đề tài nghiên cứu
+                    Đề tài của tôi
 
                 </div>
 
@@ -64,7 +64,7 @@
                     "
                 >
 
-                    Danh sách đề tài nghiên cứu
+                    Danh sách đề tài của tôi
 
                 </h1>
 
@@ -77,8 +77,8 @@
                     "
                 >
 
-                    Khám phá các đề tài nghiên cứu khoa học được thực hiện
-                    bởi sinh viên và giảng viên trong hệ thống.
+                    Xem và quản lý các đề tài nghiên cứu khoa học
+                    mà bạn đã đăng ký trong hệ thống.
 
                 </p>
 
@@ -90,7 +90,7 @@
                 {% if current_user.role.name == 'SINHVIEN' %}
 
                     <a
-                        href="/de-tai/them"
+                        href="{{ url_for('them_de_tai') }}"
                         class="
                             inline-flex
                             items-center
@@ -144,7 +144,7 @@
 
             <form
                 method="GET"
-                action="/de-tai"
+                action="{{ url_for('de_tai_cua_toi') }}"
                 class="
                     grid
                     grid-cols-1
@@ -152,7 +152,6 @@
                     gap-4
                 "
             >
-
 
                 <!-- SEARCH -->
 
@@ -178,7 +177,7 @@
                             type="text"
                             name="keyword"
                             value="{{ keyword|default('') }}"
-                            placeholder="Tìm kiếm theo tên đề tài..."
+                            placeholder="Tìm kiếm trong đề tài của tôi..."
                             class="
                                 w-full
                                 pl-12
@@ -231,7 +230,6 @@
 
                             <option
                                 value="{{ lv.id }}"
-
                                 {% if linh_vuc_id|string == lv.id|string %}
                                     selected
                                 {% endif %}
@@ -283,7 +281,6 @@
 
                 </div>
 
-
             </form>
 
         </div>
@@ -326,7 +323,7 @@
 
                     </strong>
 
-                    đề tài được tìm thấy
+                    đề tài của bạn
 
                 </span>
 
@@ -350,9 +347,7 @@
                 "
             >
 
-
                 {% for dt in de_tais %}
-
 
                     <div
                         class="
@@ -370,7 +365,6 @@
                         "
                     >
 
-
                         <!-- TOP -->
 
                         <div
@@ -381,7 +375,6 @@
                                 gap-4
                             "
                         >
-
 
                             <div
                                 class="
@@ -405,7 +398,6 @@
                             </div>
 
 
-
                             {% if dt.trangThai %}
 
                                 <span
@@ -426,7 +418,6 @@
                                 </span>
 
                             {% endif %}
-
 
                         </div>
 
@@ -538,7 +529,7 @@
 
                             {% else %}
 
-                                Chưa có thông tin sinh viên
+                                {{ current_user.hoTen }}
 
                             {% endif %}
 
@@ -551,14 +542,16 @@
                         <div
                             class="
                                 flex
-                                items-center
-                                justify-between
+                                flex-col
+                                gap-3
                                 mt-6
                                 pt-5
                                 border-t
                                 border-slate-100
                             "
                         >
+
+                            <!-- XEM CHI TIẾT -->
 
                             <a
                                 href="/de-tai/{{ dt.id }}"
@@ -583,39 +576,54 @@
                             </a>
 
 
+
+                            <!-- KIỂM TRA TRÙNG LẶP -->
+
+                           <a
+    href="{{ url_for('trang_kiem_tra_trung_lap') }}?de_tai_id={{ dt.id }}"
+    class="inline-flex items-center gap-2 text-red-600 font-semibold text-sm hover:text-red-700"
+>
+    <i data-lucide="scan-search" class="w-4 h-4"></i>
+    Kiểm tra trùng lặp
+</a>
+
+
+
+                            <!-- CỦA TÔI -->
+
                             {% if current_user.is_authenticated %}
 
-                                {% if current_user.role.name == 'ADMIN' %}
+                                {% if current_user.role.name == 'SINHVIEN' %}
 
-                                    <a
-                                        href="/admin/de-tai"
+                                    <span
                                         class="
-                                            text-slate-400
-                                            hover:text-primary
-                                            transition-colors
+                                            inline-flex
+                                            items-center
+                                            gap-1
+                                            text-xs
+                                            font-semibold
+                                            text-blue-600
                                         "
                                     >
 
                                         <i
-                                            data-lucide="settings"
-                                            class="w-5 h-5"
+                                            data-lucide="user-check"
+                                            class="w-4 h-4"
                                         ></i>
 
-                                    </a>
+                                        Của tôi
+
+                                    </span>
 
                                 {% endif %}
 
                             {% endif %}
 
-
                         </div>
-
 
                     </div>
 
-
                 {% endfor %}
-
 
             </div>
 
@@ -623,8 +631,7 @@
 
         {% else %}
 
-
-            <!-- EMPTY -->
+            <!-- ================= EMPTY ================= -->
 
             <div
                 class="
@@ -672,7 +679,7 @@
                     "
                 >
 
-                    Chưa tìm thấy đề tài
+                    Bạn chưa có đề tài nào
 
                 </h3>
 
@@ -684,44 +691,46 @@
                     "
                 >
 
-                    Hiện tại chưa có đề tài phù hợp với tìm kiếm của bạn.
+                    Bạn chưa đăng ký đề tài nghiên cứu nào.
+                    Hãy tạo đề tài mới để bắt đầu.
 
                 </p>
 
 
-                <a
-                    href="/de-tai"
-                    class="
-                        inline-flex
-                        items-center
-                        gap-2
-                        mt-6
-                        px-5
-                        py-3
-                        bg-primary
-                        hover:bg-primaryHover
-                        text-white
-                        rounded-xl
-                        font-semibold
-                        transition-all
-                    "
-                >
+                {% if current_user.is_authenticated and current_user.role.name == 'SINHVIEN' %}
 
-                    <i
-                        data-lucide="refresh-cw"
-                        class="w-4 h-4"
-                    ></i>
+                    <a
+                        href="{{ url_for('them_de_tai') }}"
+                        class="
+                            inline-flex
+                            items-center
+                            gap-2
+                            mt-6
+                            px-5
+                            py-3
+                            bg-primary
+                            hover:bg-primaryHover
+                            text-white
+                            rounded-xl
+                            font-semibold
+                            transition-all
+                        "
+                    >
 
-                    Xem tất cả đề tài
+                        <i
+                            data-lucide="plus"
+                            class="w-4 h-4"
+                        ></i>
 
-                </a>
+                        Đăng ký đề tài
 
+                    </a>
+
+                {% endif %}
 
             </div>
 
-
         {% endif %}
-
 
     </div>
 
@@ -730,16 +739,230 @@
 {% endblock %}
 
 
+
 {% block scripts %}
-
 <script>
+document.addEventListener('DOMContentLoaded', function () {
 
-    if (typeof lucide !== 'undefined') {
+    const modal = document.getElementById('modalTrungLap');
+    const noiDung = document.getElementById('noiDungTrungLap');
+    const tenDeTaiDangKiemTra =
+        document.getElementById('tenDeTaiDangKiemTra');
 
-        lucide.createIcons();
+    // Bấm nút kiểm tra
+    document.querySelectorAll('.nut-kiem-tra-trung-lap').forEach(button => {
 
+        button.addEventListener('click', async function () {
+
+            const deTaiId = this.dataset.deTaiId;
+            const tenDeTai = this.dataset.tenDeTai;
+
+            // Hiện modal
+            modal.classList.remove('hidden');
+
+            // Hiện đề tài đang kiểm tra
+            tenDeTaiDangKiemTra.textContent = tenDeTai;
+
+            // Loading
+            noiDung.innerHTML = `
+                <div class="text-center py-10">
+                    <i data-lucide="loader-2"
+                       class="w-10 h-10 mx-auto animate-spin text-indigo-600">
+                    </i>
+
+                    <p class="mt-4 text-gray-600">
+                        Đang kiểm tra trùng lặp...
+                    </p>
+                </div>
+            `;
+
+            lucide.createIcons();
+
+            try {
+
+                const response = await fetch(
+                    `/api/de-tai/${deTaiId}/kiem-tra-trung-lap`
+                );
+
+                const result = await response.json();
+
+                if (!result.success) {
+                    noiDung.innerHTML = `
+                        <div class="text-center py-10 text-red-600">
+                            Không thể kiểm tra trùng lặp.
+                        </div>
+                    `;
+                    return;
+                }
+
+                const danhSach = result.data || [];
+
+                if (danhSach.length === 0) {
+
+                    noiDung.innerHTML = `
+                        <div class="text-center py-10">
+
+                            <i data-lucide="check-circle"
+                               class="w-12 h-12 mx-auto text-green-500">
+                            </i>
+
+                            <p class="mt-4 text-lg font-semibold">
+                                Chưa tìm thấy đề tài tương tự
+                            </p>
+
+                            <p class="text-gray-500 mt-1">
+                                Không có đề tài phù hợp để so sánh.
+                            </p>
+
+                        </div>
+                    `;
+
+                    lucide.createIcons();
+                    return;
+                }
+
+                let html = '';
+
+                danhSach.forEach((item, index) => {
+
+                    const deTai = item.deTai;
+
+                    html += `
+                        <div class="border rounded-xl p-5 mb-4 bg-white shadow-sm">
+
+                            <div class="mb-4">
+
+                                <div class="text-sm text-gray-500 mb-1">
+                                    Đang so sánh với đề tài ${index + 1}
+                                </div>
+
+                                <h3 class="text-lg font-bold text-gray-900">
+                                    ${deTai.tenDeTai}
+                                </h3>
+
+                                <div class="mt-2 text-sm text-gray-500">
+                                    Mức độ tương đồng:
+                                    <span class="font-bold text-red-600">
+                                        ${item.doTuongDong.toFixed(2)}%
+                                    </span>
+                                </div>
+
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+                                ${taoTieuChi(
+                                    'Tên đề tài',
+                                    item.trungLapDeTai
+                                )}
+
+                                ${taoTieuChi(
+                                    'Hướng nghiên cứu',
+                                    item.trungLapHuongNghienCuu
+                                )}
+
+                                ${taoTieuChi(
+                                    'Mục tiêu',
+                                    item.trungLapMucTieu
+                                )}
+
+                                ${taoTieuChi(
+                                    'Từ khóa',
+                                    item.trungLapTuKhoa
+                                )}
+
+                                ${taoTieuChi(
+                                    'Mô tả',
+                                    item.trungLapMoTa
+                                )}
+
+                            </div>
+
+                        </div>
+                    `;
+                });
+
+                noiDung.innerHTML = html;
+
+                lucide.createIcons();
+
+            } catch (error) {
+
+                console.error(error);
+
+                noiDung.innerHTML = `
+                    <div class="text-center py-10 text-red-600">
+                        Có lỗi xảy ra khi kiểm tra trùng lặp.
+                    </div>
+                `;
+            }
+        });
+    });
+
+
+    // Tạo từng tiêu chí
+    function taoTieuChi(ten, phanTram) {
+
+        phanTram = Number(phanTram || 0);
+
+        let mau = 'text-green-600';
+
+        if (phanTram >= 70) {
+            mau = 'text-red-600';
+        }
+        else if (phanTram >= 40) {
+            mau = 'text-yellow-600';
+        }
+
+        return `
+            <div class="border rounded-lg p-3">
+
+                <div class="flex justify-between items-center">
+
+                    <span class="text-sm text-gray-600">
+                        ${ten}
+                    </span>
+
+                    <span class="font-bold ${mau}">
+                        ${phanTram.toFixed(2)}%
+                    </span>
+
+                </div>
+
+            </div>
+        `;
     }
 
-</script>
 
+    // Đóng modal
+    document
+        .getElementById('dongModalTrungLap')
+        ?.addEventListener('click', function () {
+
+            modal.classList.add('hidden');
+
+        });
+
+
+    // Bấm nền để đóng
+    modal?.addEventListener('click', function (e) {
+
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+        }
+
+    });
+
+
+    // ESC để đóng
+    document.addEventListener('keydown', function (e) {
+
+        if (e.key === 'Escape') {
+            modal.classList.add('hidden');
+        }
+
+    });
+
+});
+</script>
 {% endblock %}

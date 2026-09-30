@@ -1,276 +1,111 @@
 {% extends "layout/base.html" %}
 
 {% block title %}
-Kết quả nghiệm thu | Nghiên Cứu AI
+Nghiệm thu đề tài | Nghiên Cứu AI
 {% endblock %}
 
 {% block content %}
 
 <section class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 py-10">
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+```
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <!-- ===================================================== -->
-        <!-- HEADER -->
-        <!-- ===================================================== -->
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
 
-        <div class="mb-8">
+    <div class="mb-8">
 
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
 
-                <div class="flex items-center gap-4">
+            <div class="flex items-center gap-4">
 
-                    <div
-                        class="
-                            w-14
-                            h-14
-                            rounded-2xl
-                            bg-green-100
-                            text-green-600
-                            flex
-                            items-center
-                            justify-center
-                            shadow-sm
-                        "
-                    >
-                        <i
-                            data-lucide="clipboard-check"
-                            class="w-7 h-7"
-                        ></i>
-                    </div>
+                <div class="w-14 h-14 rounded-2xl bg-green-100 text-green-600
+                            flex items-center justify-center shadow-sm">
 
-                    <div>
-
-                        <p class="text-sm font-semibold text-green-600 mb-1">
-                            NGHIỆM THU ĐỀ TÀI
-                        </p>
-
-                        <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900">
-                            Kết quả nghiệm thu
-                        </h1>
-
-                        <p class="text-gray-500 mt-1">
-                            Theo dõi kết quả đánh giá và nghiệm thu các đề tài của bạn.
-                        </p>
-
-                    </div>
+                    <i data-lucide="clipboard-check" class="w-7 h-7"></i>
 
                 </div>
 
+                <div>
 
-                <!-- QUAY LẠI -->
+                    <p class="text-sm font-semibold text-green-600 mb-1">
+                        NGHIỆM THU ĐỀ TÀI
+                    </p>
 
-                <a
-                    href="{{ url_for('index') }}"
-                    class="
-                        inline-flex
-                        items-center
-                        justify-center
-                        gap-2
-                        px-4
-                        py-2.5
-                        rounded-xl
-                        bg-white
-                        border
-                        border-gray-200
-                        text-gray-700
-                        hover:text-blue-600
-                        hover:border-blue-200
-                        shadow-sm
-                        transition
-                    "
-                >
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900">
+                        Nghiệm thu đề tài
+                    </h1>
 
-                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    <p class="text-gray-500 mt-1">
+                        Gửi yêu cầu nghiệm thu và theo dõi kết quả đánh giá đề tài.
+                    </p>
 
-                    Quay lại
-
-                </a>
+                </div>
 
             </div>
+
+            <!-- QUAY LẠI -->
+
+            <a
+                href="{{ url_for('index') }}"
+                class="
+                    inline-flex
+                    items-center
+                    justify-center
+                    gap-2
+                    px-4
+                    py-2.5
+                    rounded-xl
+                    bg-white
+                    border
+                    border-gray-200
+                    text-gray-700
+                    hover:text-blue-600
+                    hover:border-blue-200
+                    shadow-sm
+                    transition
+                "
+            >
+
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+
+                Quay lại
+
+            </a>
 
         </div>
 
-
-        <!-- ===================================================== -->
-        <!-- THỐNG KÊ -->
-        <!-- ===================================================== -->
-
-        {% if danh_sach_nghiem_thu %}
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
-
-            <!-- TỔNG SỐ -->
-
-            <div
-                class="
-                    bg-white
-                    rounded-2xl
-                    border
-                    border-gray-100
-                    shadow-soft
-                    p-5
-                "
-            >
-
-                <div class="flex items-center justify-between">
-
-                    <div>
-
-                        <p class="text-sm text-gray-500">
-                            Tổng số kết quả
-                        </p>
-
-                        <p class="text-3xl font-extrabold text-gray-900 mt-2">
-                            {{ danh_sach_nghiem_thu|length }}
-                        </p>
-
-                    </div>
-
-                    <div
-                        class="
-                            w-12
-                            h-12
-                            rounded-xl
-                            bg-blue-100
-                            text-blue-600
-                            flex
-                            items-center
-                            justify-center
-                        "
-                    >
-
-                        <i
-                            data-lucide="clipboard-list"
-                            class="w-6 h-6"
-                        ></i>
-
-                    </div>
-
-                </div>
-
-            </div>
+    </div>
 
 
-            <!-- ĐẠT -->
+    <!-- ===================================================== -->
+    <!-- DANH SÁCH ĐỀ TÀI -->
+    <!-- ===================================================== -->
 
-            <div
-                class="
-                    bg-white
-                    rounded-2xl
-                    border
-                    border-gray-100
-                    shadow-soft
-                    p-5
-                "
-            >
+    {% if danh_sach_de_tai %}
 
-                <div class="flex items-center justify-between">
+    <div class="space-y-6">
 
-                    <div>
+        {% for de_tai in danh_sach_de_tai %}
 
-                        <p class="text-sm text-gray-500">
-                            Đã nghiệm thu
-                        </p>
+            {% set yeu_cau = yeu_cau_nghiem_thu.get(de_tai.id) %}
 
-                        <p class="text-3xl font-extrabold text-green-600 mt-2">
-                            {{ so_da_nghiem_thu|default(0) }}
-                        </p>
+            {% set ket_qua = ket_qua_nghiem_thu.get(de_tai.id) %}
 
-                    </div>
+            {% set tien_do = tien_do_nghiem_thu.get(de_tai.id) %}
 
-                    <div
-                        class="
-                            w-12
-                            h-12
-                            rounded-xl
-                            bg-green-100
-                            text-green-600
-                            flex
-                            items-center
-                            justify-center
-                        "
-                    >
+            {# ================================================= #}
+            {# KHIẾU NẠI CỦA ĐỀ TÀI #}
+            {# ================================================= #}
 
-                        <i
-                            data-lucide="circle-check"
-                            class="w-6 h-6"
-                        ></i>
-
-                    </div>
-
-                </div>
-
-            </div>
+            {% set khieu_nai = khieu_nai_nghiem_thu.get(de_tai.id) %}
 
 
-            <!-- ĐIỂM -->
-
-            <div
-                class="
-                    bg-white
-                    rounded-2xl
-                    border
-                    border-gray-100
-                    shadow-soft
-                    p-5
-                "
-            >
-
-                <div class="flex items-center justify-between">
-
-                    <div>
-
-                        <p class="text-sm text-gray-500">
-                            Điểm nghiệm thu
-                        </p>
-
-                        <p class="text-3xl font-extrabold text-indigo-600 mt-2">
-
-                            {% if diem_trung_binh is defined and diem_trung_binh is not none %}
-                                {{ diem_trung_binh }}
-                            {% else %}
-                                —
-                            {% endif %}
-
-                        </p>
-
-                    </div>
-
-                    <div
-                        class="
-                            w-12
-                            h-12
-                            rounded-xl
-                            bg-indigo-100
-                            text-indigo-600
-                            flex
-                            items-center
-                            justify-center
-                        "
-                    >
-
-                        <i
-                            data-lucide="star"
-                            class="w-6 h-6"
-                        ></i>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- ===================================================== -->
-        <!-- DANH SÁCH KẾT QUẢ NGHIỆM THU -->
-        <!-- ===================================================== -->
-
-        <div class="space-y-6">
-
-            {% for ket_qua in danh_sach_nghiem_thu %}
+            <!-- ================================================= -->
+            <!-- CARD ĐỀ TÀI -->
+            <!-- ================================================= -->
 
             <div
                 class="
@@ -280,8 +115,6 @@ Kết quả nghiệm thu | Nghiên Cứu AI
                     border-gray-100
                     shadow-soft
                     overflow-hidden
-                    hover:shadow-md
-                    transition
                 "
             >
 
@@ -302,6 +135,8 @@ Kết quả nghiệm thu | Nghiên Cứu AI
                         "
                     >
 
+                        <!-- THÔNG TIN ĐỀ TÀI -->
+
                         <div class="flex items-start gap-4">
 
                             <div
@@ -309,8 +144,8 @@ Kết quả nghiệm thu | Nghiên Cứu AI
                                     w-11
                                     h-11
                                     rounded-xl
-                                    bg-green-50
-                                    text-green-600
+                                    bg-blue-50
+                                    text-blue-600
                                     flex
                                     items-center
                                     justify-center
@@ -319,71 +154,235 @@ Kết quả nghiệm thu | Nghiên Cứu AI
                             >
 
                                 <i
-                                    data-lucide="file-check-2"
+                                    data-lucide="file-text"
                                     class="w-6 h-6"
                                 ></i>
 
                             </div>
 
-
                             <div>
 
                                 <h2 class="text-xl font-bold text-gray-900">
-
-                                    {% if ket_qua.de_tai %}
-                                        {{ ket_qua.de_tai.tenDeTai }}
-                                    {% else %}
-                                        Kết quả nghiệm thu đề tài
-                                    {% endif %}
-
+                                    {{ de_tai.tenDeTai }}
                                 </h2>
-
-
-                                {% if ket_qua.de_tai %}
 
                                 <p class="text-sm text-gray-500 mt-2">
 
                                     Mã đề tài:
 
                                     <span class="font-semibold text-gray-700">
-                                        #{{ ket_qua.de_tai.id }}
+                                        #{{ de_tai.id }}
                                     </span>
 
                                 </p>
-
-                                {% endif %}
 
                             </div>
 
                         </div>
 
 
+                        <!-- ================================================= -->
                         <!-- TRẠNG THÁI -->
+                        <!-- ================================================= -->
 
-                        <span
-                            class="
-                                inline-flex
-                                items-center
-                                gap-1.5
-                                px-3
-                                py-1.5
-                                rounded-full
-                                text-sm
-                                font-semibold
-                                bg-green-100
-                                text-green-700
-                                whitespace-nowrap
-                            "
-                        >
+                        {% if khieu_nai
+                            and khieu_nai.trangThai.value in ['CHO_XU_LY', 'DANG_XU_LY']
+                        %}
 
-                            <i
-                                data-lucide="circle-check"
-                                class="w-4 h-4"
-                            ></i>
+                            <!-- ĐANG CHỜ XỬ LÝ KHIẾU NẠI -->
 
-                            Đã nghiệm thu
+                            <span
+                                class="
+                                    inline-flex
+                                    items-center
+                                    gap-1.5
+                                    px-3
+                                    py-1.5
+                                    rounded-full
+                                    text-sm
+                                    font-semibold
+                                    bg-amber-100
+                                    text-amber-700
+                                "
+                            >
 
-                        </span>
+                                <i
+                                    data-lucide="clock-3"
+                                    class="w-4 h-4"
+                                ></i>
+
+                                Đang chờ giảng viên xử lý
+
+                            </span>
+
+
+                        {% elif ket_qua %}
+
+                            {% if ket_qua.trangThai.value == 'DAT' %}
+
+                                <span
+                                    class="
+                                        inline-flex
+                                        items-center
+                                        gap-1.5
+                                        px-3
+                                        py-1.5
+                                        rounded-full
+                                        text-sm
+                                        font-semibold
+                                        bg-green-100
+                                        text-green-700
+                                    "
+                                >
+
+                                    <i
+                                        data-lucide="circle-check"
+                                        class="w-4 h-4"
+                                    ></i>
+
+                                    Đạt nghiệm thu
+
+                                </span>
+
+                            {% elif ket_qua.trangThai.value == 'KHONG_DAT' %}
+
+                                <span
+                                    class="
+                                        inline-flex
+                                        items-center
+                                        gap-1.5
+                                        px-3
+                                        py-1.5
+                                        rounded-full
+                                        text-sm
+                                        font-semibold
+                                        bg-red-100
+                                        text-red-700
+                                    "
+                                >
+
+                                    <i
+                                        data-lucide="circle-x"
+                                        class="w-4 h-4"
+                                    ></i>
+
+                                    Không đạt
+
+                                </span>
+
+                            {% else %}
+
+                                <span
+                                    class="
+                                        inline-flex
+                                        items-center
+                                        gap-1.5
+                                        px-3
+                                        py-1.5
+                                        rounded-full
+                                        text-sm
+                                        font-semibold
+                                        bg-gray-100
+                                        text-gray-700
+                                    "
+                                >
+
+                                    <i
+                                        data-lucide="clock"
+                                        class="w-4 h-4"
+                                    ></i>
+
+                                    Chưa nghiệm thu
+
+                                </span>
+
+                            {% endif %}
+
+
+                        {% elif yeu_cau %}
+
+                            <span
+                                class="
+                                    inline-flex
+                                    items-center
+                                    gap-1.5
+                                    px-3
+                                    py-1.5
+                                    rounded-full
+                                    text-sm
+                                    font-semibold
+                                    bg-amber-100
+                                    text-amber-700
+                                "
+                            >
+
+                                <i
+                                    data-lucide="clock-3"
+                                    class="w-4 h-4"
+                                ></i>
+
+                                Đang chờ nghiệm thu
+
+                            </span>
+
+
+                        {% elif tien_do
+                            and tien_do.phanTram is not none
+                            and tien_do.phanTram >= 100
+                        %}
+
+                            <span
+                                class="
+                                    inline-flex
+                                    items-center
+                                    gap-1.5
+                                    px-3
+                                    py-1.5
+                                    rounded-full
+                                    text-sm
+                                    font-semibold
+                                    bg-blue-100
+                                    text-blue-700
+                                "
+                            >
+
+                                <i
+                                    data-lucide="check-circle"
+                                    class="w-4 h-4"
+                                ></i>
+
+                                Đủ điều kiện nghiệm thu
+
+                            </span>
+
+
+                        {% else %}
+
+                            <span
+                                class="
+                                    inline-flex
+                                    items-center
+                                    gap-1.5
+                                    px-3
+                                    py-1.5
+                                    rounded-full
+                                    text-sm
+                                    font-semibold
+                                    bg-gray-100
+                                    text-gray-600
+                                "
+                            >
+
+                                <i
+                                    data-lucide="clock"
+                                    class="w-4 h-4"
+                                ></i>
+
+                                Chưa hoàn thành
+
+                            </span>
+
+                        {% endif %}
 
                     </div>
 
@@ -391,178 +390,327 @@ Kết quả nghiệm thu | Nghiên Cứu AI
 
 
                 <!-- ================================================= -->
-                <!-- NỘI DUNG -->
+                <!-- NỘI DUNG CARD -->
                 <!-- ================================================= -->
 
                 <div class="p-6">
 
-                    <!-- ĐIỂM -->
 
-                    {% if ket_qua.diem is defined and ket_qua.diem is not none %}
+                    <!-- ================================================= -->
+                    <!-- 1. CHƯA GỬI YÊU CẦU + CHƯA CÓ KẾT QUẢ -->
+                    <!-- ================================================= -->
 
-                    <div class="mb-7">
+                    {% if not ket_qua and not yeu_cau %}
 
-                        <div class="flex items-center justify-between mb-3">
 
-                            <div class="flex items-center gap-2">
+                        {% if tien_do
+                            and tien_do.phanTram is not none
+                            and tien_do.phanTram >= 100
+                        %}
 
-                                <div
-                                    class="
-                                        w-9
-                                        h-9
-                                        rounded-lg
-                                        bg-amber-100
-                                        text-amber-600
-                                        flex
-                                        items-center
-                                        justify-center
-                                    "
-                                >
+                            <div
+                                class="
+                                    bg-green-50
+                                    border
+                                    border-green-100
+                                    rounded-xl
+                                    p-5
+                                "
+                            >
 
-                                    <i
-                                        data-lucide="star"
-                                        class="w-5 h-5"
-                                    ></i>
+                                <div class="flex items-start gap-4">
+
+                                    <div
+                                        class="
+                                            w-10
+                                            h-10
+                                            rounded-lg
+                                            bg-green-100
+                                            text-green-600
+                                            flex
+                                            items-center
+                                            justify-center
+                                            flex-shrink-0
+                                        "
+                                    >
+
+                                        <i
+                                            data-lucide="send"
+                                            class="w-5 h-5"
+                                        ></i>
+
+                                    </div>
+
+
+                                    <div class="flex-1">
+
+                                        <h3 class="font-bold text-green-800">
+                                            Đề tài đã hoàn thành 100%
+                                        </h3>
+
+                                        <p class="text-sm text-green-700 mt-1">
+                                            Đề tài đã đủ điều kiện để gửi yêu cầu
+                                            nghiệm thu cho giảng viên phụ trách.
+                                        </p>
+
+
+                                        <!-- TIẾN ĐỘ -->
+
+                                        <div class="mt-4">
+
+                                            <div
+                                                class="
+                                                    flex
+                                                    items-center
+                                                    justify-between
+                                                    text-sm
+                                                    mb-2
+                                                "
+                                            >
+
+                                                <span class="font-semibold text-gray-700">
+                                                    Tiến độ thực hiện
+                                                </span>
+
+                                                <span class="font-bold text-green-600">
+                                                    {{ tien_do.phanTram }}%
+                                                </span>
+
+                                            </div>
+
+
+                                            <div
+                                                class="
+                                                    w-full
+                                                    h-3
+                                                    bg-green-100
+                                                    rounded-full
+                                                    overflow-hidden
+                                                "
+                                            >
+
+                                                <div
+                                                    class="
+                                                        h-full
+                                                        bg-gradient-to-r
+                                                        from-green-400
+                                                        to-emerald-600
+                                                        rounded-full
+                                                    "
+                                                    style="width: {{ tien_do.phanTram }}%;"
+                                                ></div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- FORM -->
+
+                                        <form
+                                            method="POST"
+                                            action="{{ url_for(
+                                                'sinh_vien_gui_nghiem_thu',
+                                                de_tai_id=de_tai.id
+                                            ) }}"
+                                            class="mt-5"
+                                        >
+
+                                            <label
+                                                class="
+                                                    block
+                                                    text-sm
+                                                    font-semibold
+                                                    text-gray-700
+                                                    mb-2
+                                                "
+                                            >
+
+                                                Nội dung yêu cầu
+
+                                                <span class="font-normal text-gray-400">
+                                                    (không bắt buộc)
+                                                </span>
+
+                                            </label>
+
+
+                                            <textarea
+                                                name="noi_dung"
+                                                rows="3"
+                                                placeholder="Ghi chú cho giảng viên nghiệm thu..."
+                                                class="
+                                                    w-full
+                                                    rounded-xl
+                                                    border
+                                                    border-green-200
+                                                    px-4
+                                                    py-3
+                                                    text-sm
+                                                    focus:ring-2
+                                                    focus:ring-green-500
+                                                    focus:border-green-500
+                                                    outline-none
+                                                "
+                                            ></textarea>
+
+
+                                            <button
+                                                type="submit"
+                                                class="
+                                                    mt-3
+                                                    inline-flex
+                                                    items-center
+                                                    gap-2
+                                                    px-5
+                                                    py-2.5
+                                                    rounded-xl
+                                                    bg-green-600
+                                                    hover:bg-green-700
+                                                    text-white
+                                                    font-semibold
+                                                    transition
+                                                "
+                                            >
+
+                                                <i
+                                                    data-lucide="send"
+                                                    class="w-4 h-4"
+                                                ></i>
+
+                                                Gửi yêu cầu nghiệm thu
+
+                                            </button>
+
+                                        </form>
+
+                                    </div>
 
                                 </div>
 
-                                <span class="font-bold text-gray-800">
-                                    Điểm nghiệm thu
-                                </span>
-
                             </div>
 
 
-                            <div class="text-3xl font-extrabold text-amber-600">
-
-                                {{ ket_qua.diem }}
-
-                                <span class="text-base font-medium text-gray-400">
-                                    / 10
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            class="
-                                w-full
-                                h-3
-                                bg-gray-100
-                                rounded-full
-                                overflow-hidden
-                            "
-                        >
+                        {% else %}
 
                             <div
                                 class="
-                                    h-full
-                                    bg-gradient-to-r
-                                    from-amber-400
-                                    to-orange-500
-                                    rounded-full
-                                "
-                                style="width: {{ ((ket_qua.diem or 0) / 10 * 100) }}%;"
-                            ></div>
-
-                        </div>
-
-                    </div>
-
-                    {% endif %}
-
-
-                    <!-- KẾT QUẢ -->
-
-                    {% if ket_qua.ketQua is defined and ket_qua.ketQua %}
-
-                    <div class="mb-6">
-
-                        <div class="flex items-center gap-2 mb-3">
-
-                            <div
-                                class="
-                                    w-9
-                                    h-9
-                                    rounded-lg
-                                    bg-green-100
-                                    text-green-600
-                                    flex
-                                    items-center
-                                    justify-center
+                                    bg-gray-50
+                                    border
+                                    border-gray-100
+                                    rounded-xl
+                                    p-5
                                 "
                             >
 
-                                <i
-                                    data-lucide="badge-check"
-                                    class="w-5 h-5"
-                                ></i>
+                                <div class="flex items-start gap-4">
+
+                                    <div
+                                        class="
+                                            w-10
+                                            h-10
+                                            rounded-lg
+                                            bg-gray-100
+                                            text-gray-500
+                                            flex
+                                            items-center
+                                            justify-center
+                                            flex-shrink-0
+                                        "
+                                    >
+
+                                        <i
+                                            data-lucide="lock"
+                                            class="w-5 h-5"
+                                        ></i>
+
+                                    </div>
+
+
+                                    <div class="flex-1">
+
+                                        <h3 class="font-semibold text-gray-800">
+                                            Chưa thể gửi yêu cầu nghiệm thu
+                                        </h3>
+
+                                        <p class="text-sm text-gray-500 mt-1">
+                                            Đề tài cần hoàn thành 100% tiến độ
+                                            trước khi gửi yêu cầu nghiệm thu.
+                                        </p>
+
+
+                                        {% if tien_do
+                                            and tien_do.phanTram is not none
+                                        %}
+
+                                            <div class="mt-4">
+
+                                                <div
+                                                    class="
+                                                        flex
+                                                        items-center
+                                                        justify-between
+                                                        text-sm
+                                                        mb-2
+                                                    "
+                                                >
+
+                                                    <span class="text-gray-500">
+                                                        Tiến độ hiện tại
+                                                    </span>
+
+                                                    <span class="font-bold text-blue-600">
+                                                        {{ tien_do.phanTram }}%
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div
+                                                    class="
+                                                        w-full
+                                                        h-2.5
+                                                        bg-gray-200
+                                                        rounded-full
+                                                        overflow-hidden
+                                                    "
+                                                >
+
+                                                    <div
+                                                        class="
+                                                            h-full
+                                                            bg-blue-500
+                                                            rounded-full
+                                                        "
+                                                        style="width: {{ tien_do.phanTram }}%;"
+                                                    ></div>
+
+                                                </div>
+
+                                            </div>
+
+                                        {% else %}
+
+                                            <p class="text-sm text-gray-400 mt-3">
+                                                Chưa có dữ liệu tiến độ.
+                                            </p>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
 
                             </div>
 
-                            <h3 class="font-bold text-gray-800">
-                                Kết quả
-                            </h3>
-
-                        </div>
+                        {% endif %}
 
 
-                        <div
-                            class="
-                                bg-green-50
-                                border
-                                border-green-100
-                                rounded-xl
-                                p-5
-                                text-green-800
-                                leading-relaxed
-                                whitespace-pre-line
-                            "
-                        >
-                            {{ ket_qua.ketQua }}
-                        </div>
+                    <!-- ================================================= -->
+                    <!-- 2. ĐÃ GỬI YÊU CẦU - ĐANG CHỜ GIẢNG VIÊN -->
+                    <!-- ================================================= -->
 
-                    </div>
-
-                    {% endif %}
-
-
-                    <!-- NHẬN XÉT -->
-
-                    {% if ket_qua.nhanXet is defined and ket_qua.nhanXet %}
-
-                    <div class="mb-6">
-
-                        <div class="flex items-center gap-2 mb-3">
-
-                            <div
-                                class="
-                                    w-9
-                                    h-9
-                                    rounded-lg
-                                    bg-amber-100
-                                    text-amber-600
-                                    flex
-                                    items-center
-                                    justify-center
-                                "
-                            >
-
-                                <i
-                                    data-lucide="message-square-text"
-                                    class="w-5 h-5"
-                                ></i>
-
-                            </div>
-
-                            <h3 class="font-bold text-gray-800">
-                                Nhận xét
-                            </h3>
-
-                        </div>
-
+                    {% elif yeu_cau and not ket_qua %}
 
                         <div
                             class="
@@ -571,144 +719,769 @@ Kết quả nghiệm thu | Nghiên Cứu AI
                                 border-amber-100
                                 rounded-xl
                                 p-5
-                                text-gray-700
-                                leading-relaxed
-                                whitespace-pre-line
                             "
                         >
-                            {{ ket_qua.nhanXet }}
-                        </div>
 
-                    </div>
+                            <div class="flex items-start gap-4">
 
-                    {% endif %}
+                                <div
+                                    class="
+                                        w-10
+                                        h-10
+                                        rounded-lg
+                                        bg-amber-100
+                                        text-amber-600
+                                        flex
+                                        items-center
+                                        justify-center
+                                        flex-shrink-0
+                                    "
+                                >
+
+                                    <i
+                                        data-lucide="clock-3"
+                                        class="w-5 h-5"
+                                    ></i>
+
+                                </div>
 
 
-                    <!-- NHẬN XÉT HỘI ĐỒNG -->
+                                <div class="flex-1">
 
-                    {% if ket_qua.nhanXetHoiDong is defined and ket_qua.nhanXetHoiDong %}
+                                    <h3 class="font-bold text-amber-800">
+                                        Đã gửi yêu cầu nghiệm thu
+                                    </h3>
 
-                    <div class="mb-6">
+                                    <p class="text-sm text-amber-700 mt-1">
+                                        Yêu cầu của bạn đang chờ
+                                        <strong>giảng viên phụ trách</strong>
+                                        thực hiện nghiệm thu.
+                                    </p>
 
-                        <div class="flex items-center gap-2 mb-3">
 
-                            <div
-                                class="
-                                    w-9
-                                    h-9
-                                    rounded-lg
-                                    bg-purple-100
-                                    text-purple-600
-                                    flex
-                                    items-center
-                                    justify-center
-                                "
-                            >
+                                    {% if tien_do
+                                        and tien_do.phanTram is not none
+                                    %}
 
-                                <i
-                                    data-lucide="users-round"
-                                    class="w-5 h-5"
-                                ></i>
+                                        <p class="text-sm text-amber-700 mt-3">
+                                            Tiến độ khi gửi:
+                                            <strong>
+                                                {{ tien_do.phanTram }}%
+                                            </strong>
+                                        </p>
+
+                                    {% endif %}
+
+
+                                    {% if yeu_cau.ngayTao %}
+
+                                        <p class="text-xs text-amber-600 mt-3">
+                                            Ngày gửi:
+                                            {{ yeu_cau.ngayTao.strftime(
+                                                '%d/%m/%Y %H:%M'
+                                            ) }}
+                                        </p>
+
+                                    {% endif %}
+
+
+                                    {% if yeu_cau.noiDung %}
+
+                                        <div
+                                            class="
+                                                mt-4
+                                                bg-white/70
+                                                rounded-lg
+                                                p-4
+                                            "
+                                        >
+
+                                            <p
+                                                class="
+                                                    text-xs
+                                                    font-semibold
+                                                    text-gray-500
+                                                    mb-1
+                                                "
+                                            >
+                                                Nội dung yêu cầu
+                                            </p>
+
+                                            <p
+                                                class="
+                                                    text-sm
+                                                    text-gray-700
+                                                    whitespace-pre-line
+                                                "
+                                            >
+                                                {{ yeu_cau.noiDung }}
+                                            </p>
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
 
                             </div>
 
-                            <h3 class="font-bold text-gray-800">
-                                Nhận xét của hội đồng
-                            </h3>
-
                         </div>
 
 
-                        <div
-                            class="
-                                bg-purple-50
-                                border
-                                border-purple-100
-                                rounded-xl
-                                p-5
-                                text-gray-700
-                                leading-relaxed
-                                whitespace-pre-line
-                            "
-                        >
-                            {{ ket_qua.nhanXetHoiDong }}
+                    <!-- ================================================= -->
+                    <!-- 3. ĐÃ CÓ KẾT QUẢ NGHIỆM THU -->
+                    <!-- ================================================= -->
+
+                    {% elif ket_qua %}
+
+                        <div class="space-y-6">
+
+
+                            <!-- ================================================= -->
+                            <!-- ĐIỂM -->
+                            <!-- ================================================= -->
+
+                            {% if ket_qua.diem is not none %}
+
+                                <div>
+
+                                    <div
+                                        class="
+                                            flex
+                                            items-center
+                                            justify-between
+                                            mb-3
+                                        "
+                                    >
+
+                                        <div class="flex items-center gap-2">
+
+                                            <div
+                                                class="
+                                                    w-9
+                                                    h-9
+                                                    rounded-lg
+                                                    bg-amber-100
+                                                    text-amber-600
+                                                    flex
+                                                    items-center
+                                                    justify-center
+                                                "
+                                            >
+
+                                                <i
+                                                    data-lucide="star"
+                                                    class="w-5 h-5"
+                                                ></i>
+
+                                            </div>
+
+                                            <span class="font-bold text-gray-800">
+                                                Điểm nghiệm thu
+                                            </span>
+
+                                        </div>
+
+
+                                        <div
+                                            class="
+                                                text-3xl
+                                                font-extrabold
+                                                text-amber-600
+                                            "
+                                        >
+
+                                            {{ ket_qua.diem }}
+
+                                            <span
+                                                class="
+                                                    text-base
+                                                    font-medium
+                                                    text-gray-400
+                                                "
+                                            >
+                                                / 10
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div
+                                        class="
+                                            w-full
+                                            h-3
+                                            bg-gray-100
+                                            rounded-full
+                                            overflow-hidden
+                                        "
+                                    >
+
+                                        <div
+                                            class="
+                                                h-full
+                                                bg-gradient-to-r
+                                                from-amber-400
+                                                to-orange-500
+                                                rounded-full
+                                            "
+                                            style="
+                                                width: {{ ((ket_qua.diem or 0) / 10 * 100) }}%;
+                                            "
+                                        ></div>
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- ================================================= -->
+                            <!-- KẾT LUẬN -->
+                            <!-- ================================================= -->
+
+                            {% if ket_qua.ketLuan %}
+
+                                <div>
+
+                                    <div
+                                        class="
+                                            flex
+                                            items-center
+                                            gap-2
+                                            mb-3
+                                        "
+                                    >
+
+                                        <div
+                                            class="
+                                                w-9
+                                                h-9
+                                                rounded-lg
+                                                bg-green-100
+                                                text-green-600
+                                                flex
+                                                items-center
+                                                justify-center
+                                            "
+                                        >
+
+                                            <i
+                                                data-lucide="badge-check"
+                                                class="w-5 h-5"
+                                            ></i>
+
+                                        </div>
+
+                                        <h3 class="font-bold text-gray-800">
+                                            Kết luận nghiệm thu
+                                        </h3>
+
+                                    </div>
+
+
+                                    <div
+                                        class="
+                                            bg-green-50
+                                            border
+                                            border-green-100
+                                            rounded-xl
+                                            p-5
+                                            text-green-800
+                                            leading-relaxed
+                                            whitespace-pre-line
+                                        "
+                                    >
+
+                                        {{ ket_qua.ketLuan }}
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- ================================================= -->
+                            <!-- NHẬN XÉT -->
+                            <!-- ================================================= -->
+
+                            {% if ket_qua.nhanXet %}
+
+                                <div>
+
+                                    <div
+                                        class="
+                                            flex
+                                            items-center
+                                            gap-2
+                                            mb-3
+                                        "
+                                    >
+
+                                        <div
+                                            class="
+                                                w-9
+                                                h-9
+                                                rounded-lg
+                                                bg-amber-100
+                                                text-amber-600
+                                                flex
+                                                items-center
+                                                justify-center
+                                            "
+                                        >
+
+                                            <i
+                                                data-lucide="message-square-text"
+                                                class="w-5 h-5"
+                                            ></i>
+
+                                        </div>
+
+                                        <h3 class="font-bold text-gray-800">
+                                            Nhận xét của giảng viên
+                                        </h3>
+
+                                    </div>
+
+
+                                    <div
+                                        class="
+                                            bg-amber-50
+                                            border
+                                            border-amber-100
+                                            rounded-xl
+                                            p-5
+                                            text-gray-700
+                                            leading-relaxed
+                                            whitespace-pre-line
+                                        "
+                                    >
+
+                                        {{ ket_qua.nhanXet }}
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- ================================================= -->
+                            <!-- NGÀY NGHIỆM THU -->
+                            <!-- ================================================= -->
+
+                            {% if ket_qua.ngayNghiemThu %}
+
+                                <div
+                                    class="
+                                        flex
+                                        items-center
+                                        gap-2
+                                        pt-5
+                                        border-t
+                                        border-gray-100
+                                        text-sm
+                                        text-gray-500
+                                    "
+                                >
+
+                                    <i
+                                        data-lucide="calendar-check-2"
+                                        class="w-4 h-4"
+                                    ></i>
+
+                                    <span>
+                                        Ngày nghiệm thu:
+                                    </span>
+
+                                    <span class="font-semibold text-gray-700">
+
+                                        {{ ket_qua.ngayNghiemThu.strftime(
+                                            '%d/%m/%Y %H:%M'
+                                        ) }}
+
+                                    </span>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- ================================================= -->
+                            <!-- XÁC NHẬN KẾT QUẢ -->
+                            <!-- ================================================= -->
+
+                            <div class="pt-5 border-t border-gray-100">
+
+                                {# ================================================= #}
+                                {# ĐANG CHỜ GIẢNG VIÊN XỬ LÝ KHIẾU NẠI #}
+                                {# ================================================= #}
+
+                                {% if khieu_nai
+                                    and khieu_nai.trangThai.value in ['CHO_XU_LY', 'DANG_XU_LY']
+                                %}
+
+                                    <div
+                                        class="
+                                            bg-amber-50
+                                            border
+                                            border-amber-200
+                                            rounded-xl
+                                            p-5
+                                        "
+                                    >
+
+                                        <div class="flex items-start gap-4">
+
+                                            <div
+                                                class="
+                                                    w-11
+                                                    h-11
+                                                    rounded-xl
+                                                    bg-amber-100
+                                                    text-amber-600
+                                                    flex
+                                                    items-center
+                                                    justify-center
+                                                    flex-shrink-0
+                                                "
+                                            >
+
+                                                <i
+                                                    data-lucide="clock-3"
+                                                    class="w-6 h-6"
+                                                ></i>
+
+                                            </div>
+
+
+                                            <div class="flex-1">
+
+                                                <h3 class="font-bold text-amber-800 text-lg">
+                                                    Đang chờ giảng viên xử lý
+                                                </h3>
+
+                                                <p class="text-sm text-amber-700 mt-1">
+                                                    Bạn đã gửi khiếu nại về kết quả
+                                                    nghiệm thu. Vui lòng chờ giảng viên
+                                                    xem xét và phản hồi.
+                                                </p>
+
+
+                                                {% if khieu_nai.ngayTao %}
+
+                                                    <p class="text-xs text-amber-600 mt-3">
+
+                                                        Ngày gửi khiếu nại:
+
+                                                        <strong>
+                                                            {{ khieu_nai.ngayTao.strftime(
+                                                                '%d/%m/%Y %H:%M'
+                                                            ) }}
+                                                        </strong>
+
+                                                    </p>
+
+                                                {% endif %}
+
+
+                                                {% if khieu_nai.lyDo %}
+
+                                                    <div
+                                                        class="
+                                                            mt-4
+                                                            bg-white/70
+                                                            rounded-lg
+                                                            p-4
+                                                        "
+                                                    >
+
+                                                        <p
+                                                            class="
+                                                                text-xs
+                                                                font-semibold
+                                                                text-gray-500
+                                                                mb-1
+                                                            "
+                                                        >
+                                                            Lý do khiếu nại
+                                                        </p>
+
+                                                        <p
+                                                            class="
+                                                                text-sm
+                                                                text-gray-700
+                                                                whitespace-pre-line
+                                                            "
+                                                        >
+                                                            {{ khieu_nai.lyDo }}
+                                                        </p>
+
+                                                    </div>
+
+                                                {% endif %}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                {# ================================================= #}
+                                {# ĐÃ ĐỒNG Ý VỚI KẾT QUẢ #}
+                                {# ================================================= #}
+
+                                {% elif ket_qua.sinhVienDongY %}
+
+                                    <div
+                                        class="
+                                            bg-green-50
+                                            border
+                                            border-green-200
+                                            rounded-xl
+                                            p-5
+                                        "
+                                    >
+
+                                        <div class="flex items-start gap-4">
+
+                                            <div
+                                                class="
+                                                    w-11
+                                                    h-11
+                                                    rounded-xl
+                                                    bg-green-100
+                                                    text-green-600
+                                                    flex
+                                                    items-center
+                                                    justify-center
+                                                    flex-shrink-0
+                                                "
+                                            >
+
+                                                <i
+                                                    data-lucide="circle-check"
+                                                    class="w-6 h-6"
+                                                ></i>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <h3 class="font-bold text-green-800 text-lg">
+                                                    Bạn đã đồng ý với kết quả nghiệm thu
+                                                </h3>
+
+                                                <p class="text-sm text-green-700 mt-1">
+                                                    Kết quả nghiệm thu đã được bạn xác nhận.
+                                                </p>
+
+
+                                                {% if ket_qua.ngaySinhVienDongY %}
+
+                                                    <p class="text-xs text-green-600 mt-3">
+
+                                                        Thời gian xác nhận:
+
+                                                        <strong>
+                                                            {{ ket_qua.ngaySinhVienDongY.strftime(
+                                                                '%d/%m/%Y %H:%M'
+                                                            ) }}
+                                                        </strong>
+
+                                                    </p>
+
+                                                {% endif %}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                {# ================================================= #}
+                                {# CHƯA XÁC NHẬN - HIỆN 2 NÚT #}
+                                {# ================================================= #}
+
+                                {% else %}
+
+                                    <div
+                                        class="
+                                            bg-slate-50
+                                            border
+                                            border-gray-200
+                                            rounded-xl
+                                            p-5
+                                        "
+                                    >
+
+                                        <div
+                                            class="
+                                                flex
+                                                flex-col
+                                                lg:flex-row
+                                                lg:items-center
+                                                lg:justify-between
+                                                gap-5
+                                            "
+                                        >
+
+                                            <!-- THÔNG TIN -->
+
+                                            <div class="flex items-start gap-3">
+
+                                                <div
+                                                    class="
+                                                        w-10
+                                                        h-10
+                                                        rounded-lg
+                                                        bg-blue-100
+                                                        text-blue-600
+                                                        flex
+                                                        items-center
+                                                        justify-center
+                                                        flex-shrink-0
+                                                    "
+                                                >
+
+                                                    <i
+                                                        data-lucide="clipboard-check"
+                                                        class="w-5 h-5"
+                                                    ></i>
+
+                                                </div>
+
+
+                                                <div>
+
+                                                    <h3 class="font-bold text-gray-900">
+                                                        Xác nhận kết quả nghiệm thu
+                                                    </h3>
+
+                                                    <p class="text-sm text-gray-500 mt-1">
+                                                        Vui lòng xác nhận bạn đồng ý
+                                                        hoặc không đồng ý với kết quả
+                                                        nghiệm thu của giảng viên.
+                                                    </p>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <!-- CÁC NÚT -->
+
+                                            <div
+                                                class="
+                                                    flex
+                                                    flex-col
+                                                    sm:flex-row
+                                                    items-stretch
+                                                    sm:items-center
+                                                    gap-3
+                                                    flex-shrink-0
+                                                "
+                                            >
+
+                                                <!-- ĐỒNG Ý -->
+
+                                                <form
+                                                    method="POST"
+                                                    action="{{ url_for(
+                                                        'sinh_vien_dong_y_nghiem_thu',
+                                                        de_tai_id=de_tai.id
+                                                    ) }}"
+                                                >
+
+                                                    <button
+                                                        type="submit"
+                                                        class="
+                                                            inline-flex
+                                                            items-center
+                                                            justify-center
+                                                            gap-2
+                                                            w-full
+                                                            sm:w-auto
+                                                            px-5
+                                                            py-3
+                                                            rounded-xl
+                                                            bg-green-500
+                                                            hover:bg-green-600
+                                                            text-white
+                                                            font-semibold
+                                                            shadow-sm
+                                                            transition
+                                                            duration-200
+                                                        "
+                                                    >
+
+                                                        <i
+                                                            data-lucide="check-circle"
+                                                            class="w-5 h-5"
+                                                        ></i>
+
+                                                        Đồng ý với kết quả
+
+                                                    </button>
+
+                                                </form>
+
+
+                                                <!-- KHÔNG ĐỒNG Ý / KHIẾU NẠI -->
+
+                                                <a
+                                                    href="{{ url_for(
+                                                        'sinh_vien_khieu_nai_nghiem_thu',
+                                                        de_tai_id=de_tai.id
+                                                    ) }}"
+                                                    class="
+                                                        inline-flex
+                                                        items-center
+                                                        justify-center
+                                                        gap-2
+                                                        w-full
+                                                        sm:w-auto
+                                                        px-5
+                                                        py-3
+                                                        rounded-xl
+                                                        bg-red-500
+                                                        hover:bg-red-600
+                                                        text-white
+                                                        font-semibold
+                                                        shadow-sm
+                                                        transition
+                                                        duration-200
+                                                    "
+                                                >
+
+                                                    <i
+                                                        data-lucide="message-square-warning"
+                                                        class="w-5 h-5"
+                                                    ></i>
+
+                                                    Không đồng ý / Khiếu nại
+
+                                                </a>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
                         </div>
-
-                    </div>
-
-                    {% endif %}
-
-
-                    <!-- ================================================= -->
-                    <!-- NGÀY NGHIỆM THU -->
-                    <!-- ================================================= -->
-
-                    {% if ket_qua.ngayNghiemThu is defined and ket_qua.ngayNghiemThu %}
-
-                    <div
-                        class="
-                            flex
-                            items-center
-                            gap-2
-                            pt-5
-                            border-t
-                            border-gray-100
-                            text-sm
-                            text-gray-500
-                        "
-                    >
-
-                        <i
-                            data-lucide="calendar-check-2"
-                            class="w-4 h-4"
-                        ></i>
-
-                        <span>
-                            Ngày nghiệm thu:
-                        </span>
-
-                        <span class="font-semibold text-gray-700">
-
-                            {{ ket_qua.ngayNghiemThu.strftime('%d/%m/%Y %H:%M') }}
-
-                        </span>
-
-                    </div>
-
-                    {% endif %}
-
-
-                    <!-- NGÀY TẠO -->
-
-                    {% if ket_qua.ngayTao is defined and ket_qua.ngayTao %}
-
-                    <div
-                        class="
-                            flex
-                            items-center
-                            gap-2
-                            mt-3
-                            text-sm
-                            text-gray-500
-                        "
-                    >
-
-                        <i
-                            data-lucide="clock-3"
-                            class="w-4 h-4"
-                        ></i>
-
-                        <span>
-                            Cập nhật:
-                        </span>
-
-                        <span class="font-medium text-gray-700">
-
-                            {{ ket_qua.ngayTao.strftime('%d/%m/%Y %H:%M') }}
-
-                        </span>
-
-                    </div>
 
                     {% endif %}
 
@@ -716,16 +1489,16 @@ Kết quả nghiệm thu | Nghiên Cứu AI
 
             </div>
 
-            {% endfor %}
+        {% endfor %}
 
-        </div>
+    </div>
 
 
-        <!-- ===================================================== -->
-        <!-- KHÔNG CÓ KẾT QUẢ -->
-        <!-- ===================================================== -->
+    <!-- ===================================================== -->
+    <!-- KHÔNG CÓ ĐỀ TÀI -->
+    <!-- ===================================================== -->
 
-        {% else %}
+    {% else %}
 
         <div
             class="
@@ -763,29 +1536,13 @@ Kết quả nghiệm thu | Nghiên Cứu AI
             </div>
 
 
-            <h2
-                class="
-                    text-xl
-                    md:text-2xl
-                    font-bold
-                    text-gray-900
-                    mb-3
-                "
-            >
-                Chưa có kết quả nghiệm thu
+            <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-3">
+                Chưa có đề tài
             </h2>
 
 
-            <p
-                class="
-                    text-gray-500
-                    max-w-lg
-                    mx-auto
-                    leading-relaxed
-                "
-            >
-                Hiện tại đề tài của bạn chưa có kết quả nghiệm thu.
-                Sau khi đề tài được nghiệm thu, kết quả đánh giá sẽ được hiển thị tại đây.
+            <p class="text-gray-500 max-w-lg mx-auto leading-relaxed">
+                Hiện tại bạn chưa có đề tài nào để thực hiện nghiệm thu.
             </p>
 
 
@@ -819,26 +1576,26 @@ Kết quả nghiệm thu | Nghiên Cứu AI
 
         </div>
 
-        {% endif %}
+    {% endif %}
 
-    </div>
+</div>
+```
 
 </section>
 
 {% endblock %}
 
-
 {% block scripts %}
 
 <script>
 
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-        if (typeof lucide !== "undefined") {
-            lucide.createIcons();
-        }
+    if (typeof lucide !== "undefined") {
+        lucide.createIcons();
+    }
 
-    });
+});
 
 </script>
 

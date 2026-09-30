@@ -1,0 +1,67 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Phản hồi | Giảng viên
+{% endblock %}
+
+{% block content %}
+
+<div class="min-h-screen bg-slate-50 py-10">
+
+    <div class="max-w-5xl mx-auto px-4">
+
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-slate-800">
+                Phản hồi
+            </h1>
+
+            <p class="text-slate-500 mt-2">
+                Xem các phản hồi liên quan đến đề tài.
+            </p>
+        </div>
+
+        {% if danh_sach %}
+
+            <div class="space-y-4">
+
+                {% for item in danh_sach %}
+
+                    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+
+                        <h2 class="text-xl font-bold text-slate-800">
+                            {{ item.de_tai.tenDeTai }}
+                        </h2>
+
+                        {% if item.noiDung %}
+                            <p class="text-slate-600 mt-3">
+                                {{ item.noiDung }}
+                            </p>
+                        {% endif %}
+
+                        {% if item.ngayTao %}
+                            <p class="text-sm text-slate-400 mt-3">
+                                {{ item.ngayTao.strftime('%d/%m/%Y %H:%M') }}
+                            </p>
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="bg-white border border-slate-200 rounded-2xl p-10 text-center">
+                <p class="text-slate-500">
+                    Hiện chưa có phản hồi nào.
+                </p>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

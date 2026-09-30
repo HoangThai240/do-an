@@ -1,0 +1,1035 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Thống kê & Báo cáo | Nghiên Cứu AI
+{% endblock %}
+
+{% block content %}
+
+<section class="min-h-screen bg-slate-50">
+
+    <!-- HEADER -->
+    <div class="bg-gradient-to-r from-primary to-secondary py-10 px-4">
+
+        <div class="max-w-7xl mx-auto">
+
+            <div class="flex flex-col lg:flex-row
+                        lg:items-center
+                        lg:justify-between
+                        gap-6">
+
+                <div>
+
+                    <div class="flex items-center gap-3 mb-3">
+
+                        <div class="w-11 h-11
+                                    rounded-2xl
+                                    bg-white/20
+                                    flex items-center
+                                    justify-center">
+
+                            <i data-lucide="bar-chart-3"
+                               class="w-6 h-6 text-white">
+                            </i>
+
+                        </div>
+
+                        <p class="text-blue-100 font-semibold">
+                            Báo cáo hệ thống
+                        </p>
+
+                    </div>
+
+                    <h1 class="text-3xl md:text-4xl
+                               font-extrabold text-white">
+
+                        Thống kê & Báo cáo
+
+                    </h1>
+
+                    <p class="text-blue-100 mt-2 max-w-2xl">
+
+                        Theo dõi tình hình người dùng,
+                        đề tài nghiên cứu và kết quả nghiệm thu.
+
+                    </p>
+
+                </div>
+
+                <a
+                    href="{{ url_for('admin_dashboard') }}"
+                    class="inline-flex items-center gap-2
+                           px-5 py-3
+                           rounded-xl
+                           bg-white
+                           text-primary
+                           font-bold
+                           shadow-sm
+                           hover:shadow-md
+                           transition"
+                >
+
+                    <i data-lucide="arrow-left"
+                       class="w-5 h-5">
+                    </i>
+
+                    Về Dashboard
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="max-w-7xl mx-auto px-4 py-10">
+
+
+        <!-- ============================================== -->
+        <!-- NGƯỜI DÙNG -->
+        <!-- ============================================== -->
+
+        <div class="mb-10">
+
+            <div class="mb-5">
+
+                <h2 class="text-xl font-bold text-slate-900">
+                    Người dùng
+                </h2>
+
+                <p class="text-sm text-slate-500 mt-1">
+                    Thống kê tài khoản đang có trong hệ thống.
+                </p>
+
+            </div>
+
+
+            <div class="grid grid-cols-1
+                        sm:grid-cols-2
+                        lg:grid-cols-4
+                        gap-5">
+
+
+                <!-- TỔNG -->
+
+                <div class="bg-white rounded-2xl
+                            border border-slate-200
+                            shadow-sm p-6">
+
+                    <div class="flex items-center
+                                justify-between">
+
+                        <div>
+
+                            <p class="text-sm font-medium text-slate-500">
+                                Tổng người dùng
+                            </p>
+
+                            <p class="text-3xl font-extrabold
+                                      text-slate-900 mt-2">
+
+                                {{ bao_cao.tongNguoiDung }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="w-12 h-12 rounded-2xl
+                                    bg-blue-100 text-blue-600
+                                    flex items-center justify-center">
+
+                            <i data-lucide="users"
+                               class="w-6 h-6">
+                            </i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SINH VIÊN -->
+
+                <div class="bg-white rounded-2xl
+                            border border-slate-200
+                            shadow-sm p-6">
+
+                    <div class="flex items-center
+                                justify-between">
+
+                        <div>
+
+                            <p class="text-sm font-medium text-slate-500">
+                                Sinh viên
+                            </p>
+
+                            <p class="text-3xl font-extrabold
+                                      text-indigo-600 mt-2">
+
+                                {{ bao_cao.sinhVien }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="w-12 h-12 rounded-2xl
+                                    bg-indigo-100 text-indigo-600
+                                    flex items-center justify-center">
+
+                            <i data-lucide="graduation-cap"
+                               class="w-6 h-6">
+                            </i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- GIẢNG VIÊN -->
+
+                <div class="bg-white rounded-2xl
+                            border border-slate-200
+                            shadow-sm p-6">
+
+                    <div class="flex items-center
+                                justify-between">
+
+                        <div>
+
+                            <p class="text-sm font-medium text-slate-500">
+                                Giảng viên
+                            </p>
+
+                            <p class="text-3xl font-extrabold
+                                      text-purple-600 mt-2">
+
+                                {{ bao_cao.giangVien }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="w-12 h-12 rounded-2xl
+                                    bg-purple-100 text-purple-600
+                                    flex items-center justify-center">
+
+                            <i data-lucide="user-round-check"
+                               class="w-6 h-6">
+                            </i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ADMIN -->
+
+                <div class="bg-white rounded-2xl
+                            border border-slate-200
+                            shadow-sm p-6">
+
+                    <div class="flex items-center
+                                justify-between">
+
+                        <div>
+
+                            <p class="text-sm font-medium text-slate-500">
+                                Quản trị viên
+                            </p>
+
+                            <p class="text-3xl font-extrabold
+                                      text-orange-600 mt-2">
+
+                                {{ bao_cao.admin }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="w-12 h-12 rounded-2xl
+                                    bg-orange-100 text-orange-600
+                                    flex items-center justify-center">
+
+                            <i data-lucide="shield-check"
+                               class="w-6 h-6">
+                            </i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================== -->
+        <!-- ĐỀ TÀI -->
+        <!-- ============================================== -->
+
+        <div class="mb-10">
+
+            <div class="mb-5">
+
+                <h2 class="text-xl font-bold text-slate-900">
+                    Đề tài nghiên cứu
+                </h2>
+
+                <p class="text-sm text-slate-500 mt-1">
+                    Phân bố đề tài theo trạng thái xử lý.
+                </p>
+
+            </div>
+
+
+            <div class="grid grid-cols-2
+                        md:grid-cols-3
+                        lg:grid-cols-6
+                        gap-4">
+
+
+                <div class="bg-white rounded-2xl border
+                            border-slate-200 p-5">
+
+                    <p class="text-sm text-slate-500">
+                        Tổng
+                    </p>
+
+                    <p class="text-2xl font-extrabold
+                              text-slate-900 mt-2">
+
+                        {{ bao_cao.tongDeTai }}
+
+                    </p>
+
+                </div>
+
+
+                <div class="bg-white rounded-2xl border
+                            border-slate-200 p-5">
+
+                    <p class="text-sm text-slate-500">
+                        Nháp
+                    </p>
+
+                    <p class="text-2xl font-extrabold
+                              text-slate-500 mt-2">
+
+                        {{ bao_cao.nhap }}
+
+                    </p>
+
+                </div>
+
+
+                <div class="bg-white rounded-2xl border
+                            border-slate-200 p-5">
+
+                    <p class="text-sm text-slate-500">
+                        Chờ duyệt
+                    </p>
+
+                    <p class="text-2xl font-extrabold
+                              text-amber-600 mt-2">
+
+                        {{ bao_cao.choDuyet }}
+
+                    </p>
+
+                </div>
+
+
+                <div class="bg-white rounded-2xl border
+                            border-slate-200 p-5">
+
+                    <p class="text-sm text-slate-500">
+                        Đã duyệt
+                    </p>
+
+                    <p class="text-2xl font-extrabold
+                              text-emerald-600 mt-2">
+
+                        {{ bao_cao.daDuyet }}
+
+                    </p>
+
+                </div>
+
+
+                <div class="bg-white rounded-2xl border
+                            border-slate-200 p-5">
+
+                    <p class="text-sm text-slate-500">
+                        Từ chối
+                    </p>
+
+                    <p class="text-2xl font-extrabold
+                              text-red-600 mt-2">
+
+                        {{ bao_cao.tuChoi }}
+
+                    </p>
+
+                </div>
+
+
+                <div class="bg-white rounded-2xl border
+                            border-slate-200 p-5">
+
+                    <p class="text-sm text-slate-500">
+                        Hoàn thành
+                    </p>
+
+                    <p class="text-2xl font-extrabold
+                              text-purple-600 mt-2">
+
+                        {{ bao_cao.hoanThanh }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================== -->
+        <!-- BIỂU ĐỒ -->
+        <!-- ============================================== -->
+
+        <div class="grid grid-cols-1 lg:grid-cols-2
+                    gap-6 mb-10">
+
+
+            <!-- TRẠNG THÁI -->
+
+            <div class="bg-white rounded-3xl
+                        border border-slate-200
+                        shadow-sm p-6">
+
+                <div class="flex items-center gap-3 mb-6">
+
+                    <div class="w-10 h-10 rounded-xl
+                                bg-blue-100 text-blue-600
+                                flex items-center justify-center">
+
+                        <i data-lucide="chart-column"
+                           class="w-5 h-5">
+                        </i>
+
+                    </div>
+
+                    <div>
+
+                        <h3 class="font-bold text-slate-900">
+                            Đề tài theo trạng thái
+                        </h3>
+
+                        <p class="text-xs text-slate-500">
+                            Số lượng đề tài hiện tại
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="h-80">
+
+                    <canvas id="chartTrangThai"></canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- LĨNH VỰC -->
+
+            <div class="bg-white rounded-3xl
+                        border border-slate-200
+                        shadow-sm p-6">
+
+                <div class="flex items-center gap-3 mb-6">
+
+                    <div class="w-10 h-10 rounded-xl
+                                bg-purple-100 text-purple-600
+                                flex items-center justify-center">
+
+                        <i data-lucide="layers-3"
+                           class="w-5 h-5">
+                        </i>
+
+                    </div>
+
+                    <div>
+
+                        <h3 class="font-bold text-slate-900">
+                            Đề tài theo lĩnh vực
+                        </h3>
+
+                        <p class="text-xs text-slate-500">
+                            Phân bố đề tài nghiên cứu
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="h-80">
+
+                    <canvas id="chartLinhVuc"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================== -->
+        <!-- NGHIỆM THU -->
+        <!-- ============================================== -->
+
+        <div class="mb-10">
+
+            <div class="mb-5">
+
+                <h2 class="text-xl font-bold text-slate-900">
+                    Nghiệm thu
+                </h2>
+
+                <p class="text-sm text-slate-500 mt-1">
+                    Tổng hợp tình hình xử lý nghiệm thu đề tài.
+                </p>
+
+            </div>
+
+
+            <div class="grid grid-cols-1
+                        md:grid-cols-3
+                        gap-5">
+
+
+                <div class="bg-white rounded-2xl
+                            border border-slate-200
+                            shadow-sm p-6">
+
+                    <div class="flex items-center gap-4">
+
+                        <div class="w-12 h-12 rounded-2xl
+                                    bg-orange-100 text-orange-600
+                                    flex items-center justify-center">
+
+                            <i data-lucide="clipboard-list"
+                               class="w-6 h-6">
+                            </i>
+
+                        </div>
+
+                        <div>
+
+                            <p class="text-sm text-slate-500">
+                                Tổng yêu cầu nghiệm thu
+                            </p>
+
+                            <p class="text-3xl font-extrabold
+                                      text-slate-900">
+
+                                {{ bao_cao.tongYeuCauNghiemThu }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="bg-white rounded-2xl
+                            border border-slate-200
+                            shadow-sm p-6">
+
+                    <div class="flex items-center gap-4">
+
+                        <div class="w-12 h-12 rounded-2xl
+                                    bg-emerald-100 text-emerald-600
+                                    flex items-center justify-center">
+
+                            <i data-lucide="circle-check"
+                               class="w-6 h-6">
+                            </i>
+
+                        </div>
+
+                        <div>
+
+                            <p class="text-sm text-slate-500">
+                                Nghiệm thu đạt
+                            </p>
+
+                            <p class="text-3xl font-extrabold
+                                      text-emerald-600">
+
+                                {{ bao_cao.nghiemThuDat }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="bg-white rounded-2xl
+                            border border-slate-200
+                            shadow-sm p-6">
+
+                    <div class="flex items-center gap-4">
+
+                        <div class="w-12 h-12 rounded-2xl
+                                    bg-red-100 text-red-600
+                                    flex items-center justify-center">
+
+                            <i data-lucide="circle-x"
+                               class="w-6 h-6">
+                            </i>
+
+                        </div>
+
+                        <div>
+
+                            <p class="text-sm text-slate-500">
+                                Nghiệm thu không đạt
+                            </p>
+
+                            <p class="text-3xl font-extrabold
+                                      text-red-600">
+
+                                {{ bao_cao.nghiemThuKhongDat }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================== -->
+        <!-- BẢNG BÁO CÁO -->
+        <!-- ============================================== -->
+
+        <div class="bg-white rounded-3xl
+                    border border-slate-200
+                    shadow-sm overflow-hidden">
+
+            <div class="px-6 py-6
+                        border-b border-slate-100">
+
+                <div class="flex items-center gap-3">
+
+                    <div class="w-10 h-10 rounded-xl
+                                bg-slate-100 text-slate-600
+                                flex items-center justify-center">
+
+                        <i data-lucide="file-bar-chart"
+                           class="w-5 h-5">
+                        </i>
+
+                    </div>
+
+                    <div>
+
+                        <h2 class="text-xl font-bold text-slate-900">
+                            Báo cáo tổng hợp
+                        </h2>
+
+                        <p class="text-sm text-slate-500">
+                            Tổng hợp các chỉ số chính của hệ thống.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="overflow-x-auto">
+
+                <table class="w-full">
+
+                    <thead class="bg-slate-50">
+
+                        <tr>
+
+                            <th class="text-left px-6 py-4
+                                       text-xs font-bold
+                                       uppercase tracking-wider
+                                       text-slate-500">
+
+                                Nhóm thống kê
+
+                            </th>
+
+                            <th class="text-left px-6 py-4
+                                       text-xs font-bold
+                                       uppercase tracking-wider
+                                       text-slate-500">
+
+                                Chỉ tiêu
+
+                            </th>
+
+                            <th class="text-right px-6 py-4
+                                       text-xs font-bold
+                                       uppercase tracking-wider
+                                       text-slate-500">
+
+                                Số lượng
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody class="divide-y divide-slate-100">
+
+
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">
+                                Người dùng
+                            </td>
+
+                            <td class="px-6 py-4 text-slate-600">
+                                Tổng người dùng
+                            </td>
+
+                            <td class="px-6 py-4 text-right font-bold">
+                                {{ bao_cao.tongNguoiDung }}
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">
+                                Người dùng
+                            </td>
+
+                            <td class="px-6 py-4 text-slate-600">
+                                Sinh viên
+                            </td>
+
+                            <td class="px-6 py-4 text-right font-bold">
+                                {{ bao_cao.sinhVien }}
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">
+                                Người dùng
+                            </td>
+
+                            <td class="px-6 py-4 text-slate-600">
+                                Giảng viên
+                            </td>
+
+                            <td class="px-6 py-4 text-right font-bold">
+                                {{ bao_cao.giangVien }}
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">
+                                Đề tài
+                            </td>
+
+                            <td class="px-6 py-4 text-slate-600">
+                                Tổng đề tài
+                            </td>
+
+                            <td class="px-6 py-4 text-right font-bold">
+                                {{ bao_cao.tongDeTai }}
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">
+                                Đề tài
+                            </td>
+
+                            <td class="px-6 py-4 text-slate-600">
+                                Đã duyệt
+                            </td>
+
+                            <td class="px-6 py-4 text-right font-bold text-emerald-600">
+                                {{ bao_cao.daDuyet }}
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">
+                                Đề tài
+                            </td>
+
+                            <td class="px-6 py-4 text-slate-600">
+                                Hoàn thành
+                            </td>
+
+                            <td class="px-6 py-4 text-right font-bold text-purple-600">
+                                {{ bao_cao.hoanThanh }}
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">
+                                Nghiệm thu
+                            </td>
+
+                            <td class="px-6 py-4 text-slate-600">
+                                Nghiệm thu đạt
+                            </td>
+
+                            <td class="px-6 py-4 text-right font-bold text-emerald-600">
+                                {{ bao_cao.nghiemThuDat }}
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">
+                                Nghiệm thu
+                            </td>
+
+                            <td class="px-6 py-4 text-slate-600">
+                                Nghiệm thu không đạt
+                            </td>
+
+                            <td class="px-6 py-4 text-right font-bold text-red-600">
+                                {{ bao_cao.nghiemThuKhongDat }}
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <div class="mt-6 flex items-center gap-2
+                    text-sm text-slate-400">
+
+            <i data-lucide="info"
+               class="w-4 h-4">
+            </i>
+
+            <span>
+                Số liệu được lấy trực tiếp từ dữ liệu hiện tại của hệ thống.
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    if (typeof lucide !== "undefined") {
+        lucide.createIcons();
+    }
+
+
+    // ==========================================
+    // BIỂU ĐỒ ĐỀ TÀI THEO TRẠNG THÁI
+    // ==========================================
+
+    const trangThaiData =
+        {{ trang_thai_data | tojson }};
+
+    const trangThaiLabels =
+        trangThaiData.map(item => item.ten);
+
+    const trangThaiValues =
+        trangThaiData.map(item => item.soLuong);
+
+
+    const canvasTrangThai =
+        document.getElementById("chartTrangThai");
+
+    if (canvasTrangThai) {
+
+        new Chart(canvasTrangThai, {
+
+            type: "bar",
+
+            data: {
+
+                labels: trangThaiLabels,
+
+                datasets: [{
+
+                    label: "Số lượng đề tài",
+
+                    data: trangThaiValues,
+
+                    borderWidth: 1,
+
+                    borderRadius: 8
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    }
+
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        ticks: {
+                            precision: 0
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+
+    // ==========================================
+    // BIỂU ĐỒ ĐỀ TÀI THEO LĨNH VỰC
+    // ==========================================
+
+    const linhVucData =
+        {{ linh_vuc_data | tojson }};
+
+    const linhVucLabels =
+        linhVucData.map(item => item.ten);
+
+    const linhVucValues =
+        linhVucData.map(item => item.soLuong);
+
+
+    const canvasLinhVuc =
+        document.getElementById("chartLinhVuc");
+
+    if (canvasLinhVuc && linhVucData.length > 0) {
+
+        new Chart(canvasLinhVuc, {
+
+            type: "bar",
+
+            data: {
+
+                labels: linhVucLabels,
+
+                datasets: [{
+
+                    label: "Số lượng đề tài",
+
+                    data: linhVucValues,
+
+                    borderWidth: 1,
+
+                    borderRadius: 8
+
+                }]
+
+            },
+
+            options: {
+
+                indexAxis: "y",
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    }
+
+                },
+
+                scales: {
+
+                    x: {
+
+                        beginAtZero: true,
+
+                        ticks: {
+                            precision: 0
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

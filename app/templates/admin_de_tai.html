@@ -4,61 +4,158 @@
 Quản lý đề tài | Nghiên Cứu AI
 {% endblock %}
 
-
 {% block content %}
 
-<section class="min-h-screen bg-slate-50 py-10">
+<section class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 py-10">
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <!-- HEADER -->
-
         <div class="mb-8">
 
-            <h1 class="text-3xl font-bold text-slate-900">
-                Quản lý đề tài
-            </h1>
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
 
-            <p class="text-slate-500 mt-2">
-                Danh sách tất cả đề tài nghiên cứu trong hệ thống.
-            </p>
+                <div class="flex items-center gap-4">
+
+                    <div class="w-14 h-14 rounded-2xl
+                                bg-blue-100
+                                flex items-center justify-center
+                                shadow-sm">
+
+                        <i data-lucide="library-big"
+                           class="w-7 h-7 text-blue-600">
+                        </i>
+
+                    </div>
+
+                    <div>
+
+                        <h1 class="text-3xl font-bold text-slate-900">
+                            Quản lý đề tài
+                        </h1>
+
+                        <p class="text-slate-500 mt-1">
+                            Quản lý và theo dõi các đề tài nghiên cứu trong hệ thống.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- THỐNG KÊ -->
+                <div class="bg-white border border-slate-200
+                            rounded-2xl px-5 py-3
+                            shadow-sm">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="w-10 h-10 rounded-xl
+                                    bg-blue-50
+                                    flex items-center justify-center">
+
+                            <i data-lucide="files"
+                               class="w-5 h-5 text-blue-600">
+                            </i>
+
+                        </div>
+
+                        <div>
+
+                            <p class="text-xs text-slate-400">
+                                Tổng số đề tài
+                            </p>
+
+                            <p class="text-xl font-bold text-slate-800">
+                                {{ danh_sach|length }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
 
-        <!-- TABLE -->
+        <!-- DANH SÁCH -->
+        <div class="bg-white rounded-3xl
+                    border border-slate-200
+                    shadow-sm overflow-hidden">
 
-        <div class="bg-white rounded-2xl shadow-card border border-slate-100 overflow-hidden">
+            <!-- TABLE HEADER -->
+            <div class="px-6 py-5
+                        border-b border-slate-100
+                        bg-white">
 
+                <div class="flex items-center justify-between">
+
+                    <div>
+
+                        <h2 class="text-lg font-bold text-slate-800">
+                            Danh sách đề tài
+                        </h2>
+
+                        <p class="text-sm text-slate-400 mt-1">
+                            Thông tin đề tài và người phụ trách.
+                        </p>
+
+                    </div>
+
+                    <div class="hidden sm:flex items-center gap-2
+                                text-sm text-slate-400">
+
+                        <i data-lucide="database"
+                           class="w-4 h-4">
+                        </i>
+
+                        Dữ liệu hệ thống
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TABLE -->
             <div class="overflow-x-auto">
 
-                <table class="w-full text-left">
+                <table class="w-full">
 
-                    <thead class="bg-slate-50 border-b">
+                    <thead>
 
-                        <tr>
+                        <tr class="bg-slate-50 border-b border-slate-200">
 
-                            <th class="px-6 py-4 text-sm font-semibold text-slate-600">
-                                ID
+                            <th class="px-6 py-4 text-left
+                                       text-xs font-bold uppercase
+                                       tracking-wider text-slate-500">
+                                Đề tài
                             </th>
 
-                            <th class="px-6 py-4 text-sm font-semibold text-slate-600">
-                                Tên đề tài
-                            </th>
-
-                            <th class="px-6 py-4 text-sm font-semibold text-slate-600">
+                            <th class="px-6 py-4 text-left
+                                       text-xs font-bold uppercase
+                                       tracking-wider text-slate-500">
                                 Sinh viên
                             </th>
 
-                            <th class="px-6 py-4 text-sm font-semibold text-slate-600">
+                            <th class="px-6 py-4 text-left
+                                       text-xs font-bold uppercase
+                                       tracking-wider text-slate-500">
                                 Giảng viên
                             </th>
 
-                            <th class="px-6 py-4 text-sm font-semibold text-slate-600">
+                            <th class="px-6 py-4 text-left
+                                       text-xs font-bold uppercase
+                                       tracking-wider text-slate-500">
                                 Trạng thái
                             </th>
 
-                            <th class="px-6 py-4 text-sm font-semibold text-slate-600 text-center">
+                            <th class="px-6 py-4 text-center
+                                       text-xs font-bold uppercase
+                                       tracking-wider text-slate-500">
                                 Thao tác
                             </th>
 
@@ -71,126 +168,346 @@ Quản lý đề tài | Nghiên Cứu AI
 
                         {% for dt in danh_sach %}
 
-                            <tr class="hover:bg-slate-50">
+                        <tr class="group hover:bg-blue-50/40 transition duration-200">
 
-                                <td class="px-6 py-4 text-slate-500">
-                                    #{{ dt.id }}
-                                </td>
+                            <!-- ĐỀ TÀI -->
+                            <td class="px-6 py-5">
 
+                                <div class="flex items-start gap-4">
 
-                                <td class="px-6 py-4">
+                                    <div class="w-10 h-10 shrink-0
+                                                rounded-xl
+                                                bg-blue-50
+                                                flex items-center justify-center
+                                                group-hover:bg-blue-100
+                                                transition">
 
-                                    <div class="font-semibold text-slate-800">
-
-                                        {{ dt.tenDeTai }}
+                                        <i data-lucide="file-text"
+                                           class="w-5 h-5 text-blue-600">
+                                        </i>
 
                                     </div>
 
-                                    {% if dt.linh_vuc %}
+                                    <div class="min-w-0">
 
-                                        <div class="text-sm text-slate-400 mt-1">
+                                        <div class="flex items-center gap-2">
+
+                                            <span class="text-xs
+                                                         font-semibold
+                                                         text-slate-400">
+                                                #{{ dt.id }}
+                                            </span>
+
+                                        </div>
+
+                                        <div class="font-bold
+                                                    text-slate-800
+                                                    leading-6
+                                                    max-w-md">
+
+                                            {{ dt.tenDeTai }}
+
+                                        </div>
+
+                                        {% if dt.linh_vuc %}
+
+                                        <div class="flex items-center gap-1.5
+                                                    text-sm text-slate-400 mt-1">
+
+                                            <i data-lucide="tag"
+                                               class="w-3.5 h-3.5">
+                                            </i>
 
                                             {{ dt.linh_vuc.tenLinhVuc }}
 
                                         </div>
 
-                                    {% endif %}
+                                        {% endif %}
 
-                                </td>
+                                    </div>
 
+                                </div>
 
-                                <td class="px-6 py-4 text-slate-600">
-
-                                    {% if dt.sinh_vien %}
-
-                                        {{ dt.sinh_vien.hoTen }}
-
-                                    {% else %}
-
-                                        Chưa có
-
-                                    {% endif %}
-
-                                </td>
+                            </td>
 
 
-                                <td class="px-6 py-4 text-slate-600">
+                            <!-- SINH VIÊN -->
+                            <td class="px-6 py-5">
 
-                                    {% if dt.giang_vien %}
+                                {% if dt.sinh_vien %}
 
-                                        {{ dt.giang_vien.hoTen }}
+                                <div class="flex items-center gap-3">
 
-                                    {% else %}
+                                    <div class="w-9 h-9 rounded-full
+                                                bg-indigo-100
+                                                flex items-center justify-center">
 
-                                        Chưa phân công
+                                        <i data-lucide="user"
+                                           class="w-4 h-4 text-indigo-600">
+                                        </i>
 
-                                    {% endif %}
+                                    </div>
 
-                                </td>
+                                    <div>
+
+                                        <p class="font-semibold text-slate-700">
+                                            {{ dt.sinh_vien.hoTen }}
+                                        </p>
+
+                                        <p class="text-xs text-slate-400">
+                                            Sinh viên
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                {% else %}
+
+                                <span class="inline-flex items-center gap-2
+                                             text-sm text-slate-400">
+
+                                    <i data-lucide="user-x"
+                                       class="w-4 h-4">
+                                    </i>
+
+                                    Chưa có
+
+                                </span>
+
+                                {% endif %}
+
+                            </td>
 
 
-                                <td class="px-6 py-4">
+                            <!-- GIẢNG VIÊN -->
+                            <td class="px-6 py-5">
 
-                                    <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-600">
+                                {% if dt.giang_vien %}
+
+                                <div class="flex items-center gap-3">
+
+                                    <div class="w-9 h-9 rounded-full
+                                                bg-emerald-100
+                                                flex items-center justify-center">
+
+                                        <i data-lucide="graduation-cap"
+                                           class="w-4 h-4 text-emerald-600">
+                                        </i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <p class="font-semibold text-slate-700">
+                                            {{ dt.giang_vien.hoTen }}
+                                        </p>
+
+                                        <p class="text-xs text-slate-400">
+                                            Giảng viên hướng dẫn
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                {% else %}
+
+                                <span class="inline-flex items-center gap-2
+                                             text-sm text-orange-500">
+
+                                    <i data-lucide="user-round-search"
+                                       class="w-4 h-4">
+                                    </i>
+
+                                    Chưa phân công
+
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- TRẠNG THÁI -->
+                            <td class="px-6 py-5">
+
+                                {% if dt.trangThai.value == 'Đã duyệt' %}
+
+                                    <span class="inline-flex items-center gap-2
+                                                 px-3 py-1.5 rounded-full
+                                                 bg-emerald-50
+                                                 text-emerald-700
+                                                 text-xs font-bold">
+
+                                        <span class="w-2 h-2 rounded-full
+                                                     bg-emerald-500">
+                                        </span>
 
                                         {{ dt.trangThai.value }}
 
                                     </span>
 
-                                </td>
+                                {% elif dt.trangThai.value == 'Chờ duyệt' %}
+
+                                    <span class="inline-flex items-center gap-2
+                                                 px-3 py-1.5 rounded-full
+                                                 bg-amber-50
+                                                 text-amber-700
+                                                 text-xs font-bold">
+
+                                        <span class="w-2 h-2 rounded-full
+                                                     bg-amber-500">
+                                        </span>
+
+                                        {{ dt.trangThai.value }}
+
+                                    </span>
+
+                                {% elif dt.trangThai.value == 'Từ chối' %}
+
+                                    <span class="inline-flex items-center gap-2
+                                                 px-3 py-1.5 rounded-full
+                                                 bg-red-50
+                                                 text-red-700
+                                                 text-xs font-bold">
+
+                                        <span class="w-2 h-2 rounded-full
+                                                     bg-red-500">
+                                        </span>
+
+                                        {{ dt.trangThai.value }}
+
+                                    </span>
+
+                                {% elif dt.trangThai.value == 'Hoàn thành' %}
+
+                                    <span class="inline-flex items-center gap-2
+                                                 px-3 py-1.5 rounded-full
+                                                 bg-blue-50
+                                                 text-blue-700
+                                                 text-xs font-bold">
+
+                                        <span class="w-2 h-2 rounded-full
+                                                     bg-blue-500">
+                                        </span>
+
+                                        {{ dt.trangThai.value }}
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="inline-flex items-center gap-2
+                                                 px-3 py-1.5 rounded-full
+                                                 bg-slate-100
+                                                 text-slate-600
+                                                 text-xs font-bold">
+
+                                        <span class="w-2 h-2 rounded-full
+                                                     bg-slate-400">
+                                        </span>
+
+                                        {{ dt.trangThai.value }}
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
 
 
-                                <td class="px-6 py-4">
+                            <!-- THAO TÁC -->
+                            <td class="px-6 py-5">
 
-                                    <div class="flex justify-center gap-3">
+                                <div class="flex items-center
+                                            justify-center gap-2">
 
-                                        <a
-                                            href="{{ url_for('chi_tiet_de_tai', de_tai_id=dt.id) }}"
-                                            class="text-blue-600 hover:text-blue-800"
+                                    <a
+                                        href="{{ url_for('chi_tiet_de_tai', de_tai_id=dt.id) }}"
+                                        class="inline-flex items-center gap-2
+                                               px-3 py-2 rounded-xl
+                                               bg-blue-50 text-blue-600
+                                               text-sm font-semibold
+                                               hover:bg-blue-100
+                                               transition"
+                                    >
+
+                                        <i data-lucide="eye"
+                                           class="w-4 h-4">
+                                        </i>
+
+                                        Xem
+
+                                    </a>
+
+
+                                    <form
+                                        method="POST"
+                                        action="{{ url_for('admin_xoa_de_tai', de_tai_id=dt.id) }}"
+                                        onsubmit="return confirm('Bạn có chắc muốn xóa đề tài này?')"
+                                    >
+
+                                        <button
+                                            type="submit"
+                                            class="inline-flex items-center gap-2
+                                                   px-3 py-2 rounded-xl
+                                                   bg-red-50 text-red-600
+                                                   text-sm font-semibold
+                                                   hover:bg-red-100
+                                                   transition"
                                         >
 
-                                            Xem
+                                            <i data-lucide="trash-2"
+                                               class="w-4 h-4">
+                                            </i>
 
-                                        </a>
+                                            Xóa
 
+                                        </button>
 
-                                        <form
-                                            method="POST"
-                                            action="{{ url_for('admin_xoa_de_tai', de_tai_id=dt.id) }}"
-                                            onsubmit="return confirm('Bạn có chắc muốn xóa đề tài này?')"
-                                        >
+                                    </form>
 
-                                            <button
-                                                type="submit"
-                                                class="text-red-500 hover:text-red-700"
-                                            >
+                                </div>
 
-                                                Xóa
+                            </td>
 
-                                            </button>
-
-                                        </form>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
+                        </tr>
 
                         {% else %}
 
-                            <tr>
+                        <tr>
 
-                                <td
-                                    colspan="6"
-                                    class="text-center py-16 text-slate-500"
-                                >
+                            <td colspan="5">
 
-                                    Chưa có đề tài nào trong hệ thống.
+                                <div class="flex flex-col
+                                            items-center justify-center
+                                            py-20">
 
-                                </td>
+                                    <div class="w-20 h-20 rounded-3xl
+                                                bg-slate-100
+                                                flex items-center justify-center
+                                                mb-5">
 
-                            </tr>
+                                        <i data-lucide="folder-open"
+                                           class="w-9 h-9 text-slate-400">
+                                        </i>
+
+                                    </div>
+
+                                    <h3 class="text-lg font-bold text-slate-700">
+                                        Chưa có đề tài
+                                    </h3>
+
+                                    <p class="text-sm text-slate-400 mt-1">
+                                        Hiện tại chưa có đề tài nào trong hệ thống.
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
 
                         {% endfor %}
 
@@ -213,9 +530,13 @@ Quản lý đề tài | Nghiên Cứu AI
 
 <script>
 
-    if (typeof lucide !== 'undefined') {
+document.addEventListener("DOMContentLoaded", function () {
+
+    if (typeof lucide !== "undefined") {
         lucide.createIcons();
     }
+
+});
 
 </script>
 

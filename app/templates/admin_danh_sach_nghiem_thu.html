@@ -1,0 +1,143 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Danh sách nghiệm thu
+{% endblock %}
+
+{% block content %}
+
+<div class="min-h-screen bg-slate-50 py-10">
+
+    <div class="max-w-6xl mx-auto px-4">
+
+        <!-- HEADER -->
+        <div class="mb-6">
+
+            <h1 class="text-2xl font-bold text-slate-800">
+                Danh sách đề tài đã nghiệm thu
+            </h1>
+
+            <p class="mt-2 text-slate-500">
+                Danh sách các đề tài đã được giảng viên chấm và lưu kết quả nghiệm thu.
+            </p>
+
+        </div>
+
+
+        <!-- DANH SÁCH -->
+        {% for item in danh_sach %}
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-4">
+
+                <!-- TÊN ĐỀ TÀI -->
+                <h2 class="font-bold text-lg text-slate-800">
+                    {{ item.de_tai.tenDeTai }}
+                </h2>
+
+
+                <!-- THÔNG TIN NGHIỆM THU -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+
+                    <!-- ĐIỂM -->
+                    <div class="bg-slate-50 rounded-xl p-4">
+
+                        <p class="text-sm text-slate-500">
+                            Điểm nghiệm thu
+                        </p>
+
+                        <p class="text-2xl font-bold text-indigo-600 mt-1">
+                            {{ "%.1f"|format(item.ket_qua.diem or 0) }}
+                        </p>
+
+                    </div>
+
+
+                    <!-- TRẠNG THÁI -->
+                    <div class="bg-slate-50 rounded-xl p-4">
+
+                        <p class="text-sm text-slate-500">
+                            Kết quả
+                        </p>
+
+                        <p class="font-semibold mt-1">
+
+                            {% if item.ket_qua.trangThai.value == 'DAT' %}
+
+                                <span class="text-green-600">
+                                    Đạt
+                                </span>
+
+                            {% else %}
+
+                                <span class="text-red-600">
+                                    Không đạt
+                                </span>
+
+                            {% endif %}
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- NGÀY -->
+                    <div class="bg-slate-50 rounded-xl p-4">
+
+                        <p class="text-sm text-slate-500">
+                            Ngày nghiệm thu
+                        </p>
+
+                        <p class="font-semibold text-slate-700 mt-1">
+
+                            {% if item.ket_qua.ngayNghiemThu %}
+
+                                {{ item.ket_qua.ngayNghiemThu.strftime('%d/%m/%Y %H:%M') }}
+
+                            {% else %}
+
+                                Chưa xác định
+
+                            {% endif %}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- NÚT XEM -->
+                <div class="mt-5">
+
+                    <a
+                        href="{{ url_for(
+                            'admin_nghiem_thu',
+                            de_tai_id=item.de_tai.id
+                        ) }}"
+                        class="inline-block px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold"
+                    >
+                        Xem kết quả nghiệm thu
+                    </a>
+
+                </div>
+
+            </div>
+
+        {% else %}
+
+            <!-- KHÔNG CÓ DỮ LIỆU -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-8 text-center">
+
+                <p class="text-slate-500">
+                    Chưa có đề tài nào được nghiệm thu.
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
